@@ -1,0 +1,1 @@
+export { CardLicense } from "./CardLicense";
