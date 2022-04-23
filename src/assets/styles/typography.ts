@@ -10,7 +10,7 @@ export const TYPOGRAPHY = {
     font-family: 'THICCCBOI';
     font-style: normal;
     font-weight: 500;
-    line-height: 30px;
+    line-height: 18px;
     `,
   paragraph: `
     font-family: 'THICCCBOI';

@@ -23,12 +23,16 @@ export const TabCreateAccount: FC = () => {
 const StyledTabs = styled(Tabs)`
   font-size: 20px;
   width: 50%;
+  @media (max-width: 375px) {
+    width: 100%;
+    font-size: 14px;
+  }
 `;
 
 const StyledTab = styled(Tab)`
   cursor: pointer;
   width: 195px;
-  margin-left: 20px;
+  margin-right: 20px;
   color: ${COLORS.Color_100};
   background-color: ${COLORS.Color_800};
   border-bottom: 8px solid ${COLORS.Color_600};
@@ -37,6 +41,11 @@ const StyledTab = styled(Tab)`
   &:focus {
     color: ${COLORS.Primari_1};
     border-color: ${COLORS.Primari_1};
+  }
+
+  @media (max-width: 375px) {
+    border-bottom: 2px solid ${COLORS.Color_600};
+    padding-bottom: 5px;
   }
 `;
 

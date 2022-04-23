@@ -4,7 +4,7 @@ export const userData = {
   user: "Alex",
 };
 
-export const cardLicenseData: cardLicense[] = [
+export const cardsLicenseData: cardLicense[] = [
   {
     code: "sl=ru&tl=en&texte=%D0DD...",
     domain:
@@ -21,7 +21,7 @@ export const cardLicenseData: cardLicense[] = [
   },
 ];
 
-export const pricingCardData: pricingCard[] = [
+export const pricingCardsData: pricingCard[] = [
   {
     price: "77",
     isSecondType: false,

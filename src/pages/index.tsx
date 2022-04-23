@@ -12,8 +12,8 @@ import {
 } from "../components";
 import {
   userData,
-  cardLicenseData,
-  pricingCardData,
+  cardsLicenseData,
+  pricingCardsData,
 } from "src/components/utils/mock";
 import { Button, Input, Checkbox } from "UI";
 
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [value, setValue] = useState("");
 
-  const price = pricingCardData.map((card) => card.price);
+  const prices = pricingCardsData.map((card) => card.price);
   const userName = userData["user"];
 
   const handleChecked = () => {
@@ -71,10 +71,10 @@ const Home: NextPage = () => {
       <Checkbox checked isDisabled onClick={handleChecked} />
       <Checkbox isDisabled onClick={handleChecked} />
 
-      <Card price={price[0]} />
-      <Card price={price[1]} isDisabled />
+      <Card price={prices[0]} />
+      <Card price={prices[1]} isDisabled />
 
-      {cardLicenseData.map((card) => (
+      {cardsLicenseData.map((card) => (
         <CardLicense key={card.code} domain={card.domain} code={card.code} />
       ))}
 
@@ -82,7 +82,7 @@ const Home: NextPage = () => {
 
       <TabProfile />
 
-      {pricingCardData.map((card) => (
+      {pricingCardsData.map((card) => (
         <PricingCard
           isSecondType={card.isSecondType}
           key={card.licenseTerm}

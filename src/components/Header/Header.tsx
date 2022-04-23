@@ -26,12 +26,10 @@ export const Header: FC<HeaderProps> = ({ userName }) => {
 
         <Accordion
           trigger={
-            <>
+            <UserButton>
               <UserName>{userName}</UserName>
-              <ButtonChevronDown>
-                <ChevronDownIcon />
-              </ButtonChevronDown>
-            </>
+              <ChevronDownIcon />
+            </UserButton>
           }
         />
       </Container>
@@ -45,30 +43,26 @@ const Root = styled.header`
   align-items: center;
   justify-content: space-between;
   max-width: 1440px;
-  height: 122px;
+  min-height: 122px;
   background-color: ${COLORS.Color_800};
 `;
 
-const ContainerLogo = styled.div`
+const ContainerLogo = styled.a`
   display: flex;
   align-items: center;
 `;
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
-
+  justify-content: center;
   @media (max-width: 550px) {
     display: none;
   }
 `;
 
 const UserName = styled.h2`
-  position: absolute;
-  cursor: pointer;
-  right: 40px;
-  top: 45px;
   font-size: 20px;
+  margin-right: 12px;
   color: ${COLORS.Color_100};
   ${TYPOGRAPHY.text_single}
 `;
@@ -80,21 +74,30 @@ const Title = styled.h1`
   color: ${COLORS.Color_100};
 `;
 
-const ButtonChevronDown = styled.button`
+const UserButton = styled.button`
   position: absolute;
   right: 0;
-  top: 50px;
+  bottom: 48px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid ${COLORS.Color_800};
 
   &:hover {
-    border-radius: 50%;
-    background-color: ${COLORS.Color_700};
+    border-bottom: 2px solid ${COLORS.Color_500};
   }
 `;
 
 const Subscriptions = styled.a`
   cursor: pointer;
+  margin-right: 32px;
+  margin-top: 2px;
   font-size: 20px;
   color: ${COLORS.Color_100};
   ${TYPOGRAPHY.text_single}
+  border-bottom: 2px solid ${COLORS.Color_800};
+
+  &:hover {
+    border-bottom: 2px solid ${COLORS.Color_500};
+  }
 `;

@@ -3,6 +3,7 @@ import Collapsible from "react-collapsible";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 import { SettingsIcon, LogoutIcon } from "../icons";
+import { TYPOGRAPHY } from "assets/styles/typography";
 
 interface AccordionProps {
   className?: string;
@@ -17,17 +18,17 @@ export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
       <Collapsible trigger={trigger}>
         <Menu>
           <Container>
-            <Button>
+            <Settings>
               <SettingsIcon />
-            </Button>
-            <Text>Settings</Text>
+              <Text>Settings</Text>
+            </Settings>
           </Container>
 
           <Container>
-            <Button>
+            <LogoutButton>
               <LogoutIcon />
-            </Button>
-            <Text>Logout</Text>
+              <Text>Logout</Text>
+            </LogoutButton>
           </Container>
         </Menu>
       </Collapsible>
@@ -36,7 +37,6 @@ export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
 };
 
 const Root = styled.div`
-  margin-top: 30px;
   .Collapsible {
     height: 25px;
   }
@@ -49,37 +49,47 @@ const Root = styled.div`
   }
 `;
 
-const Menu = styled.div`
+const Menu = styled.ul`
   display: flex;
   flex-direction: column;
-  height: 136px;
+  min-height: 136px;
   border-radius: 12px;
-  margin-top: 20px;
-  padding: 29px 52px 29px 27px;
+  margin-top: 30px;
+  padding: 29px 52px 0px 27px;
   background-color: ${COLORS.Color_700};
 `;
 
-const Container = styled.div`
+const Container = styled.li`
   font-size: 20px;
   color: ${COLORS.Color_100};
   display: flex;
   margin-bottom: 34px;
 `;
 
-const Text = styled.a`
+const Text = styled.p`
   font-size: 20px;
-  cursor: pointer;
+  margin-left: 10px;
+  color: ${COLORS.Color_500};
+  font-family: ${TYPOGRAPHY.text_single};
 `;
 
-const Button = styled.button`
-  max-width: 24px;
-  margin-right: 18px;
-  text-align: start;
+const Settings = styled.a`
   cursor: pointer;
-  color: ${COLORS.Color_100};
-
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid ${COLORS.Color_700};
   &:hover {
-    border-radius: 50%;
-    background-color: ${COLORS.Color_500};
+    border-bottom: 2px solid ${COLORS.Color_500};
+  }
+`;
+
+const LogoutButton = styled.button`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid ${COLORS.Color_700};
+  cursor: pointer;
+  &:hover {
+    border-bottom: 2px solid ${COLORS.Color_500};
   }
 `;

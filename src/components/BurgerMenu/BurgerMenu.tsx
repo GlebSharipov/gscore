@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 import { BurgerIcon, ChevronDownIcon, CloseIcon, LogoIcon } from "icons";
+import { TYPOGRAPHY } from "assets/styles/typography";
 import { Accordion } from "../Accordion";
 
 interface BurgerMenuProps {
@@ -31,22 +32,16 @@ export const BurgerMenu: FC<BurgerMenuProps> = ({ isVisible, userName }) => {
               <Title>GSCORE</Title>
             </LogogContainer>
 
-            <Container>
-              <Subscriptions>My subscriptions</Subscriptions>
-            </Container>
+            <Subscriptions>My subscriptions</Subscriptions>
 
-            <Container>
-              <StyledAccordion
-                trigger={
-                  <>
-                    <UserName>{userName}</UserName>
-                    <ButtonChevron>
-                      <ChevronDownIcon />
-                    </ButtonChevron>
-                  </>
-                }
-              />
-            </Container>
+            <StyledAccordion
+              trigger={
+                <ButtonUser>
+                  <UserName>{userName}</UserName>
+                  <ChevronDownIcon />
+                </ButtonUser>
+              }
+            />
           </Menu>
         </>
       ) : (
@@ -64,9 +59,9 @@ const Root = styled.div`
 `;
 
 const StyledAccordion = styled(Accordion)`
-  position: absolute;
-  bottom: -15px;
-  left: -30px;
+  width: 100%;
+  margin-top: 23px;
+  padding-left: 0;
 `;
 
 const Overlay = styled.div`
@@ -84,7 +79,7 @@ const Overlay = styled.div`
 
 const Button = styled.button`
   cursor: pointer;
-  width: 18px;
+  width: 24px;
   &:hover {
     border-radius: 50%;
     background-color: ${COLORS.Color_600};
@@ -92,9 +87,6 @@ const Button = styled.button`
 `;
 
 const ButtonBurger = styled.button`
-  position: absolute;
-  right: 0;
-  top: 45px;
   cursor: pointer;
   &:hover {
     border-radius: 50%;
@@ -107,14 +99,14 @@ const ButtonBurger = styled.button`
   }
 `;
 
-const ButtonChevron = styled.button`
-  position: absolute;
-  cursor: pointer;
-  right: -50px;
-  top: -20px;
+const ButtonUser = styled.button`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid ${COLORS.Color_600};
   &:hover {
-    border-radius: 50%;
-    background-color: ${COLORS.Color_600};
+    border-bottom: 1px solid ${COLORS.Color_400};
   }
 `;
 
@@ -126,6 +118,9 @@ const Title = styled.h2`
 
 const Menu = styled.div<{ $isVisible?: boolean }>`
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   overflow: hidden;
   top: 0;
   right: 0;
@@ -149,16 +144,6 @@ const Menu = styled.div<{ $isVisible?: boolean }>`
   }
 `;
 
-const Container = styled.div`
-  position: relative;
-  width: 100%;
-  border-bottom: 1px solid ${COLORS.Color_600};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 23px 0;
-`;
-
 const LogogContainer = styled.div`
   width: 100%;
   display: flex;
@@ -169,15 +154,23 @@ const LogogContainer = styled.div`
 
 const UserName = styled.p`
   cursor: pointer;
-  position: absolute;
   bottom: 25px;
-  left: 30px;
+  left: 25px;
   font-size: 16px;
   color: ${COLORS.Color_100};
+  font-family: ${TYPOGRAPHY.text_single};
 `;
 
 const Subscriptions = styled.a`
+  width: 100%;
   cursor: pointer;
   font-size: 16px;
   color: ${COLORS.Color_100};
+  border-bottom: 1px solid ${COLORS.Color_600};
+  padding-bottom: 20px;
+  font-family: ${TYPOGRAPHY.text_single};
+
+  &:hover {
+    border-bottom: 1px solid ${COLORS.Color_400};
+  }
 `;

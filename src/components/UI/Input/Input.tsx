@@ -85,7 +85,7 @@ const StyledInput = styled.input<{
 const ButtonContainer = styled.button`
   position: absolute;
   right: 20px;
-  top: 30px;
+  top: 25px;
   max-width: 30px;
   &:hover {
     border-radius: 50%;
