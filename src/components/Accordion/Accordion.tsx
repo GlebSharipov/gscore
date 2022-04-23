@@ -1,8 +1,7 @@
 import React, { FC } from "react";
 import Collapsible from "react-collapsible";
-import { COLORS } from "../../assets/constant/colors";
+import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
-import { Status, Checkbox } from "../UI";
 import { SettingsIcon, LogoutIcon } from "../icons";
 
 interface AccordionProps {
@@ -37,6 +36,7 @@ export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
 };
 
 const Root = styled.div`
+  margin-top: 30px;
   .Collapsible {
     height: 25px;
   }
@@ -52,7 +52,6 @@ const Root = styled.div`
 const Menu = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
   height: 136px;
   border-radius: 12px;
   margin-top: 20px;
@@ -67,8 +66,9 @@ const Container = styled.div`
   margin-bottom: 34px;
 `;
 
-const Text = styled.p`
+const Text = styled.a`
   font-size: 20px;
+  cursor: pointer;
 `;
 
 const Button = styled.button`
@@ -77,4 +77,9 @@ const Button = styled.button`
   text-align: start;
   cursor: pointer;
   color: ${COLORS.Color_100};
+
+  &:hover {
+    border-radius: 50%;
+    background-color: ${COLORS.Color_500};
+  }
 `;

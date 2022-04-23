@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import { COLORS } from "../../../assets/constant/colors";
+import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
-import { CheckIcon } from "../../icons/CheckIcon";
+import { CheckIcon } from "icons";
 
 interface CheckboxProps {
-  checked: boolean;
+  checked?: boolean;
   isDisabled?: boolean;
   className?: string;
   onClick?: () => void;
@@ -18,7 +18,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   ...props
 }) => {
   return (
-    <Root className={className} isDisabled={isDisabled}>
+    <Root className={className} $isDisabled={isDisabled}>
       <CheckboxContainer>
         <HiddenCheckbox
           disabled={isDisabled}
@@ -26,7 +26,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           onClick={onClick}
           {...props}
         />
-        <StyledCheckbox defaultChecked={checked}>
+        <StyledCheckbox $defaultChecked={checked}>
           <StyledCheckIcon />
         </StyledCheckbox>
       </CheckboxContainer>
@@ -34,9 +34,9 @@ export const Checkbox: FC<CheckboxProps> = ({
   );
 };
 
-const Root = styled.label<{ isDisabled?: boolean }>`
+const Root = styled.label<{ $isDisabled?: boolean }>`
   max-width: 30px;
-  opacity: ${({ isDisabled }) => (isDisabled ? "0.5" : null)};
+  opacity: ${({ $isDisabled }) => $isDisabled && "0.5"};
 `;
 
 const CheckboxContainer = styled.div`
@@ -49,34 +49,42 @@ const StyledCheckIcon = styled(CheckIcon)`
   max-width: 20px;
 `;
 
-const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
+const HiddenCheckbox = styled.input.attrs<{ defaultChecked?: boolean }>({
+  type: "checkbox",
+})`
   position: absolute;
   overflow: hidden;
   width: 1px;
   height: 1px;
   clip: rect(0 0 0 0);
+  &:disabled {
+    + div:hover {
+      background-color: ${({ defaultChecked }) =>
+        defaultChecked ? COLORS.Primari_1 : COLORS.Color_200};
+    }
+  }
 `;
 
-const StyledCheckbox = styled.div<{ defaultChecked: boolean }>`
+const StyledCheckbox = styled.div<{ $defaultChecked?: boolean }>`
   padding: 2px 4px;
-  background-color: ${({ defaultChecked }) =>
-    defaultChecked ? COLORS.Primari_1 : COLORS.Color_100};
+  background-color: ${({ $defaultChecked }) =>
+    $defaultChecked ? COLORS.Primari_1 : COLORS.Color_100};
   border-radius: 7px;
   transition: all 150ms;
 
   &:hover {
-    background-color: ${({ defaultChecked }) =>
-      defaultChecked ? COLORS.Red_400 : COLORS.Color_400};
+    background-color: ${({ $defaultChecked }) =>
+      $defaultChecked ? COLORS.Red_400 : COLORS.Color_400};
   }
 
   ${HiddenCheckbox}:focus + & {
     box-shadow: 0 0 0 3px
-      ${({ defaultChecked }) =>
-        defaultChecked ? COLORS.Shadow_1 : COLORS.Shadow_2};
+      ${({ $defaultChecked }) =>
+        $defaultChecked ? COLORS.Shadow_1 : COLORS.Shadow_2};
   }
 
   ${StyledCheckIcon} {
-    visibility: ${({ defaultChecked }) =>
-      defaultChecked ? "visible" : "hidden"};
+    visibility: ${({ $defaultChecked }) =>
+      $defaultChecked ? "visible" : "hidden"};
   }
 `;

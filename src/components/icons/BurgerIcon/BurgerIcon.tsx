@@ -11,7 +11,7 @@ export const BurgerIcon = (props: SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <path
-      stroke="#fff"
+      stroke={props.color || "#fff"}
       strokeWidth={2}
       strokeLinecap="round"
       d="M4 5h16M4 12h16M4 19h16"

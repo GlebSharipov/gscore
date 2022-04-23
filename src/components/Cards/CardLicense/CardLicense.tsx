@@ -1,110 +1,186 @@
 import React, { FC, useState } from "react";
-import { COLORS } from "../../../assets/constant/colors";
+import { COLORS } from "assets/constant/colors";
+import { TYPOGRAPHY } from "assets/styles/typography";
 import styled from "styled-components";
-import { Button, Status, Checkbox } from "../../UI";
-import { CopyIcon } from "../../icons";
+import { Button, Status, Checkbox } from "UI";
+import { CopyIcon } from "icons";
 
 interface CardLicenseProps {
   className?: string;
+  code?: string;
+  domain?: string;
 }
 
-export const CardLicense: FC<CardLicenseProps> = ({ className }) => {
-  const [visible, setVisible] = useState(false);
-  const [domen, setDomen] = useState("");
+export const CardLicense: FC<CardLicenseProps> = ({
+  className,
+  code,
+  domain,
+}) => {
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleChecked = () => {
-    if (visible) {
-      setVisible(false);
-    } else {
-      setVisible(true);
-    }
-  };
-
-  const handleDomen = () => {
-    setDomen(
-      "https://translate.google.com/?sl=rru&tl=enn&ten&tu&tl=enn&ten&te&t=%D0asdasdadasdasdadasd..."
-    );
+    setIsChecked((prevState) => !prevState);
   };
 
   return (
     <Root className={className}>
-      <StyledCheckbox checked={visible} onClick={handleChecked} />
+      <StyledCheckbox checked={isChecked} onClick={handleChecked} />
 
-      <Container>
+      <CodeContainer>
         <Title>License code</Title>
         <LicenseCode>
-          <LicenseText>sl=ru&tl=en&texte=%D0...</LicenseText>
+          <Code>{code}</Code>
           <ButtonCopy>
             <CopyIcon />
           </ButtonCopy>
         </LicenseCode>
-      </Container>
+      </CodeContainer>
 
-      <Container>
+      <DomainContainer>
         <Title>Domain</Title>
-        <Domain>{domen}</Domain>
-      </Container>
+        <Container>
+          <Domain>{domain}</Domain>
+        </Container>
+      </DomainContainer>
 
-      {!domen && <StyledButton onClick={handleDomen} text="Activate" />}
-
-      <Container>
-        <Title>Status</Title>
-        {domen ? <Status isActive /> : <Status isInactive />}
-      </Container>
+      <StatusContainer>
+        {!domain && <StyledButton variant="secondary" text="Activate" />}
+        <TitleContainer>
+          <TitleStatus>Status</TitleStatus>
+          {domain ? <Status isActive /> : <Status isInactive />}
+        </TitleContainer>
+      </StatusContainer>
     </Root>
   );
 };
 
 const Root = styled.div`
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  justify-content: space-between;
+  margin-top: 30px;
+  display: grid;
+  grid-template-rows: 153px;
+  grid-template-columns: repeat(4, auto);
+  grid-template-areas: "checkbox license domain status";
   max-width: 1268px;
-  padding: 31px 79px 31px 32px;
+  align-items: center;
+  padding: 0 79px 0 32px;
   border-radius: 12px;
   background-color: ${COLORS.Color_700};
+
+  @media (max-width: 375px) {
+    width: 100%;
+    grid-template-columns: 30px 1fr;
+    grid-template-rows: 80px 130px 130px;
+    grid-template-areas:
+      "checkbox status"
+      "license license"
+      "domain domain";
+    padding: 0 12px 32px 12px;
+  }
 `;
 
 const LicenseCode = styled.div`
   display: flex;
   align-items: center;
   border-radius: 6px;
-  max-width: 296px;
+  width: 100%;
   margin-right: 28px;
   padding: 6px 20px 6px 24px;
   background-color: ${COLORS.Color_600};
+  @media (max-width: 375px) {
+    margin: 0;
+  }
 `;
 
-const LicenseText = styled.p`
+const Code = styled.p`
+  width: 100%;
+  margin-right: 28px;
   align-items: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   color: ${COLORS.Color_500};
+  ${TYPOGRAPHY.text_single}
 `;
 
 const StyledCheckbox = styled(Checkbox)`
+  grid-area: checkbox;
   margin-right: 48px;
   margin-top: 30px;
+  @media (max-width: 375px) {
+    margin-top: 25px;
+  }
 `;
 
 const StyledButton = styled(Button)`
   max-width: 111px;
-  margin: 30px 56px 0px;
+  height: 58px;
+  margin-top: 38px;
+  margin-right: 65px;
+  @media (max-width: 375px) {
+    margin: 0;
+    margin-left: 55px;
+  }
 `;
 
-const Container = styled.div`
+const CodeContainer = styled.div`
+  grid-area: license;
+  display: flex;
+  margin-right: 28px;
+  flex-direction: column;
+  max-width: 296px;
+
+  @media (max-width: 375px) {
+    max-width: 360px;
+    margin: 0;
+  }
+`;
+
+const DomainContainer = styled.div`
+  grid-area: domain;
   display: flex;
   flex-direction: column;
   max-width: 620px;
+  @media (max-width: 375px) {
+    max-width: 360px;
+  }
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const StatusContainer = styled.div`
+  grid-area: status;
+  margin-left: 56px;
+  margin-top: 5px;
+  display: flex;
+  max-width: 330px;
+  @media (max-width: 375px) {
+    margin: 0;
+    margin-left: 20px;
+    align-items: flex-start;
+    margin-top: 24px;
+    flex-direction: row-reverse;
+  }
 `;
 
 const Title = styled.h3`
   font-size: 16px;
   margin-bottom: 12px;
-  top: 0px;
+  margin-right: 30px;
   color: ${COLORS.Color_500};
+  font-family: ${TYPOGRAPHY.paragraph};
+`;
+
+const TitleStatus = styled.h3`
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: ${COLORS.Color_500};
+  @media (max-width: 375px) {
+    display: none;
+  }
 `;
 
 const ButtonCopy = styled.button`
@@ -112,16 +188,25 @@ const ButtonCopy = styled.button`
   max-width: 50px;
 `;
 
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  height: 68px;
+  min-width: 450px;
+  padding: 25px 50px 25px 24px;
+  border-radius: 6px;
+  background-color: ${COLORS.Color_600};
+
+  @media (max-width: 375px) {
+    min-width: 250px;
+  }
+`;
+
 const Domain = styled.div`
   width: 100%;
-  min-width: 450px;
-  min-height: 68px;
-  flex: 0;
-  padding: 25px 34px 25px 24px;
-  border-radius: 6px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  background-color: ${COLORS.Color_600};
   color: ${COLORS.Color_500};
+  ${TYPOGRAPHY.paragraph}
 `;

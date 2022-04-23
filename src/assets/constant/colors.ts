@@ -18,4 +18,5 @@ export const COLORS = {
   Orange_300: "#FF9E2C",
   Shadow_1: "rgba(252, 88, 66, 0.3)",
   Shadow_2: "rgba(255, 255, 255, 0.3)",
+  Overlay: "rgba(0, 0, 0, 0.2)",
 };

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 import styled from "styled-components";
-import { COLORS } from "../assets/constant/colors";
+import { COLORS } from "assets/constant/colors";
 import {
   Header,
   Card,
@@ -10,104 +9,89 @@ import {
   PricingCard,
   TabCreateAccount,
   TabProfile,
-  BurgerMenu,
 } from "../components";
-import { Button, Input, Checkbox } from "../components/UI";
+import {
+  userData,
+  cardLicenseData,
+  pricingCardData,
+} from "src/components/utils/mock";
+import { Button, Input, Checkbox } from "UI";
 
 const Home: NextPage = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [value, setValue] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false);
 
-  const { query } = useRouter();
-
-  const isTabOneSelected = !!query.createAccount;
-  const isTabTwoSelected = !!query.logIn;
-  const isTabThreeSelected = !!query.checkout;
+  const price = pricingCardData.map((card) => card.price);
+  const userName = userData["user"];
 
   const handleChecked = () => {
-    if (isChecked) {
-      setIsChecked(false);
-    } else {
-      setIsChecked(true);
-    }
+    setIsChecked((prevState) => !prevState);
   };
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setValue(e.currentTarget.value);
-    if (value) {
-      setIsSuccess(true);
-    } else {
-      setIsSuccess(false);
-    }
   };
 
   return (
     <Root>
-      <Header />
-      <Button primary text="Default" />
+      <Header userName={userName} />
+
+      <Button variant="text" text="Default" />
+      <Button variant="primary" text="Default" />
+      <Button variant="secondary" text="Default" />
+      <Button isDisabled variant="secondary" text="Default" />
+
       <Input
-        isSuccess={isSuccess}
+        result="initial"
+        onChange={handleChange}
+        value={value}
+        placeholder="Placeholder"
+      />
+      <Input
+        isDisabled
+        result="initial"
+        onChange={handleChange}
+        value={value}
+        placeholder="Placeholder"
+      />
+      <Input
+        result="error"
+        onChange={handleChange}
+        value={value}
+        placeholder="Placeholder"
+      />
+      <Input
+        result="success"
         onChange={handleChange}
         value={value}
         placeholder="Placeholder"
       />
 
       <Checkbox checked={isChecked} onClick={handleChecked} />
+      <Checkbox checked isDisabled onClick={handleChecked} />
+      <Checkbox isDisabled onClick={handleChecked} />
 
-      <BurgerMenu />
+      <Card price={price[0]} />
+      <Card price={price[1]} isDisabled />
 
-      <Card />
-      <Card isDisabled />
-      <CardLicense />
+      {cardLicenseData.map((card) => (
+        <CardLicense key={card.code} domain={card.domain} code={card.code} />
+      ))}
 
-      <CreateAccount>
-        <TabCreateAccount
-          href="/?createAccount=true"
-          title="Create account"
-          isSelected={isTabOneSelected}
-        />
-        <TabCreateAccount
-          href="/?logIn=true"
-          title="Log in"
-          isSelected={isTabTwoSelected}
-        />
-        <TabCreateAccount
-          href="/?checkout=true"
-          title="Checkout"
-          isSelected={isTabThreeSelected}
-        />
-      </CreateAccount>
+      <TabCreateAccount />
 
-      <Profile>
-        <TabProfile
-          href="/?createAccount=true"
-          title="Profile"
-          isSelected={isTabOneSelected}
-        />
-        <TabProfile
-          href="/?logIn=true"
-          title="Subscriptions"
-          isSelected={isTabTwoSelected}
-        />
-        <TabProfile
-          href="/?checkout=true"
-          title="Change password"
-          isSelected={isTabThreeSelected}
-        />
-        <LineContinuation />
-      </Profile>
+      <TabProfile />
 
-      <PricingCard
-        isOrange
-        price="77"
-        licenseTerm="Get the advanced WordPress plugin that optimizes content with GSC keywords at one low annual price"
-      />
-
-      <PricingCard
-        price="117"
-        licenseTerm="Get the advanced WordPress plugin that optimizes content with GSC keywords at one low annual price"
-      />
+      {pricingCardData.map((card) => (
+        <PricingCard
+          isSecondType={card.isSecondType}
+          key={card.licenseTerm}
+          price={card.price}
+          licenseTerm={card.licenseTerm}
+          features={card.features}
+          description={card.description}
+        />
+      ))}
     </Root>
   );
 };
@@ -120,26 +104,6 @@ const Root = styled.div`
   overflow-y: auto;
   position: fixed;
   background-color: ${COLORS.Color_800};
-`;
-
-const CreateAccount = styled.div`
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  max-width: 620px;
-`;
-
-const Profile = styled.div`
-  margin: 20px 0;
-  display: flex;
-  width: 100%;
-`;
-
-const LineContinuation = styled.div`
-  width: 50%;
-  height: 4px;
-  margin-top: 32.5px;
-  background-color: ${COLORS.Color_700};
 `;
 
 export default Home;

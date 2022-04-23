@@ -1,50 +1,58 @@
 import React, { FC } from "react";
-import Link from "next/link";
-import { COLORS } from "../../../assets/constant/colors";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 
-interface TabProfileProps {
-  href: string;
-  title?: string;
-  isSelected: boolean;
-  onClick?: () => void;
-}
-
-export const TabProfile: FC<TabProfileProps> = ({
-  href,
-  title,
-  isSelected,
-  onClick,
-}) => {
+export const TabProfile: FC = () => {
   return (
-    <Root>
-      <Link href={href}>
-        <a>
-          <Title onClick={onClick} isSelected={isSelected}>
-            {title}
-          </Title>
-          <Line isSelected={isSelected} />
-        </a>
-      </Link>
-    </Root>
+    <StyledTabs>
+      <StyledTabList>
+        <StyledTab>Profile</StyledTab>
+        <StyledTab>Subscriptions</StyledTab>
+        <StyledTab>Change password</StyledTab>
+        <LineContinuation />
+      </StyledTabList>
+
+      <TabPanel></TabPanel>
+      <TabPanel></TabPanel>
+      <TabPanel></TabPanel>
+    </StyledTabs>
   );
 };
 
-const Root = styled.div`
-  max-width: 620px;
+const StyledTabs = styled(Tabs)`
+  display: flex;
+  font-size: 20px;
+  width: 80%;
 `;
 
-const Title = styled.h2<{ isSelected: boolean }>`
-  width: 100%;
-  margin: 0 48px;
-  font-size: 18px;
-  color: ${(props) => (props.isSelected ? COLORS.Primari_1 : COLORS.Color_700)};
+const StyledTab = styled(Tab)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 195px;
+  color: ${COLORS.Color_100};
+  background-color: ${COLORS.Color_800};
+  border-bottom: 2px solid ${COLORS.Color_700};
+  padding-bottom: 20px;
+
+  &:focus {
+    color: ${COLORS.Primari_1};
+    border-color: ${COLORS.Primari_1};
+  }
 `;
 
-const Line = styled.div<{ isSelected: boolean }>`
+const StyledTabList = styled(TabList)`
   width: 100%;
-  margin-top: 12px;
-  padding: 2px;
-  background-color: ${(props) =>
-    props.isSelected ? COLORS.Primari_1 : COLORS.Color_700};
+  padding: 4px;
+  display: flex;
+`;
+
+const LineContinuation = styled.div`
+  width: 50%;
+  height: 2px;
+  margin-top: 45px;
+  background-color: ${COLORS.Color_700};
 `;

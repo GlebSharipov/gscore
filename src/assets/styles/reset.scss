@@ -166,3 +166,8 @@ svg {
 pre {
   white-space: pre-wrap;
 }
+button,
+input,
+li {
+  -webkit-tap-highlight-color: transparent;
+}

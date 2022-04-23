@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { COLORS } from "../../../assets/constant/colors";
+import { COLORS } from "assets/constant/colors";
 
 interface StatusProps {
   isActive?: boolean;
@@ -8,10 +8,18 @@ interface StatusProps {
   isInactive?: boolean;
 }
 
+enum StatusText {
+  ACTIVE = "Active",
+  HOLD = "Hold",
+  INACTIVE = "Inactive",
+}
+
 export const Status: FC<StatusProps> = ({ isActive, isHold, isInactive }) => {
   return (
     <Root isActive={isActive} isHold={isHold} isInactive={isInactive}>
-      {isActive && "Active"} {isHold && "Hold"} {isInactive && "Inactive"}
+      {isActive && StatusText.ACTIVE}
+      {isHold && StatusText.HOLD}
+      {isInactive && StatusText.INACTIVE}
     </Root>
   );
 };

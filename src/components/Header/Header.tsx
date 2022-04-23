@@ -1,36 +1,40 @@
 import React, { FC } from "react";
 import { Accordion } from "../Accordion";
-import { COLORS } from "../../assets/constant/colors";
+import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
-import { LogoIcon } from "../icons";
-import { Button } from "../UI";
-import { ChevronDownIcon } from "../icons";
+import { LogoIcon } from "icons";
+import { ChevronDownIcon } from "icons";
+import { TYPOGRAPHY } from "assets/styles/typography";
+import { BurgerMenu } from "../BurgerMenu";
 
 interface HeaderProps {
-  isUser?: boolean;
+  userName: string;
 }
 
-export const Header: FC<HeaderProps> = ({ isUser = true }) => {
+export const Header: FC<HeaderProps> = ({ userName }) => {
   return (
     <Root>
-      <Container>
+      <ContainerLogo>
         <LogoIcon />
         <Title>GSCORE</Title>
-      </Container>
+      </ContainerLogo>
 
-      {isUser && (
-        <Container>
-          <UserName>Alex</UserName>
-          <Accordion
-            trigger={
+      <BurgerMenu userName={userName} />
+
+      <Container>
+        <Subscriptions>My subscriptions</Subscriptions>
+
+        <Accordion
+          trigger={
+            <>
+              <UserName>{userName}</UserName>
               <ButtonChevronDown>
                 <ChevronDownIcon />
               </ButtonChevronDown>
-            }
-          />
-          <StyledButton primary text="Get Jscore" />
-        </Container>
-      )}
+            </>
+          }
+        />
+      </Container>
     </Root>
   );
 };
@@ -38,22 +42,35 @@ export const Header: FC<HeaderProps> = ({ isUser = true }) => {
 const Root = styled.header`
   position: relative;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   max-width: 1440px;
   height: 122px;
   background-color: ${COLORS.Color_800};
 `;
 
-const Container = styled.div`
+const ContainerLogo = styled.div`
   display: flex;
   align-items: center;
 `;
 
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 550px) {
+    display: none;
+  }
+`;
+
 const UserName = styled.h2`
   position: absolute;
-  right: 160px;
+  cursor: pointer;
+  right: 40px;
+  top: 45px;
   font-size: 20px;
   color: ${COLORS.Color_100};
+  ${TYPOGRAPHY.text_single}
 `;
 
 const Title = styled.h1`
@@ -63,12 +80,21 @@ const Title = styled.h1`
   color: ${COLORS.Color_100};
 `;
 
-const StyledButton = styled(Button)`
-  max-width: 136px;
-  margin-left: 15px;
+const ButtonChevronDown = styled.button`
+  position: absolute;
+  right: 0;
+  top: 50px;
+  cursor: pointer;
+
+  &:hover {
+    border-radius: 50%;
+    background-color: ${COLORS.Color_700};
+  }
 `;
 
-const ButtonChevronDown = styled.button`
+const Subscriptions = styled.a`
   cursor: pointer;
-  margin-left: 170px;
+  font-size: 20px;
+  color: ${COLORS.Color_100};
+  ${TYPOGRAPHY.text_single}
 `;
