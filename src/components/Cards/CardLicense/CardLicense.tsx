@@ -221,7 +221,6 @@ const Domain = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-size-adjust: auto;
   color: ${COLORS.Color_500};
   ${TYPOGRAPHY.paragraph}
 `;
