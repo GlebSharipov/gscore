@@ -77,7 +77,7 @@ const LeftSide = styled.div`
   flex: start;
 `;
 
-const TitleLicnse = styled.p`
+const TitleLicnse = styled.div`
   margin-right: 20px;
   font-size: 24px;
   color: ${COLORS.Color_100};
@@ -88,7 +88,7 @@ const TitleLicnse = styled.p`
   }
 `;
 
-const ValidUntil = styled.p`
+const ValidUntil = styled.div`
   color: ${COLORS.Color_500};
   margin: 2px 0 25px 0;
   font-size: 16px;
@@ -98,7 +98,7 @@ const ValidUntil = styled.p`
   }
 `;
 
-const Price = styled.p`
+const Price = styled.div`
   font-size: 24px;
   color: ${COLORS.Color_100};
   ${TYPOGRAPHY.text_single}

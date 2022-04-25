@@ -66,7 +66,7 @@ const Container = styled.li`
   margin-bottom: 34px;
 `;
 
-const Text = styled.p`
+const Text = styled.div`
   font-size: 20px;
   margin-left: 10px;
   color: ${COLORS.Color_500};

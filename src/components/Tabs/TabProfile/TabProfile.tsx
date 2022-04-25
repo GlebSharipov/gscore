@@ -25,7 +25,7 @@ const StyledTabs = styled(Tabs)`
   display: flex;
   font-size: 20px;
   width: 80%;
-  @media (max-width: 375px) {
+  @media (max-width: 410px) {
     width: 100%;
     font-size: 14px;
   }
@@ -37,6 +37,8 @@ const StyledTab = styled(Tab)`
   justify-content: center;
   cursor: pointer;
   width: 195px;
+  padding: 0 10px;
+  white-space: nowrap;
   color: ${COLORS.Color_100};
   background-color: ${COLORS.Color_800};
   border-bottom: 2px solid ${COLORS.Color_700};
@@ -47,7 +49,7 @@ const StyledTab = styled(Tab)`
     border-color: ${COLORS.Primari_1};
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 410px) {
     padding-bottom: 5px;
   }
 `;
@@ -63,7 +65,7 @@ const LineContinuation = styled.div`
   height: 2px;
   margin-top: 45px;
   background-color: ${COLORS.Color_700};
-  @media (max-width: 375px) {
+  @media (max-width: 410px) {
     display: none;
   }
 `;

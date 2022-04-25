@@ -58,16 +58,16 @@ const Root = styled.div`
   margin-top: 30px;
   display: grid;
   grid-template-rows: 153px;
-  grid-template-columns: repeat(4, auto);
+  grid-template-columns: 70px 1fr minmax(200px, 620px) 1fr;
   grid-template-areas: "checkbox license domain status";
   max-width: 1268px;
   align-items: center;
-  padding: 0 79px 0 32px;
+  padding: 0 6% 0 2%;
   border-radius: 12px;
   background-color: ${COLORS.Color_700};
 
-  @media (max-width: 375px) {
-    width: 100%;
+  @media (max-width: 1000px) {
+    max-width: 500px;
     grid-template-columns: 30px 1fr;
     grid-template-rows: 80px 130px 130px;
     grid-template-areas:
@@ -86,12 +86,13 @@ const LicenseCode = styled.div`
   margin-right: 28px;
   padding: 6px 20px 6px 24px;
   background-color: ${COLORS.Color_600};
-  @media (max-width: 375px) {
+
+  @media (max-width: 1000px) {
     margin: 0;
   }
 `;
 
-const Code = styled.p`
+const Code = styled.div`
   width: 100%;
   margin-right: 28px;
   align-items: center;
@@ -104,9 +105,9 @@ const Code = styled.p`
 
 const StyledCheckbox = styled(Checkbox)`
   grid-area: checkbox;
-  margin-right: 48px;
-  margin-top: 30px;
-  @media (max-width: 375px) {
+  margin-top: 40px;
+
+  @media (max-width: 1000px) {
     margin-top: 25px;
   }
 `;
@@ -116,9 +117,13 @@ const StyledButton = styled(Button)`
   height: 58px;
   margin-top: 38px;
   margin-right: 65px;
+
+  @media (max-width: 1000px) {
+    margin: 0;
+  }
+
   @media (max-width: 375px) {
     margin: 0;
-    margin-left: 55px;
   }
 `;
 
@@ -128,6 +133,11 @@ const CodeContainer = styled.div`
   margin-right: 28px;
   flex-direction: column;
   max-width: 296px;
+
+  @media (max-width: 1000px) {
+    max-width: 480px;
+    margin: 0;
+  }
 
   @media (max-width: 375px) {
     max-width: 360px;
@@ -140,24 +150,27 @@ const DomainContainer = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 620px;
+
   @media (max-width: 375px) {
     max-width: 360px;
   }
 `;
 
 const TitleContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 `;
 
 const StatusContainer = styled.div`
   grid-area: status;
+  max-width: 260px;
   margin-left: 56px;
   margin-top: 5px;
   display: flex;
-  max-width: 330px;
-  @media (max-width: 375px) {
+
+  @media (max-width: 1000px) {
+    max-width: 400px;
     margin: 0;
     margin-left: 20px;
     align-items: flex-start;
@@ -177,7 +190,13 @@ const Title = styled.h3`
 const TitleStatus = styled.h3`
   font-size: 16px;
   margin-bottom: 20px;
+  margin-right: 34px;
   color: ${COLORS.Color_500};
+
+  @media (max-width: 1000px) {
+    display: none;
+  }
+
   @media (max-width: 375px) {
     display: none;
   }
@@ -191,22 +210,18 @@ const ButtonCopy = styled.button`
 const Container = styled.div`
   display: flex;
   align-items: center;
-  height: 68px;
-  min-width: 450px;
-  padding: 25px 50px 25px 24px;
+  min-height: 68px;
+  width: 100%;
+  padding: 0 50px 0 24px;
   border-radius: 6px;
   background-color: ${COLORS.Color_600};
-
-  @media (max-width: 375px) {
-    min-width: 250px;
-  }
 `;
 
 const Domain = styled.div`
-  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-size-adjust: auto;
   color: ${COLORS.Color_500};
   ${TYPOGRAPHY.paragraph}
 `;

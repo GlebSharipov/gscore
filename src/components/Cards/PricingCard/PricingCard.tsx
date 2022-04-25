@@ -62,7 +62,7 @@ const Price = styled.h2`
   ${TYPOGRAPHY.price}
 `;
 
-const LicenseTerm = styled.p`
+const LicenseTerm = styled.div`
   font-size: 24px;
   text-align: center;
   word-break: break-all;

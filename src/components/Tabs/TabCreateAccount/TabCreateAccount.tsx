@@ -22,7 +22,8 @@ export const TabCreateAccount: FC = () => {
 
 const StyledTabs = styled(Tabs)`
   font-size: 20px;
-  width: 50%;
+  max-width: 620px;
+  width: 100%;
   @media (max-width: 375px) {
     width: 100%;
     font-size: 14px;
@@ -31,8 +32,10 @@ const StyledTabs = styled(Tabs)`
 
 const StyledTab = styled(Tab)`
   cursor: pointer;
-  width: 195px;
+  max-width: 195px;
+  width: 100%;
   margin-right: 20px;
+  white-space: nowrap;
   color: ${COLORS.Color_100};
   background-color: ${COLORS.Color_800};
   border-bottom: 8px solid ${COLORS.Color_600};

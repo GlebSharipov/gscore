@@ -31,7 +31,7 @@ const Root = styled.h2<{
 }>`
   display: flex;
   align-items: center;
-  height: 58px;
+  min-height: 58px;
   font-size: 22px;
   color: ${({ isActive, isHold, isInactive }) =>
     (isActive && COLORS.Green_300) ||

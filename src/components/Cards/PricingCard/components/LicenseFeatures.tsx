@@ -58,7 +58,7 @@ const StyledCheckIcon = styled(CheckIcon)`
   height: 26px;
 `;
 
-const Description = styled.p`
+const Description = styled.div`
   font-size: 18px;
   max-width: 270px;
   margin-left: 10px;

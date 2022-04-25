@@ -152,7 +152,7 @@ const LogogContainer = styled.div`
   margin-bottom: 40px;
 `;
 
-const UserName = styled.p`
+const UserName = styled.div`
   cursor: pointer;
   bottom: 25px;
   left: 25px;
