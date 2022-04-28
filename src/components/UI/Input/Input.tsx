@@ -36,7 +36,7 @@ export const Input: FC<InputProps> = ({
   ...props
 }) => {
   return (
-    <Root>
+    <Root className={className}>
       <StyledInput
         $isDisabled={isDisabled}
         $result={themes[result]}
@@ -63,9 +63,10 @@ export const Input: FC<InputProps> = ({
   );
 };
 
-const Root = styled.form`
+const Root = styled.div`
   position: relative;
-  max-width: 419px;
+  max-width: 512px;
+  margin-bottom: 24px;
 `;
 
 const StyledInput = styled.input<{

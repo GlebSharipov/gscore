@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import Link from "next/link";
 import { Accordion } from "../Accordion";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
@@ -8,31 +9,37 @@ import { TYPOGRAPHY } from "assets/styles/typography";
 import { BurgerMenu } from "../BurgerMenu";
 
 interface HeaderProps {
-  userName: string;
+  userName?: string;
 }
 
 export const Header: FC<HeaderProps> = ({ userName }) => {
   return (
     <Root>
-      <ContainerLogo>
-        <LogoIcon />
-        <Title>GSCORE</Title>
-      </ContainerLogo>
+      <Link href="/" passHref>
+        <ContainerLogo>
+          <LogoIcon />
+          <Title>GSCORE</Title>
+        </ContainerLogo>
+      </Link>
 
       <BurgerMenu userName={userName} />
 
-      <Container>
-        <Subscriptions>My subscriptions</Subscriptions>
+      {userName && (
+        <Container>
+          <Link href="/subscriptions" passHref>
+            <Subscriptions>My subscriptions</Subscriptions>
+          </Link>
 
-        <Accordion
-          trigger={
-            <UserButton>
-              <UserName>{userName}</UserName>
-              <ChevronDownIcon />
-            </UserButton>
-          }
-        />
-      </Container>
+          <Accordion
+            trigger={
+              <UserButton>
+                <UserName>{userName}</UserName>
+                <ChevronDownIcon />
+              </UserButton>
+            }
+          />
+        </Container>
+      )}
     </Root>
   );
 };

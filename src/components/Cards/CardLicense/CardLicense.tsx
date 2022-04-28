@@ -55,7 +55,6 @@ export const CardLicense: FC<CardLicenseProps> = ({
 };
 
 const Root = styled.div`
-  margin-top: 30px;
   display: grid;
   grid-template-rows: 153px;
   grid-template-columns: 70px 1fr minmax(200px, 620px) 1fr;
@@ -66,7 +65,7 @@ const Root = styled.div`
   border-radius: 12px;
   background-color: ${COLORS.Color_700};
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1100px) {
     max-width: 500px;
     grid-template-columns: 30px 1fr;
     grid-template-rows: 80px 130px 130px;
@@ -87,7 +86,7 @@ const LicenseCode = styled.div`
   padding: 6px 20px 6px 24px;
   background-color: ${COLORS.Color_600};
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1100px) {
     margin: 0;
   }
 `;
@@ -107,7 +106,7 @@ const StyledCheckbox = styled(Checkbox)`
   grid-area: checkbox;
   margin-top: 40px;
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1100px) {
     margin-top: 25px;
   }
 `;
@@ -118,11 +117,11 @@ const StyledButton = styled(Button)`
   margin-top: 38px;
   margin-right: 65px;
 
-  @media (max-width: 1000px) {
-    margin: 0;
+  @media (max-width: 1140px) {
+    margin-right: 25px;
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 1100px) {
     margin: 0;
   }
 `;
@@ -134,13 +133,8 @@ const CodeContainer = styled.div`
   flex-direction: column;
   max-width: 296px;
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1100px) {
     max-width: 480px;
-    margin: 0;
-  }
-
-  @media (max-width: 375px) {
-    max-width: 360px;
     margin: 0;
   }
 `;
@@ -150,6 +144,7 @@ const DomainContainer = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 620px;
+  width: 100%;
 
   @media (max-width: 375px) {
     max-width: 360px;
@@ -169,7 +164,7 @@ const StatusContainer = styled.div`
   margin-top: 5px;
   display: flex;
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1100px) {
     max-width: 400px;
     margin: 0;
     margin-left: 20px;
@@ -193,7 +188,7 @@ const TitleStatus = styled.h3`
   margin-right: 34px;
   color: ${COLORS.Color_500};
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1100px) {
     display: none;
   }
 

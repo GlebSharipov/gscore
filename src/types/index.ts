@@ -6,6 +6,7 @@ export interface cardLicense {
 export interface pricingCard {
   price: string;
   isSecondType: boolean;
+  offset?: boolean;
   licenseTerm: string;
   description: string;
   features: string[];

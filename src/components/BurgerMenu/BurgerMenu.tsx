@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+import Link from "next/link";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 import { BurgerIcon, ChevronDownIcon, CloseIcon, LogoIcon } from "icons";
@@ -7,7 +8,7 @@ import { Accordion } from "../Accordion";
 
 interface BurgerMenuProps {
   isVisible?: boolean;
-  userName: string;
+  userName?: string;
 }
 
 export const BurgerMenu: FC<BurgerMenuProps> = ({ isVisible, userName }) => {
@@ -32,7 +33,9 @@ export const BurgerMenu: FC<BurgerMenuProps> = ({ isVisible, userName }) => {
               <Title>GSCORE</Title>
             </LogogContainer>
 
-            <Subscriptions>My subscriptions</Subscriptions>
+            <Link href="/subscriptions" passHref>
+              <Subscriptions>My subscriptions</Subscriptions>
+            </Link>
 
             <StyledAccordion
               trigger={
@@ -66,14 +69,12 @@ const StyledAccordion = styled(Accordion)`
 
 const Overlay = styled.div`
   z-index: 20;
-  position: absolute;
   overflow: hidden;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: ${COLORS.Overlay};
   left: 0;
   top: 0;
-  overflow-y: auto;
   position: fixed;
 `;
 

@@ -38,6 +38,7 @@ export const pricingCardsData: pricingCard[] = [
   {
     price: "117",
     isSecondType: true,
+    offset: true,
     licenseTerm: "3 Site license",
     description:
       "Get the advanced WordPress plugin that optimizes content with GSC keywords at one low annual price",

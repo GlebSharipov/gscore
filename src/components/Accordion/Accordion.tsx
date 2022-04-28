@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import Link from "next/link";
 import Collapsible from "react-collapsible";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
@@ -18,10 +19,12 @@ export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
       <Collapsible trigger={trigger}>
         <Menu>
           <Container>
-            <Settings>
-              <SettingsIcon />
-              <Text>Settings</Text>
-            </Settings>
+            <Link href="/settingsProfile" passHref>
+              <Settings>
+                <SettingsIcon />
+                <Text>Settings</Text>
+              </Settings>
+            </Link>
           </Container>
 
           <Container>

@@ -37,7 +37,7 @@ const Root = styled.button<{
 }>`
   max-width: 120px;
   width: 100%;
-  padding: 20px 26px;
+  padding: 20px;
   font-size: 16px;
   border-radius: 4px;
   opacity: ${({ $isDisabled }) => $isDisabled && 0.6};
