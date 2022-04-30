@@ -52,6 +52,11 @@ const Root = styled.div<{ $isSecondType?: boolean; $isOffset?: boolean }>`
   background-color: ${({ $isSecondType }) =>
     $isSecondType ? COLORS.Primari_1 : COLORS.Color_700};
 
+  @media (max-width: 1150px) {
+    transform: translateY(0);
+    margin-bottom: 12px;
+  }
+
   @media (max-width: 1000px) {
     transform: translateY(0);
     margin-bottom: 12px;

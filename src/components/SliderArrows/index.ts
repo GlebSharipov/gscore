@@ -1,1 +1,0 @@
-export { SliderArrows } from "./SliderArrows";

@@ -7,7 +7,7 @@ import { Button, Input } from "UI";
 
 export const TabProfile: FC = () => {
   return (
-    <StyledTabs>
+    <StyledTabs defaultFocus>
       <StyledTabList>
         <StyledTab>Personal info</StyledTab>
         <StyledTab>Change password</StyledTab>
@@ -20,7 +20,7 @@ export const TabProfile: FC = () => {
           <Input result="initial" placeholder="Username" />
           <Input result="initial" placeholder="Email" />
 
-          <StyledButton variant="primary" type="submit" text="Save" />
+          <StyledButton type="submit" text="Save" />
         </Form>
       </StyledTabPanel>
 
@@ -30,7 +30,7 @@ export const TabProfile: FC = () => {
           <Input result="initial" placeholder="Current Password" />
           <Input result="initial" placeholder="New Password" />
 
-          <StyledButton variant="primary" type="submit" text="Save" />
+          <StyledButton type="submit" text="Save" />
         </Form>
       </StyledTabPanel>
     </StyledTabs>

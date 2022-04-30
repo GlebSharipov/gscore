@@ -1,23 +1,57 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { COLORS } from "assets/constant/colors";
 import Slider from "react-slick";
 import styled from "styled-components";
-import { SliderArrows } from "../../components";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { SliderButton } from "../../components/UI";
 import { ArrowRightIcon, ArrowLeftIcon } from "icons";
 
 interface SliderCardProps {
   children?: React.ReactNode;
+  numberOfСards: number;
 }
 
-export const SliderCard: FC<SliderCardProps> = ({ children }) => {
+export const SliderCard: FC<SliderCardProps> = ({
+  children,
+  numberOfСards,
+}) => {
+  const [counter, setCounter] = useState(1);
+  const [disabled, setDisabled] = useState(false);
+
+  const handlePlus = () => {
+    if (counter < numberOfСards) {
+      setCounter(counter + 1);
+    }
+  };
+
+  const handleMinus = () => {
+    if (counter != 1) {
+      setCounter(counter - 1);
+    }
+  };
+
   const settings = {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 1,
     slidesToScroll: 1,
+    centerMode: true,
+    centerPadding: "25%",
+
+    nextArrow: (
+      <SliderButton isNextButton isDisabled={disabled}>
+        <ContainerArrow onClick={handlePlus}>
+          <ArrowRightIcon />
+        </ContainerArrow>
+      </SliderButton>
+    ),
+    prevArrow: (
+      <SliderButton isDisabled={disabled}>
+        <ContainerArrow onClick={handleMinus}>
+          <ArrowLeftIcon />
+        </ContainerArrow>
+      </SliderButton>
+    ),
     responsive: [
       {
         breakpoint: 1000,
@@ -33,6 +67,9 @@ export const SliderCard: FC<SliderCardProps> = ({ children }) => {
     <Root>
       <SliderContainer>
         <Slider {...settings}>{children}</Slider>
+        <Counter>
+          <CardNumber>{counter}</CardNumber>/{numberOfСards}
+        </Counter>
       </SliderContainer>
     </Root>
   );
@@ -49,20 +86,30 @@ const Root = styled.div`
 
 const SliderContainer = styled.div`
   width: 100%;
-  height: 450px;
+  min-height: 450px;
 `;
 
-const ArrowButton = styled.button`
+const Counter = styled.div`
+  display: flex;
+  margin-left: 55px;
+  margin-top: 35px;
+  max-width: 100px;
+  color: ${COLORS.Color_700};
+  font-size: 22px;
+
+  @media (max-width: 480px) {
+    margin-left: 45%;
+  }
+`;
+
+const ContainerArrow = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid ${COLORS.Color_500};
-  border-radius: 12px;
-  width: 44px;
-  height: 44px;
 `;
 
-const Container = styled.div`
-  border: 1px solid red;
-  height: 40px;
+const CardNumber = styled.div`
+  color: ${COLORS.Color_100};
 `;

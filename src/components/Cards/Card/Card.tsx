@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Button, Status } from "UI";
 import { TYPOGRAPHY } from "assets/styles/typography";
 import dayjs from "dayjs";
+
 interface CardProps {
   isDisabled?: boolean;
   price: string;
@@ -35,6 +36,7 @@ export const Card: FC<CardProps> = ({ isDisabled, price, className }) => {
 const Root = styled.div<{ $isDisabled?: boolean }>`
   border-radius: 12px;
   max-width: 620px;
+  margin-right: 10px;
   background-color: ${COLORS.Color_700};
   opacity: ${({ $isDisabled }) => $isDisabled && 0.6};
 `;

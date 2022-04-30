@@ -6,4 +6,3 @@ export { BurgerMenu } from "./BurgerMenu";
 export { Footer } from "./Footer";
 export { Layout } from "./Layout";
 export { SliderCard } from "./SliderCard";
-export { SliderArrows } from "./SliderArrows";

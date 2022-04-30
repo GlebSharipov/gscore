@@ -3,8 +3,11 @@ import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 import { TwitterIcon, LinkedInIcon, FacebookIcon, LogoIcon } from "icons";
 import { TYPOGRAPHY } from "assets/styles/typography";
+import dayjs from "dayjs";
 
 export const Footer: FC = () => {
+  const year = dayjs().format("YYYY");
+
   return (
     <Root>
       <TopPartFooter>
@@ -19,7 +22,7 @@ export const Footer: FC = () => {
 
       <BottomPartFooter>
         <Copyright>
-          Copyright © 2022 GScore | All Rights Reserved | <Link>Cookies</Link> |
+          Copyright © {year} GScore | All Rights Reserved |<Link>Cookies</Link>|
           <Link>Privacy Policy</Link>
         </Copyright>
 
@@ -27,9 +30,11 @@ export const Footer: FC = () => {
           <SocialLink>
             <FacebookIcon />
           </SocialLink>
+
           <SocialLink>
             <TwitterIcon />
           </SocialLink>
+
           <SocialLink>
             <LinkedInIcon />
           </SocialLink>
@@ -104,10 +109,19 @@ const Link = styled.a`
   font-size: 18px;
   border-bottom: 2px solid ${COLORS.Color_100};
   color: ${COLORS.Color_100};
+
+  &:hover {
+    border: none;
+  }
 `;
 
 const SocialLink = styled.a`
   cursor: pointer;
+
+  &:hover {
+    transform: scale (1);
+    transition: all 0.2s;
+  }
 `;
 
 const IconContainer = styled.div`

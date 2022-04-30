@@ -58,7 +58,6 @@ export const BurgerMenu: FC<BurgerMenuProps> = ({ isVisible, userName }) => {
 
 const Root = styled.div`
   max-width: 280px;
-  overflow: hidden;
 `;
 
 const StyledAccordion = styled(Accordion)`
@@ -69,7 +68,6 @@ const StyledAccordion = styled(Accordion)`
 
 const Overlay = styled.div`
   z-index: 20;
-  overflow: hidden;
   width: 100%;
   height: 100vh;
   background-color: ${COLORS.Overlay};
@@ -117,25 +115,27 @@ const Title = styled.h2`
   color: ${COLORS.Color_100};
 `;
 
-const Menu = styled.div<{ $isVisible?: boolean }>`
+const Menu = styled.body<{ $isVisible?: boolean }>`
   position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   overflow: hidden;
   top: 0;
-  right: 0;
+  right: -10px;
   z-index: 30;
   width: 260px;
   height: 100vh;
   padding: 35px 24px 0px 24px;
   background-color: ${COLORS.Color_700};
-  animation-duration: 0.5s;
-  animation-fill-mode: both;
+  animation-duration: 1s;
   animation-name: fadeInDown;
+  position: fixed;
 
   @keyframes fadeInDown {
     0% {
+      transform: translate(-100%);
+    }
+    50% {
       transform: ${({ $isVisible }) =>
         $isVisible ? "translate(0)" : "translate(100%)"};
     }

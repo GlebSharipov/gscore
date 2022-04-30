@@ -4,10 +4,9 @@ import styled from "styled-components";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-
-  text?: string;
+  text: string;
   isDisabled?: boolean;
-  variant: "primary" | "secondary" | "text";
+  variant?: "primary" | "secondary" | "text";
   onClick?: () => void;
 }
 
@@ -15,7 +14,7 @@ export const Button: FC<ButtonProps> = ({
   text,
   isDisabled,
   className,
-  variant,
+  variant = "primary",
   onClick,
 }) => {
   return (

@@ -12,7 +12,7 @@ interface TabCreateAccountProps {
 
 export const TabCreateAccount: FC<TabCreateAccountProps> = ({ children }) => {
   return (
-    <StyledTabs>
+    <StyledTabs defaultFocus>
       <StyledTabList>
         <StyledTab>Create account</StyledTab>
         <StyledTab>Log in</StyledTab>
@@ -31,7 +31,7 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({ children }) => {
           <StyledInput result="initial" placeholder="Email" />
           <StyledInput result="initial" placeholder="Password" />
 
-          <StyledButton variant="primary" type="submit" text="Send password" />
+          <StyledButton type="submit" text="Send password" />
         </Form>
 
         <Container>
@@ -46,7 +46,7 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({ children }) => {
           <StyledInput result="initial" placeholder="Email" />
           <StyledInput result="initial" placeholder="Password" />
 
-          <StyledButton variant="primary" type="submit" text="Log in" />
+          <StyledButton type="submit" text="Log in" />
         </Form>
       </StyledTabPanel>
 
@@ -71,7 +71,7 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({ children }) => {
         <TotalPrice>
           Total:<Price>$77</Price>
         </TotalPrice>
-        <StyledButton variant="primary" type="submit" text="Purchase" />
+        <StyledButton type="submit" text="Purchase" />
       </StyledTabPanel>
     </StyledTabs>
   );
@@ -101,7 +101,10 @@ const StyledTab = styled(Tab)`
     color: ${COLORS.Primari_1};
     border-color: ${COLORS.Primari_1};
   }
-
+  &:active {
+    color: ${COLORS.Primari_1};
+    border-color: ${COLORS.Primari_1};
+  }
   @media (max-width: 375px) {
     border-bottom: 2px solid ${COLORS.Color_600};
     padding-bottom: 5px;

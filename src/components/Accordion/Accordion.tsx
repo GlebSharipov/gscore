@@ -19,7 +19,7 @@ export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
       <Collapsible trigger={trigger}>
         <Menu>
           <Container>
-            <Link href="/settingsProfile" passHref>
+            <Link href="/settings-profile" passHref>
               <Settings>
                 <SettingsIcon />
                 <Text>Settings</Text>

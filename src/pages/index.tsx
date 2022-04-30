@@ -67,6 +67,11 @@ const CardContainer = styled.div`
   padding-top: 50px;
   margin-bottom: 33px;
 
+  @media (max-width: 1150px) {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
   @media (max-width: 1000px) {
     flex-direction: column;
     align-items: center;
@@ -83,6 +88,11 @@ const Link = styled.a`
   color: ${COLORS.Primari_1};
   font-size: 18px;
   border-bottom: 1px solid ${COLORS.Primari_1};
+
+  &:hover {
+    color: ${COLORS.Color_100};
+    border-bottom: 1px solid ${COLORS.Color_100};
+  }
 `;
 
 const ContactUsContainer = styled.div`
