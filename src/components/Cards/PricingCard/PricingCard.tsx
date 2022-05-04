@@ -4,38 +4,38 @@ import styled from "styled-components";
 import { Button } from "UI";
 import { LicenseFeatures } from "./components";
 import { TYPOGRAPHY } from "assets/styles/typography";
+import { PriceType } from "src/types";
 
 interface PricingCardProps {
-  price: string;
-  description: string;
-  licenseTerm: string;
-  features: string[];
-  isSecondType?: boolean;
-  isOffset?: boolean;
+  prices: PriceType[];
+  sitesCount: number;
+  secondType?: number;
+  offset?: number;
   onClick?: () => void;
 }
 
 export const PricingCard: FC<PricingCardProps> = ({
-  price,
-  description,
-  licenseTerm,
-  features,
-  isSecondType,
-  isOffset,
+  prices,
+  sitesCount,
+  secondType,
+  offset,
   onClick,
 }) => {
   return (
-    <Root $isOffset={isOffset} $isSecondType={isSecondType}>
-      <PriceContainer $isSecondType={isSecondType}>
-        <Price>${price}</Price>
-        <LicenseTerm>{licenseTerm}</LicenseTerm>
-        <Text $isSecondType={isSecondType}>{description}</Text>
+    <Root $offset={offset} $secondType={secondType}>
+      <PriceContainer $secondType={secondType}>
+        <Price>${prices[0].price}</Price>
+        <LicenseTerm>{sitesCount} Site license</LicenseTerm>
+        <Text $secondType={secondType}>
+          Get the advanced WordPress plugin that optimizes content with GSC
+          keywords at one low annual price
+        </Text>
       </PriceContainer>
 
-      <LicenseFeatures isSecondType={isSecondType} features={features} />
+      <LicenseFeatures secondType={secondType} sitesCount={sitesCount} />
 
       <StyledButton
-        $isSecondType={isSecondType}
+        $secondType={secondType}
         variant="secondary"
         text="Get Gscore"
         onClick={onClick}
@@ -44,13 +44,13 @@ export const PricingCard: FC<PricingCardProps> = ({
   );
 };
 
-const Root = styled.div<{ $isSecondType?: boolean; $isOffset?: boolean }>`
+const Root = styled.div<{ $secondType?: number; $offset?: number }>`
   max-width: 404px;
   border-radius: 12px;
   padding: 42px 48px;
-  transform: ${({ $isOffset }) => $isOffset && "translateY(-50px)"};
-  background-color: ${({ $isSecondType }) =>
-    $isSecondType ? COLORS.Primari_1 : COLORS.Color_700};
+  transform: ${({ $offset }) => $offset == 2 && "translateY(-50px)"};
+  background-color: ${({ $secondType }) =>
+    $secondType == 2 ? COLORS.Primari_1 : COLORS.Color_700};
 
   @media (max-width: 1150px) {
     transform: translateY(0);
@@ -67,13 +67,13 @@ const Root = styled.div<{ $isSecondType?: boolean; $isOffset?: boolean }>`
   }
 `;
 
-const PriceContainer = styled.div<{ $isSecondType?: boolean }>`
+const PriceContainer = styled.div<{ $secondType?: number }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   border-bottom: 1px solid
-    ${({ $isSecondType }) =>
-      $isSecondType ? COLORS.Color_100 : COLORS.Color_500};
+    ${({ $secondType }) =>
+      $secondType == 2 ? COLORS.Color_100 : COLORS.Color_500};
 `;
 
 const Price = styled.h2`
@@ -89,17 +89,17 @@ const LicenseTerm = styled.div`
   color: ${COLORS.Color_100};
 `;
 
-const Text = styled.p<{ $isSecondType?: boolean }>`
+const Text = styled.p<{ $secondType?: number }>`
   font-size: 18px;
   text-align: center;
   word-break: break-all;
   margin: 8px 0 40px;
   ${TYPOGRAPHY.paragraph}
-  color: ${({ $isSecondType }) =>
-    $isSecondType ? COLORS.Color_100 : COLORS.Color_400};
+  color: ${({ $secondType }) =>
+    $secondType == 2 ? COLORS.Color_100 : COLORS.Color_400};
 `;
 
-const StyledButton = styled(Button)<{ $isSecondType?: boolean }>`
+const StyledButton = styled(Button)<{ $secondType?: number }>`
   max-width: 308px;
   width: 100%;
   text-align: center;
@@ -107,5 +107,5 @@ const StyledButton = styled(Button)<{ $isSecondType?: boolean }>`
   margin-top: 16px;
   font-size: 18px;
   padding: 26px;
-  color: ${({ $isSecondType }) => !$isSecondType && COLORS.Color_800};
+  color: ${({ $secondType }) => $secondType !== 2 && COLORS.Color_800};
 `;

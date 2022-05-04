@@ -80,17 +80,6 @@ const UiKit: NextPage = () => {
       <TabCreateAccount />
 
       <TabProfile />
-
-      {pricingCardsData.map((card) => (
-        <PricingCard
-          isSecondType={card.isSecondType}
-          key={card.licenseTerm}
-          price={card.price}
-          licenseTerm={card.licenseTerm}
-          features={card.features}
-          description={card.description}
-        />
-      ))}
     </Root>
   );
 };

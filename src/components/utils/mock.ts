@@ -1,4 +1,4 @@
-import { cardLicense, pricingCard } from "src/types";
+import { cardLicense, pricingCard } from "src/types/types";
 
 export const userData = {
   user: "Alex",

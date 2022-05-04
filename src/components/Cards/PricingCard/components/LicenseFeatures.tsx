@@ -5,26 +5,48 @@ import { CheckIcon } from "icons";
 import { TYPOGRAPHY } from "assets/styles/typography";
 
 interface LicenseFeaturesProps {
-  features: string[];
-  isSecondType?: boolean;
+  sitesCount: number;
+  secondType?: number;
 }
 
 export const LicenseFeatures: FC<LicenseFeaturesProps> = ({
-  features,
-  isSecondType,
+  sitesCount,
+  secondType,
 }) => {
   return (
     <Root>
-      {features.map((text, index) => (
-        <CheckContainer key={index}>
-          <Check>
-            <StyledCheckIcon
-              color={isSecondType ? COLORS.Primari_1 : COLORS.Color_700}
-            />
-          </Check>
-          <Description>{text}</Description>
-        </CheckContainer>
-      ))}
+      <CheckContainer>
+        <Check>
+          <StyledCheckIcon
+            color={secondType == 2 ? COLORS.Primari_1 : COLORS.Color_700}
+          />
+        </Check>
+        <Description>All features for {sitesCount} sites</Description>
+      </CheckContainer>
+      <CheckContainer>
+        <Check>
+          <StyledCheckIcon
+            color={secondType == 2 ? COLORS.Primari_1 : COLORS.Color_700}
+          />
+        </Check>
+        <Description>Special introductory pricing</Description>
+      </CheckContainer>
+      <CheckContainer>
+        <Check>
+          <StyledCheckIcon
+            color={secondType == 2 ? COLORS.Primari_1 : COLORS.Color_700}
+          />
+        </Check>
+        <Description>Unlimited Pages and Keywords</Description>
+      </CheckContainer>
+      <CheckContainer>
+        <Check>
+          <StyledCheckIcon
+            color={secondType == 2 ? COLORS.Primari_1 : COLORS.Color_700}
+          />
+        </Check>
+        <Description>Billed annually</Description>
+      </CheckContainer>
     </Root>
   );
 };
