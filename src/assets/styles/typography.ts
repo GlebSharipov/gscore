@@ -24,4 +24,10 @@ export const TYPOGRAPHY = {
     font-weight: 700;
     line-height: 66px;
   `,
+  footer: `
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 30px;`,
 };

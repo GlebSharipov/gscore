@@ -11,6 +11,8 @@ interface PricingCardProps {
   licenseTerm: string;
   features: string[];
   isSecondType?: boolean;
+  isOffset?: boolean;
+  onClick?: () => void;
 }
 
 export const PricingCard: FC<PricingCardProps> = ({
@@ -19,9 +21,11 @@ export const PricingCard: FC<PricingCardProps> = ({
   licenseTerm,
   features,
   isSecondType,
+  isOffset,
+  onClick,
 }) => {
   return (
-    <Root $isSecondType={isSecondType}>
+    <Root $isOffset={isOffset} $isSecondType={isSecondType}>
       <PriceContainer $isSecondType={isSecondType}>
         <Price>${price}</Price>
         <LicenseTerm>{licenseTerm}</LicenseTerm>
@@ -34,17 +38,33 @@ export const PricingCard: FC<PricingCardProps> = ({
         $isSecondType={isSecondType}
         variant="secondary"
         text="Get Gscore"
+        onClick={onClick}
       />
     </Root>
   );
 };
 
-const Root = styled.div<{ $isSecondType?: boolean }>`
+const Root = styled.div<{ $isSecondType?: boolean; $isOffset?: boolean }>`
   max-width: 404px;
   border-radius: 12px;
-  padding: 36px 48px;
+  padding: 42px 48px;
+  transform: ${({ $isOffset }) => $isOffset && "translateY(-50px)"};
   background-color: ${({ $isSecondType }) =>
     $isSecondType ? COLORS.Primari_1 : COLORS.Color_700};
+
+  @media (max-width: 1150px) {
+    transform: translateY(0);
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 1000px) {
+    transform: translateY(0);
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 430px) {
+    padding: 20px 22px;
+  }
 `;
 
 const PriceContainer = styled.div<{ $isSecondType?: boolean }>`

@@ -4,32 +4,30 @@ import styled from "styled-components";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-
-  text?: string;
+  text: string;
   isDisabled?: boolean;
-  variant: "primary" | "secondary" | "text";
+  variant?: "primary" | "secondary" | "text";
   onClick?: () => void;
 }
 
-export const Button: FC<ButtonProps> = ({
-  text,
-  isDisabled,
-  className,
-  variant,
-  onClick,
-}) => {
-  return (
-    <Root
-      className={className}
-      $variant={themes[variant]}
-      $isDisabled={isDisabled}
-      disabled={isDisabled}
-      onClick={onClick}
-    >
-      {text}
-    </Root>
-  );
-};
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ text, isDisabled, className, variant = "primary", onClick }, ref) => {
+    return (
+      <Root
+        ref={ref}
+        className={className}
+        $variant={themes[variant]}
+        $isDisabled={isDisabled}
+        disabled={isDisabled}
+        onClick={onClick}
+      >
+        {text}
+      </Root>
+    );
+  }
+);
+
+Button.displayName = "Button";
 
 const Root = styled.button<{
   $variant: () => string;
@@ -37,7 +35,7 @@ const Root = styled.button<{
 }>`
   max-width: 120px;
   width: 100%;
-  padding: 20px 26px;
+  padding: 20px;
   font-size: 16px;
   border-radius: 4px;
   opacity: ${({ $isDisabled }) => $isDisabled && 0.6};

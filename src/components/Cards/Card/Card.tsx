@@ -4,16 +4,18 @@ import styled from "styled-components";
 import { Button, Status } from "UI";
 import { TYPOGRAPHY } from "assets/styles/typography";
 import dayjs from "dayjs";
+
 interface CardProps {
   isDisabled?: boolean;
   price: string;
+  className?: string;
 }
 
-export const Card: FC<CardProps> = ({ isDisabled, price }) => {
+export const Card: FC<CardProps> = ({ isDisabled, price, className }) => {
   const day = dayjs().format("DD.MM.YYYY");
 
   return (
-    <Root $isDisabled={isDisabled}>
+    <Root className={className} $isDisabled={isDisabled}>
       <StatusContainer>
         <Title>Gscore</Title>
         <Status isActive />
@@ -34,7 +36,8 @@ export const Card: FC<CardProps> = ({ isDisabled, price }) => {
 const Root = styled.div<{ $isDisabled?: boolean }>`
   border-radius: 12px;
   max-width: 620px;
-  background-color: ${COLORS.Color_600};
+  margin-right: 10px;
+  background-color: ${COLORS.Color_700};
   opacity: ${({ $isDisabled }) => $isDisabled && 0.6};
 `;
 
@@ -46,9 +49,9 @@ const StatusContainer = styled.div`
   align-items: center;
   border-bottom: 1px solid ${COLORS.Color_500};
 
-  @media (max-width: 375px) {
+  @media (max-width: 980px) {
     font-size: 20px;
-    padding-right: 40px;
+    padding-right: 20px;
   }
 `;
 
@@ -56,7 +59,7 @@ const Title = styled.h2`
   color: ${COLORS.Color_100};
   font-size: 22px;
 
-  @media (max-width: 375px) {
+  @media (max-width: 980px) {
     font-size: 20px;
   }
 `;
@@ -66,8 +69,8 @@ const LicenseContainer = styled.div`
   justify-content: space-between;
   padding: 32px 80px 48px 32px;
 
-  @media (max-width: 375px) {
-    padding-right: 40px;
+  @media (max-width: 980px) {
+    padding-right: 20px;
   }
 `;
 
@@ -79,11 +82,12 @@ const LeftSide = styled.div`
 
 const TitleLicnse = styled.div`
   margin-right: 20px;
+  margin-bottom: 12px;
   font-size: 24px;
   color: ${COLORS.Color_100};
   ${TYPOGRAPHY.text_single}
 
-  @media (max-width: 375px) {
+  @media (max-width: 980px) {
     font-size: 18px;
   }
 `;
@@ -93,7 +97,7 @@ const ValidUntil = styled.div`
   margin: 2px 0 25px 0;
   font-size: 16px;
   ${TYPOGRAPHY.text_single}
-  @media (max-width: 375px) {
+  @media (max-width: 980px) {
     font-size: 18px;
   }
 `;

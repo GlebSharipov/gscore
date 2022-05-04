@@ -33,3 +33,12 @@
   src: local("DMSans Bold"), local("DMSans-Bold"),
     url("../fonts/DM_Sans/DMSans-Bold.ttf");
 }
+
+@font-face {
+  font-family: "Inter";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  src: local("Inter Medium"), local("Inter-Medium"),
+    url("../fonts/inter/Inter-Medium.ttf");
+}

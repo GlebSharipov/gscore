@@ -20,3 +20,7 @@ export { CopyIcon } from "./CopyIcon";
 export { LogoutIcon } from "./LogoutIcon";
 export { SettingsIcon } from "./SettingsIcon";
 export { BurgerIcon } from "./BurgerIcon";
+export { TwitterIcon } from "./TwitterIcon";
+export { FacebookIcon } from "./FacebookIcon";
+export { LinkedInIcon } from "./LinkedInIcon";
+export { ShoppingBasketIcon } from "./ShoppingBasketIcon";

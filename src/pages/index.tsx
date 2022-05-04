@@ -1,109 +1,114 @@
-import { useState } from "react";
 import type { NextPage } from "next";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { COLORS } from "assets/constant/colors";
-import {
-  Header,
-  Card,
-  CardLicense,
-  PricingCard,
-  TabCreateAccount,
-  TabProfile,
-} from "../components";
-import {
-  userData,
-  cardsLicenseData,
-  pricingCardsData,
-} from "src/components/utils/mock";
-import { Button, Input, Checkbox } from "UI";
+import { PricingCard, TabCreateAccount } from "../components";
+import { pricingCardsData } from "src/components/utils/mock";
 
-const Home: NextPage = () => {
-  const [isChecked, setIsChecked] = useState(false);
-  const [value, setValue] = useState("");
+interface HomeProps {
+  userName?: string;
+}
 
-  const prices = pricingCardsData.map((card) => card.price);
-  const userName = userData["user"];
-
-  const handleChecked = () => {
-    setIsChecked((prevState) => !prevState);
-  };
-
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setValue(e.currentTarget.value);
-  };
+const Home: NextPage<HomeProps> = () => {
+  const [authorization, setAuthorization] = useState(false);
 
   return (
-    <Root>
-      <Header userName={userName} />
+    <>
+      {authorization ? (
+        <Container>
+          <TabCreateAccount />
+        </Container>
+      ) : (
+        <Root>
+          <Title>Get started with Gscore today!</Title>
 
-      <Button variant="text" text="Default" />
-      <Button variant="primary" text="Default" />
-      <Button variant="secondary" text="Default" />
-      <Button isDisabled variant="secondary" text="Default" />
+          <CardContainer>
+            {pricingCardsData.map((card) => (
+              <PricingCard
+                isSecondType={card.isSecondType}
+                key={card.licenseTerm}
+                price={card.price}
+                isOffset={card.offset}
+                licenseTerm={card.licenseTerm}
+                features={card.features}
+                description={card.description}
+                onClick={() => setAuthorization(true)}
+              />
+            ))}
+          </CardContainer>
 
-      <Input
-        result="initial"
-        onChange={handleChange}
-        value={value}
-        placeholder="Placeholder"
-      />
-      <Input
-        isDisabled
-        result="initial"
-        onChange={handleChange}
-        value={value}
-        placeholder="Placeholder"
-      />
-      <Input
-        result="error"
-        onChange={handleChange}
-        value={value}
-        placeholder="Placeholder"
-      />
-      <Input
-        result="success"
-        onChange={handleChange}
-        value={value}
-        placeholder="Placeholder"
-      />
-
-      <Checkbox checked={isChecked} onClick={handleChecked} />
-      <Checkbox checked isDisabled onClick={handleChecked} />
-      <Checkbox isDisabled onClick={handleChecked} />
-
-      <Card price={prices[0]} />
-      <Card price={prices[1]} isDisabled />
-
-      {cardsLicenseData.map((card) => (
-        <CardLicense key={card.code} domain={card.domain} code={card.code} />
-      ))}
-
-      <TabCreateAccount />
-
-      <TabProfile />
-
-      {pricingCardsData.map((card) => (
-        <PricingCard
-          isSecondType={card.isSecondType}
-          key={card.licenseTerm}
-          price={card.price}
-          licenseTerm={card.licenseTerm}
-          features={card.features}
-          description={card.description}
-        />
-      ))}
-    </Root>
+          <ContactUsContainer>
+            <Text>Have more than 10 sites?</Text>
+            <Link>Contact us</Link>
+          </ContactUsContainer>
+        </Root>
+      )}
+    </>
   );
 };
 
 const Root = styled.div`
   width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  overflow-y: auto;
-  position: fixed;
-  background-color: ${COLORS.Color_800};
+  display: flex;
+  flex-direction: column;
+`;
+
+const Title = styled.h1`
+  width: 100%;
+  text-align: center;
+  font-size: 44px;
+  margin-bottom: 48px;
+  color: ${COLORS.Color_100};
+`;
+
+const CardContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-top: 50px;
+  margin-bottom: 33px;
+
+  @media (max-width: 1150px) {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  @media (max-width: 1000px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const Text = styled.div`
+  font-size: 18px;
+  color: ${COLORS.Color_100};
+`;
+
+const Link = styled.a`
+  cursor: pointer;
+  color: ${COLORS.Primari_1};
+  font-size: 18px;
+  border-bottom: 1px solid ${COLORS.Primari_1};
+
+  &:hover {
+    color: ${COLORS.Color_100};
+    border-bottom: 1px solid ${COLORS.Color_100};
+  }
+`;
+
+const ContactUsContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 42px;
+`;
+
+const Container = styled.div`
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
 `;
 
 export default Home;

@@ -27,45 +27,44 @@ const themes = {
   `,
 };
 
-export const Input: FC<InputProps> = ({
-  placeholder,
-  className,
-  isDisabled,
-  value,
-  result,
-  ...props
-}) => {
-  return (
-    <Root>
-      <StyledInput
-        $isDisabled={isDisabled}
-        $result={themes[result]}
-        disabled={isDisabled}
-        value={value}
-        className={className}
-        autoFocus
-        placeholder={placeholder}
-        {...props}
-      />
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ placeholder, className, isDisabled, value, result, ...props }, ref) => {
+    return (
+      <Root className={className}>
+        <StyledInput
+          ref={ref}
+          $isDisabled={isDisabled}
+          $result={themes[result]}
+          disabled={isDisabled}
+          value={value}
+          className={className}
+          autoFocus
+          placeholder={placeholder}
+          {...props}
+        />
 
-      {result == "success" && (
-        <ButtonContainer>
-          <CheckIcon color={COLORS.Green_300} />
-        </ButtonContainer>
-      )}
+        {result == "success" && (
+          <ButtonContainer>
+            <CheckIcon color={COLORS.Green_300} />
+          </ButtonContainer>
+        )}
 
-      {result == "error" && (
-        <ButtonContainer>
-          <CloseIcon color={COLORS.Red_300} />
-        </ButtonContainer>
-      )}
-    </Root>
-  );
-};
+        {result == "error" && (
+          <ButtonContainer>
+            <CloseIcon color={COLORS.Red_300} />
+          </ButtonContainer>
+        )}
+      </Root>
+    );
+  }
+);
 
-const Root = styled.form`
+Input.displayName = "Input";
+
+const Root = styled.div`
   position: relative;
-  max-width: 419px;
+  max-width: 512px;
+  margin-bottom: 24px;
 `;
 
 const StyledInput = styled.input<{
