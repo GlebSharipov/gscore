@@ -3,6 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
+import { UpdateUserForm, UpdatePasswordForm } from "src/components/Forms";
 import { Button, Input } from "UI";
 
 export const TabProfile: FC = () => {
@@ -16,22 +17,12 @@ export const TabProfile: FC = () => {
 
       <StyledTabPanel>
         <Label>Personal Info</Label>
-        <Form>
-          <Input result="initial" placeholder="Username" />
-          <Input result="initial" placeholder="Email" />
-
-          <StyledButton type="submit" text="Save" />
-        </Form>
+        <UpdateUserForm />
       </StyledTabPanel>
 
       <StyledTabPanel>
         <Label>Change password</Label>
-        <Form>
-          <Input result="initial" placeholder="Current Password" />
-          <Input result="initial" placeholder="New Password" />
-
-          <StyledButton type="submit" text="Save" />
-        </Form>
+        <UpdatePasswordForm />
       </StyledTabPanel>
     </StyledTabs>
   );

@@ -6,6 +6,7 @@ import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 import { Button, Input } from "UI";
 import { ShoppingBasketIcon } from "icons";
+import { CreateAccountForm, LoginForm } from "src/components/Forms";
 
 export const TabCreateAccount: FC = () => {
   return (
@@ -23,13 +24,7 @@ export const TabCreateAccount: FC = () => {
           password by email
         </Text>
 
-        <Form>
-          <StyledInput result="initial" placeholder="Username" />
-          <StyledInput result="initial" placeholder="Email" />
-          <StyledInput result="initial" placeholder="Password" />
-
-          <StyledButton type="submit" text="Send password" />
-        </Form>
+        <CreateAccountForm />
 
         <Container>
           Have an account?
@@ -39,12 +34,7 @@ export const TabCreateAccount: FC = () => {
 
       <StyledTabPanel>
         <Title>Log in</Title>
-        <Form>
-          <StyledInput result="initial" placeholder="Email" />
-          <StyledInput result="initial" placeholder="Password" />
-
-          <StyledButton type="submit" text="Log in" />
-        </Form>
+        <LoginForm />
       </StyledTabPanel>
 
       <StyledTabPanel>
