@@ -118,7 +118,7 @@ const Link = styled.a`
 const SocialLink = styled.a`
   cursor: pointer;
 
-  &:hover {
+  &svg:hover {
     transform: scale (1);
     transition: all 0.2s;
   }

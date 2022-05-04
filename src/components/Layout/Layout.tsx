@@ -31,6 +31,7 @@ const Root = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
   width: 100%;
   min-height: 100vh;
   padding: 0 86px 42px;

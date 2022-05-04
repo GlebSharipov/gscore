@@ -15,19 +15,6 @@ export const SliderCard: FC<SliderCardProps> = ({
   numberOfСards,
 }) => {
   const [counter, setCounter] = useState(1);
-  const [disabled, setDisabled] = useState(false);
-
-  const handlePlus = () => {
-    if (counter < numberOfСards) {
-      setCounter(counter + 1);
-    }
-  };
-
-  const handleMinus = () => {
-    if (counter != 1) {
-      setCounter(counter - 1);
-    }
-  };
 
   const settings = {
     dots: false,
@@ -37,27 +24,35 @@ export const SliderCard: FC<SliderCardProps> = ({
     slidesToScroll: 1,
     centerMode: true,
     centerPadding: "25%",
+    afterChange: (current: number) => setCounter(current + 1),
 
     nextArrow: (
-      <SliderButton isNextButton isDisabled={disabled}>
-        <ContainerArrow onClick={handlePlus}>
-          <ArrowRightIcon />
-        </ContainerArrow>
+      <SliderButton isNextButton>
+        <ArrowRightIcon />
       </SliderButton>
     ),
     prevArrow: (
-      <SliderButton isDisabled={disabled}>
-        <ContainerArrow onClick={handleMinus}>
-          <ArrowLeftIcon />
-        </ContainerArrow>
+      <SliderButton>
+        <ArrowLeftIcon />
       </SliderButton>
     ),
     responsive: [
       {
-        breakpoint: 1000,
+        breakpoint: 980,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+          centerPadding: "20%",
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          centerPadding: "15%",
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          centerPadding: "0",
         },
       },
     ],

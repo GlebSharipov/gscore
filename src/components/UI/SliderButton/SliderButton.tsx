@@ -2,14 +2,14 @@ import React, { FC } from "react";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 
-interface SliderArrowsProps {
+interface SliderButtonProps {
   children: React.ReactNode;
   isNextButton?: boolean;
   isDisabled?: boolean;
   onClick?: () => void;
 }
 
-export const SliderButton: FC<SliderArrowsProps> = ({
+export const SliderButton: FC<SliderButtonProps> = ({
   children,
   isNextButton,
   isDisabled,
@@ -29,6 +29,9 @@ export const SliderButton: FC<SliderArrowsProps> = ({
 const Root = styled.button<{ $isDisabled?: boolean; $isNextButton?: boolean }>`
   cursor: pointer;
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   bottom: -70px;
   left: ${({ $isNextButton }) => $isNextButton && "100px"};
   border: 1px solid ${COLORS.Color_500};
