@@ -41,26 +41,26 @@ const UiKit: NextPage = () => {
       <Button isDisabled variant="secondary" text="Default" />
 
       <Input
-        result="initial"
+        variant="initial"
         onChange={handleChange}
         value={value}
         placeholder="Placeholder"
       />
       <Input
         isDisabled
-        result="initial"
+        variant="initial"
         onChange={handleChange}
         value={value}
         placeholder="Placeholder"
       />
       <Input
-        result="error"
+        variant="error"
         onChange={handleChange}
         value={value}
         placeholder="Placeholder"
       />
       <Input
-        result="success"
+        variant="success"
         onChange={handleChange}
         value={value}
         placeholder="Placeholder"

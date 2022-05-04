@@ -9,33 +9,33 @@ import { PriceType } from "src/types";
 interface PricingCardProps {
   prices: PriceType[];
   sitesCount: number;
-  secondType?: number;
-  offset?: number;
+  isSecondType?: boolean;
+  isOffset?: boolean;
   onClick?: () => void;
 }
 
 export const PricingCard: FC<PricingCardProps> = ({
   prices,
   sitesCount,
-  secondType,
-  offset,
+  isSecondType,
+  isOffset,
   onClick,
 }) => {
   return (
-    <Root $offset={offset} $secondType={secondType}>
-      <PriceContainer $secondType={secondType}>
+    <Root $isOffset={isOffset} $isSecondType={isSecondType}>
+      <PriceContainer $isSecondType={isSecondType}>
         <Price>${prices[0].price}</Price>
         <LicenseTerm>{sitesCount} Site license</LicenseTerm>
-        <Text $secondType={secondType}>
+        <Text $isSecondType={isSecondType}>
           Get the advanced WordPress plugin that optimizes content with GSC
           keywords at one low annual price
         </Text>
       </PriceContainer>
 
-      <LicenseFeatures secondType={secondType} sitesCount={sitesCount} />
+      <LicenseFeatures isSecondType={isSecondType} sitesCount={sitesCount} />
 
       <StyledButton
-        $secondType={secondType}
+        $isSecondType={isSecondType}
         variant="secondary"
         text="Get Gscore"
         onClick={onClick}
@@ -44,36 +44,36 @@ export const PricingCard: FC<PricingCardProps> = ({
   );
 };
 
-const Root = styled.div<{ $secondType?: number; $offset?: number }>`
+const Root = styled.div<{ $isSecondType?: boolean; $isOffset?: boolean }>`
   max-width: 404px;
   border-radius: 12px;
   padding: 42px 48px;
-  transform: ${({ $offset }) => $offset == 2 && "translateY(-50px)"};
-  background-color: ${({ $secondType }) =>
-    $secondType == 2 ? COLORS.Primari_1 : COLORS.Color_700};
+  transform: ${({ $isOffset }) => $isOffset && "translateY(-50px)"};
+  background-color: ${({ $isSecondType }) =>
+    $isSecondType ? COLORS.Primari_1 : COLORS.Color_700};
 
-  @media (max-width: 1150px) {
+  @media (max-width: 1200px) {
     transform: translateY(0);
     margin-bottom: 12px;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: 992px) {
     transform: translateY(0);
     margin-bottom: 12px;
   }
 
-  @media (max-width: 430px) {
-    padding: 20px 22px;
+  @media (max-width: 576px) {
+    padding: 20px 26px;
   }
 `;
 
-const PriceContainer = styled.div<{ $secondType?: number }>`
+const PriceContainer = styled.div<{ $isSecondType?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   border-bottom: 1px solid
-    ${({ $secondType }) =>
-      $secondType == 2 ? COLORS.Color_100 : COLORS.Color_500};
+    ${({ $isSecondType }) =>
+      $isSecondType ? COLORS.Color_100 : COLORS.Color_500};
 `;
 
 const Price = styled.h2`
@@ -89,17 +89,17 @@ const LicenseTerm = styled.div`
   color: ${COLORS.Color_100};
 `;
 
-const Text = styled.p<{ $secondType?: number }>`
+const Text = styled.p<{ $isSecondType?: boolean }>`
   font-size: 18px;
   text-align: center;
   word-break: break-all;
   margin: 8px 0 40px;
   ${TYPOGRAPHY.paragraph}
-  color: ${({ $secondType }) =>
-    $secondType == 2 ? COLORS.Color_100 : COLORS.Color_400};
+  color: ${({ $isSecondType }) =>
+    $isSecondType ? COLORS.Color_100 : COLORS.Color_400};
 `;
 
-const StyledButton = styled(Button)<{ $secondType?: number }>`
+const StyledButton = styled(Button)<{ $isSecondType?: boolean }>`
   max-width: 308px;
   width: 100%;
   text-align: center;
@@ -107,5 +107,9 @@ const StyledButton = styled(Button)<{ $secondType?: number }>`
   margin-top: 16px;
   font-size: 18px;
   padding: 26px;
-  color: ${({ $secondType }) => $secondType !== 2 && COLORS.Color_800};
+  color: ${({ $isSecondType }) => $isSecondType && COLORS.Color_800};
+
+  @media (max-width: 576px) {
+    max-width: 360px;
+  }
 `;

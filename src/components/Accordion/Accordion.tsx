@@ -16,7 +16,7 @@ interface AccordionProps {
 export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
   return (
     <Root className={className}>
-      <Collapsible trigger={trigger}>
+      <Collapsible trigger={trigger} transitionTime={200}>
         <Menu>
           <Container>
             <Link href="/settings-profile" passHref>

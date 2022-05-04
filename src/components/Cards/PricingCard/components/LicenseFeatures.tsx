@@ -6,19 +6,19 @@ import { TYPOGRAPHY } from "assets/styles/typography";
 
 interface LicenseFeaturesProps {
   sitesCount: number;
-  secondType?: number;
+  isSecondType?: boolean;
 }
 
 export const LicenseFeatures: FC<LicenseFeaturesProps> = ({
   sitesCount,
-  secondType,
+  isSecondType,
 }) => {
   return (
     <Root>
       <CheckContainer>
         <Check>
           <StyledCheckIcon
-            color={secondType == 2 ? COLORS.Primari_1 : COLORS.Color_700}
+            color={isSecondType ? COLORS.Primari_1 : COLORS.Color_700}
           />
         </Check>
         <Description>All features for {sitesCount} sites</Description>
@@ -26,7 +26,7 @@ export const LicenseFeatures: FC<LicenseFeaturesProps> = ({
       <CheckContainer>
         <Check>
           <StyledCheckIcon
-            color={secondType == 2 ? COLORS.Primari_1 : COLORS.Color_700}
+            color={isSecondType ? COLORS.Primari_1 : COLORS.Color_700}
           />
         </Check>
         <Description>Special introductory pricing</Description>
@@ -34,7 +34,7 @@ export const LicenseFeatures: FC<LicenseFeaturesProps> = ({
       <CheckContainer>
         <Check>
           <StyledCheckIcon
-            color={secondType == 2 ? COLORS.Primari_1 : COLORS.Color_700}
+            color={isSecondType ? COLORS.Primari_1 : COLORS.Color_700}
           />
         </Check>
         <Description>Unlimited Pages and Keywords</Description>
@@ -42,7 +42,7 @@ export const LicenseFeatures: FC<LicenseFeaturesProps> = ({
       <CheckContainer>
         <Check>
           <StyledCheckIcon
-            color={secondType == 2 ? COLORS.Primari_1 : COLORS.Color_700}
+            color={isSecondType ? COLORS.Primari_1 : COLORS.Color_700}
           />
         </Check>
         <Description>Billed annually</Description>
