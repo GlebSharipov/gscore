@@ -49,7 +49,7 @@ const StatusContainer = styled.div`
   align-items: center;
   border-bottom: 1px solid ${COLORS.Color_500};
 
-  @media (max-width: 420px) {
+  @media (max-width: 980px) {
     font-size: 20px;
     padding-right: 20px;
   }
@@ -59,7 +59,7 @@ const Title = styled.h2`
   color: ${COLORS.Color_100};
   font-size: 22px;
 
-  @media (max-width: 420px) {
+  @media (max-width: 980px) {
     font-size: 20px;
   }
 `;
@@ -69,7 +69,7 @@ const LicenseContainer = styled.div`
   justify-content: space-between;
   padding: 32px 80px 48px 32px;
 
-  @media (max-width: 420px) {
+  @media (max-width: 980px) {
     padding-right: 20px;
   }
 `;
@@ -87,7 +87,7 @@ const TitleLicnse = styled.div`
   color: ${COLORS.Color_100};
   ${TYPOGRAPHY.text_single}
 
-  @media (max-width: 420px) {
+  @media (max-width: 980px) {
     font-size: 18px;
   }
 `;
@@ -97,7 +97,7 @@ const ValidUntil = styled.div`
   margin: 2px 0 25px 0;
   font-size: 16px;
   ${TYPOGRAPHY.text_single}
-  @media (max-width: 420px) {
+  @media (max-width: 980px) {
     font-size: 18px;
   }
 `;

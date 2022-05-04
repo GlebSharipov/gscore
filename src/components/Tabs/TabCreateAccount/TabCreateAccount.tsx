@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import Link from "next/link";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { COLORS } from "assets/constant/colors";
@@ -6,11 +7,7 @@ import styled from "styled-components";
 import { Button, Input } from "UI";
 import { ShoppingBasketIcon } from "icons";
 
-interface TabCreateAccountProps {
-  children?: React.ReactNode;
-}
-
-export const TabCreateAccount: FC<TabCreateAccountProps> = ({ children }) => {
+export const TabCreateAccount: FC = () => {
   return (
     <StyledTabs defaultFocus>
       <StyledTabList>
@@ -62,16 +59,19 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({ children }) => {
 
           <СardСontent>
             <NumberOfSites>Single site license</NumberOfSites>
-            <PriceCantainer>
+            <PriceContainer>
               $77 <StyledShoppingBasketIcon />
-            </PriceCantainer>
+            </PriceContainer>
           </СardСontent>
         </CardContainer>
 
         <TotalPrice>
           Total:<Price>$77</Price>
         </TotalPrice>
-        <StyledButton type="submit" text="Purchase" />
+
+        <Link href="/purchase-page" passHref>
+          <StyledButton type="submit" text="Purchase" />
+        </Link>
       </StyledTabPanel>
     </StyledTabs>
   );
@@ -202,7 +202,7 @@ const StyledShoppingBasketIcon = styled(ShoppingBasketIcon)`
   margin-left: 11px;
 `;
 
-const PriceCantainer = styled.div`
+const PriceContainer = styled.div`
   display: flex;
   font-size: 24px;
 `;

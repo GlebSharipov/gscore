@@ -10,25 +10,24 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
 }
 
-export const Button: FC<ButtonProps> = ({
-  text,
-  isDisabled,
-  className,
-  variant = "primary",
-  onClick,
-}) => {
-  return (
-    <Root
-      className={className}
-      $variant={themes[variant]}
-      $isDisabled={isDisabled}
-      disabled={isDisabled}
-      onClick={onClick}
-    >
-      {text}
-    </Root>
-  );
-};
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ text, isDisabled, className, variant = "primary", onClick }, ref) => {
+    return (
+      <Root
+        ref={ref}
+        className={className}
+        $variant={themes[variant]}
+        $isDisabled={isDisabled}
+        disabled={isDisabled}
+        onClick={onClick}
+      >
+        {text}
+      </Root>
+    );
+  }
+);
+
+Button.displayName = "Button";
 
 const Root = styled.button<{
   $variant: () => string;
