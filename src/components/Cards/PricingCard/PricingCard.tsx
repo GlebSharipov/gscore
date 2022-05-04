@@ -10,7 +10,6 @@ interface PricingCardProps {
   prices: PriceType[];
   sitesCount: number;
   isSecondType?: boolean;
-  isOffset?: boolean;
   onClick?: () => void;
 }
 
@@ -18,11 +17,10 @@ export const PricingCard: FC<PricingCardProps> = ({
   prices,
   sitesCount,
   isSecondType,
-  isOffset,
   onClick,
 }) => {
   return (
-    <Root $isOffset={isOffset} $isSecondType={isSecondType}>
+    <Root $isSecondType={isSecondType}>
       <PriceContainer $isSecondType={isSecondType}>
         <Price>${prices[0].price}</Price>
         <LicenseTerm>{sitesCount} Site license</LicenseTerm>
@@ -44,11 +42,11 @@ export const PricingCard: FC<PricingCardProps> = ({
   );
 };
 
-const Root = styled.div<{ $isSecondType?: boolean; $isOffset?: boolean }>`
+const Root = styled.div<{ $isSecondType?: boolean }>`
   max-width: 404px;
   border-radius: 12px;
   padding: 42px 48px;
-  transform: ${({ $isOffset }) => $isOffset && "translateY(-50px)"};
+  transform: ${({ $isSecondType }) => $isSecondType && "translateY(-50px)"};
   background-color: ${({ $isSecondType }) =>
     $isSecondType ? COLORS.Primari_1 : COLORS.Color_700};
 

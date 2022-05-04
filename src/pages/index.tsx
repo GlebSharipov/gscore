@@ -23,13 +23,12 @@ const Home: FC<HomeProps> = ({ products }) => {
           <Title>Get started with Gscore today!</Title>
 
           <CardContainer>
-            {products.map((product: ProductType) => (
+            {products.map((product: ProductType, index) => (
               <PricingCard
                 key={product.id}
                 sitesCount={product.sitesCount}
                 prices={product.prices}
-                isSecondType={product.id == 2}
-                isOffset={product.id == 2}
+                isSecondType={index == 1}
                 onClick={() => setAuthorization(true)}
               />
             ))}

@@ -17,33 +17,25 @@ export const LicenseFeatures: FC<LicenseFeaturesProps> = ({
     <Root>
       <CheckContainer>
         <Check>
-          <StyledCheckIcon
-            color={isSecondType ? COLORS.Primari_1 : COLORS.Color_700}
-          />
+          <StyledCheckIcon $isSecodType={isSecondType} />
         </Check>
         <Description>All features for {sitesCount} sites</Description>
       </CheckContainer>
       <CheckContainer>
         <Check>
-          <StyledCheckIcon
-            color={isSecondType ? COLORS.Primari_1 : COLORS.Color_700}
-          />
+          <StyledCheckIcon $isSecodType={isSecondType} />
         </Check>
         <Description>Special introductory pricing</Description>
       </CheckContainer>
       <CheckContainer>
         <Check>
-          <StyledCheckIcon
-            color={isSecondType ? COLORS.Primari_1 : COLORS.Color_700}
-          />
+          <StyledCheckIcon $isSecodType={isSecondType} />
         </Check>
         <Description>Unlimited Pages and Keywords</Description>
       </CheckContainer>
       <CheckContainer>
         <Check>
-          <StyledCheckIcon
-            color={isSecondType ? COLORS.Primari_1 : COLORS.Color_700}
-          />
+          <StyledCheckIcon $isSecodType={isSecondType} />
         </Check>
         <Description>Billed annually</Description>
       </CheckContainer>
@@ -75,9 +67,13 @@ const Check = styled.div`
   background-color: ${COLORS.Color_100};
 `;
 
-const StyledCheckIcon = styled(CheckIcon)`
+const StyledCheckIcon = styled(CheckIcon)<{ $isSecodType?: boolean }>`
   width: 26px;
   height: 26px;
+  path {
+    stroke: ${({ $isSecodType }) =>
+      $isSecodType ? COLORS.Primari_1 : COLORS.Color_700};
+  }
 `;
 
 const Description = styled.div`
