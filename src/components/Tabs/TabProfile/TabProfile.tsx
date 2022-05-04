@@ -17,8 +17,8 @@ export const TabProfile: FC = () => {
       <StyledTabPanel>
         <Label>Personal Info</Label>
         <Form>
-          <Input result="initial" placeholder="Username" />
-          <Input result="initial" placeholder="Email" />
+          <Input variant="initial" placeholder="Username" />
+          <Input variant="initial" placeholder="Email" />
 
           <StyledButton type="submit" text="Save" />
         </Form>
@@ -27,8 +27,8 @@ export const TabProfile: FC = () => {
       <StyledTabPanel>
         <Label>Change password</Label>
         <Form>
-          <Input result="initial" placeholder="Current Password" />
-          <Input result="initial" placeholder="New Password" />
+          <Input variant="initial" placeholder="Current Password" />
+          <Input variant="initial" placeholder="New Password" />
 
           <StyledButton type="submit" text="Save" />
         </Form>
@@ -43,6 +43,7 @@ const StyledTabs = styled(Tabs)`
   align-items: flex-start;
   font-size: 20px;
   width: 100%;
+  margin-bottom: 20px;
   @media (max-width: 410px) {
     width: 100%;
     font-size: 14px;

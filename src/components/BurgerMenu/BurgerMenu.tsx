@@ -69,7 +69,7 @@ const StyledAccordion = styled(Accordion)`
 const Overlay = styled.div`
   z-index: 20;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   background-color: ${COLORS.Overlay};
   left: 0;
   top: 0;
@@ -93,7 +93,7 @@ const ButtonBurger = styled.button`
   }
   display: none;
 
-  @media (max-width: 550px) {
+  @media (max-width: 576px) {
     display: block;
   }
 `;
@@ -115,7 +115,7 @@ const Title = styled.h2`
   color: ${COLORS.Color_100};
 `;
 
-const Menu = styled.body<{ $isVisible?: boolean }>`
+const Menu = styled.div<{ $isVisible?: boolean }>`
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -127,15 +127,12 @@ const Menu = styled.body<{ $isVisible?: boolean }>`
   height: 100vh;
   padding: 35px 24px 0px 24px;
   background-color: ${COLORS.Color_700};
-  animation-duration: 1s;
+  animation-duration: 0.5s;
   animation-name: fadeInDown;
   position: fixed;
 
   @keyframes fadeInDown {
     0% {
-      transform: translate(-100%);
-    }
-    50% {
       transform: ${({ $isVisible }) =>
         $isVisible ? "translate(0)" : "translate(100%)"};
     }

@@ -4,35 +4,33 @@ import styled from "styled-components";
 import { Button } from "UI";
 import { LicenseFeatures } from "./components";
 import { TYPOGRAPHY } from "assets/styles/typography";
+import { PriceType } from "src/types";
 
 interface PricingCardProps {
-  price: string;
-  description: string;
-  licenseTerm: string;
-  features: string[];
+  prices: PriceType[];
+  sitesCount: number;
   isSecondType?: boolean;
-  isOffset?: boolean;
   onClick?: () => void;
 }
 
 export const PricingCard: FC<PricingCardProps> = ({
-  price,
-  description,
-  licenseTerm,
-  features,
+  prices,
+  sitesCount,
   isSecondType,
-  isOffset,
   onClick,
 }) => {
   return (
-    <Root $isOffset={isOffset} $isSecondType={isSecondType}>
+    <Root $isSecondType={isSecondType}>
       <PriceContainer $isSecondType={isSecondType}>
-        <Price>${price}</Price>
-        <LicenseTerm>{licenseTerm}</LicenseTerm>
-        <Text $isSecondType={isSecondType}>{description}</Text>
+        <Price>${prices[0].price}</Price>
+        <LicenseTerm>{sitesCount} Site license</LicenseTerm>
+        <Text $isSecondType={isSecondType}>
+          Get the advanced WordPress plugin that optimizes content with GSC
+          keywords at one low annual price
+        </Text>
       </PriceContainer>
 
-      <LicenseFeatures isSecondType={isSecondType} features={features} />
+      <LicenseFeatures isSecondType={isSecondType} sitesCount={sitesCount} />
 
       <StyledButton
         $isSecondType={isSecondType}
@@ -44,26 +42,26 @@ export const PricingCard: FC<PricingCardProps> = ({
   );
 };
 
-const Root = styled.div<{ $isSecondType?: boolean; $isOffset?: boolean }>`
+const Root = styled.div<{ $isSecondType?: boolean }>`
   max-width: 404px;
   border-radius: 12px;
   padding: 42px 48px;
-  transform: ${({ $isOffset }) => $isOffset && "translateY(-50px)"};
+  transform: ${({ $isSecondType }) => $isSecondType && "translateY(-50px)"};
   background-color: ${({ $isSecondType }) =>
     $isSecondType ? COLORS.Primari_1 : COLORS.Color_700};
 
-  @media (max-width: 1150px) {
+  @media (max-width: 1200px) {
     transform: translateY(0);
     margin-bottom: 12px;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: 992px) {
     transform: translateY(0);
     margin-bottom: 12px;
   }
 
-  @media (max-width: 430px) {
-    padding: 20px 22px;
+  @media (max-width: 576px) {
+    padding: 20px 26px;
   }
 `;
 
@@ -107,5 +105,9 @@ const StyledButton = styled(Button)<{ $isSecondType?: boolean }>`
   margin-top: 16px;
   font-size: 18px;
   padding: 26px;
-  color: ${({ $isSecondType }) => !$isSecondType && COLORS.Color_800};
+  color: ${({ $isSecondType }) => $isSecondType && COLORS.Color_800};
+
+  @media (max-width: 576px) {
+    max-width: 360px;
+  }
 `;

@@ -24,9 +24,9 @@ export const TabCreateAccount: FC = () => {
         </Text>
 
         <Form>
-          <StyledInput result="initial" placeholder="Username" />
-          <StyledInput result="initial" placeholder="Email" />
-          <StyledInput result="initial" placeholder="Password" />
+          <StyledInput variant="initial" placeholder="Username" />
+          <StyledInput variant="initial" placeholder="Email" />
+          <StyledInput variant="initial" placeholder="Password" />
 
           <StyledButton type="submit" text="Send password" />
         </Form>
@@ -40,8 +40,8 @@ export const TabCreateAccount: FC = () => {
       <StyledTabPanel>
         <Title>Log in</Title>
         <Form>
-          <StyledInput result="initial" placeholder="Email" />
-          <StyledInput result="initial" placeholder="Password" />
+          <StyledInput variant="initial" placeholder="Email" />
+          <StyledInput variant="initial" placeholder="Password" />
 
           <StyledButton type="submit" text="Log in" />
         </Form>
@@ -80,6 +80,7 @@ export const TabCreateAccount: FC = () => {
 const StyledTabs = styled(Tabs)`
   font-size: 20px;
   width: 100%;
+  margin-bottom: 20px;
   @media (max-width: 375px) {
     width: 100%;
     font-size: 14px;

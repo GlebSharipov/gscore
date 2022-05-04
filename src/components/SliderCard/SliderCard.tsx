@@ -38,19 +38,19 @@ export const SliderCard: FC<SliderCardProps> = ({
     ),
     responsive: [
       {
-        breakpoint: 980,
+        breakpoint: 992,
         settings: {
           centerPadding: "20%",
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
         settings: {
           centerPadding: "15%",
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 576,
         settings: {
           centerPadding: "0",
         },

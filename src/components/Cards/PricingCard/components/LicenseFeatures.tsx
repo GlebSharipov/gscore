@@ -5,26 +5,40 @@ import { CheckIcon } from "icons";
 import { TYPOGRAPHY } from "assets/styles/typography";
 
 interface LicenseFeaturesProps {
-  features: string[];
+  sitesCount: number;
   isSecondType?: boolean;
 }
 
 export const LicenseFeatures: FC<LicenseFeaturesProps> = ({
-  features,
+  sitesCount,
   isSecondType,
 }) => {
   return (
     <Root>
-      {features.map((text, index) => (
-        <CheckContainer key={index}>
-          <Check>
-            <StyledCheckIcon
-              color={isSecondType ? COLORS.Primari_1 : COLORS.Color_700}
-            />
-          </Check>
-          <Description>{text}</Description>
-        </CheckContainer>
-      ))}
+      <CheckContainer>
+        <Check>
+          <StyledCheckIcon $isSecodType={isSecondType} />
+        </Check>
+        <Description>All features for {sitesCount} sites</Description>
+      </CheckContainer>
+      <CheckContainer>
+        <Check>
+          <StyledCheckIcon $isSecodType={isSecondType} />
+        </Check>
+        <Description>Special introductory pricing</Description>
+      </CheckContainer>
+      <CheckContainer>
+        <Check>
+          <StyledCheckIcon $isSecodType={isSecondType} />
+        </Check>
+        <Description>Unlimited Pages and Keywords</Description>
+      </CheckContainer>
+      <CheckContainer>
+        <Check>
+          <StyledCheckIcon $isSecodType={isSecondType} />
+        </Check>
+        <Description>Billed annually</Description>
+      </CheckContainer>
     </Root>
   );
 };
@@ -53,9 +67,13 @@ const Check = styled.div`
   background-color: ${COLORS.Color_100};
 `;
 
-const StyledCheckIcon = styled(CheckIcon)`
+const StyledCheckIcon = styled(CheckIcon)<{ $isSecodType?: boolean }>`
   width: 26px;
   height: 26px;
+  path {
+    stroke: ${({ $isSecodType }) =>
+      $isSecodType ? COLORS.Primari_1 : COLORS.Color_700};
+  }
 `;
 
 const Description = styled.div`

@@ -85,9 +85,11 @@ const StyledButton = styled(Button)`
 
 const LicenseContainer = styled.div`
   width: 100%;
-  @media (max-width: 1000px) {
+  @media (max-width: 1200px) {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+    align-content: space-around;
   }
 `;
 

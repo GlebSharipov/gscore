@@ -1,15 +1,15 @@
-import type { NextPage } from "next";
-import React, { useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import styled from "styled-components";
 import { COLORS } from "assets/constant/colors";
 import { PricingCard, TabCreateAccount } from "../components";
-import { pricingCardsData } from "src/components/utils/mock";
+import { getProducts } from "src/services/requests";
+import { ProductType } from "src/types";
 
 interface HomeProps {
-  userName?: string;
+  products: ProductType[];
 }
 
-const Home: NextPage<HomeProps> = () => {
+const Home: FC<HomeProps> = ({ products }) => {
   const [authorization, setAuthorization] = useState(false);
 
   return (
@@ -23,15 +23,12 @@ const Home: NextPage<HomeProps> = () => {
           <Title>Get started with Gscore today!</Title>
 
           <CardContainer>
-            {pricingCardsData.map((card) => (
+            {products.map((product: ProductType, index) => (
               <PricingCard
-                isSecondType={card.isSecondType}
-                key={card.licenseTerm}
-                price={card.price}
-                isOffset={card.offset}
-                licenseTerm={card.licenseTerm}
-                features={card.features}
-                description={card.description}
+                key={product.id}
+                sitesCount={product.sitesCount}
+                prices={product.prices}
+                isSecondType={index == 1}
                 onClick={() => setAuthorization(true)}
               />
             ))}
@@ -110,5 +107,13 @@ const Container = styled.div`
   flex-direction: column;
   margin: auto;
 `;
+
+export async function getStaticProps() {
+  const products = await getProducts();
+
+  return {
+    props: { products },
+  };
+}
 
 export default Home;
