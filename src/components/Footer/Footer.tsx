@@ -88,7 +88,7 @@ const BottomPartFooter = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  @media (max-width: 500px) {
+  @media (max-width: 576px) {
     flex-direction: column;
     justify-content: center;
   }
@@ -98,7 +98,7 @@ const Copyright = styled.div`
   font-size: 18px;
   color: ${COLORS.Color_400};
   ${TYPOGRAPHY.footer}
-  @media (max-width: 500px) {
+  @media (max-width: 576px) {
     text-align: center;
     margin-bottom: 20px;
   }
@@ -117,10 +117,8 @@ const Link = styled.a`
 
 const SocialLink = styled.a`
   cursor: pointer;
-
-  &svg:hover {
-    transform: scale (1);
-    transition: all 0.2s;
+  &:hover {
+    border-bottom: 1px solid ${COLORS.Primari_1};
   }
 `;
 

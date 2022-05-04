@@ -1,10 +1,9 @@
-import type { NextPage, GetServerSideProps, GetStaticProps } from "next";
 import React, { FC, useState, useEffect } from "react";
 import styled from "styled-components";
 import { COLORS } from "assets/constant/colors";
 import { PricingCard, TabCreateAccount } from "../components";
-import { productAPI, codeAPI } from "src/pages/services/requests";
-import { ProductType, SignUpRequestType, SignUpResponseType } from "src/types";
+import { getProducts } from "src/services/requests";
+import { ProductType } from "src/types";
 
 interface HomeProps {
   products: ProductType[];
@@ -24,13 +23,12 @@ const Home: FC<HomeProps> = ({ products }) => {
           <Title>Get started with Gscore today!</Title>
 
           <CardContainer>
-            {products.map((product: ProductType) => (
+            {products.map((product: ProductType, index) => (
               <PricingCard
                 key={product.id}
                 sitesCount={product.sitesCount}
                 prices={product.prices}
-                secondType={product.id}
-                offset={product.id}
+                isSecondType={index == 1}
                 onClick={() => setAuthorization(true)}
               />
             ))}
@@ -111,7 +109,7 @@ const Container = styled.div`
 `;
 
 export async function getStaticProps() {
-  const products = await productAPI.getProducts();
+  const products = await getProducts();
 
   return {
     props: { products },

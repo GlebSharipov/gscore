@@ -50,15 +50,15 @@
   margin-left: -50%;
   margin-right: auto;
 
-  @media (max-width: 980px) {
+  @media (max-width: 992px) {
     margin-left: -35%;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     margin-left: -25%;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 576px) {
     margin-left: 0;
   }
 }

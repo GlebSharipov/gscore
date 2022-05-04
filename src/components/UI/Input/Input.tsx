@@ -10,7 +10,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   isDisabled?: boolean;
   placeholder?: string;
   value?: string;
-  result: "success" | "error" | "initial";
+  variant: "success" | "error" | "initial";
 }
 
 const themes = {
@@ -28,13 +28,13 @@ const themes = {
 };
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ placeholder, className, isDisabled, value, result, ...props }, ref) => {
+  ({ placeholder, className, isDisabled, value, variant, ...props }, ref) => {
     return (
       <Root className={className}>
         <StyledInput
           ref={ref}
           $isDisabled={isDisabled}
-          $result={themes[result]}
+          $variant={themes[variant]}
           disabled={isDisabled}
           value={value}
           className={className}
@@ -43,13 +43,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
 
-        {result == "success" && (
+        {variant == "success" && (
           <ButtonContainer>
             <CheckIcon color={COLORS.Green_300} />
           </ButtonContainer>
         )}
 
-        {result == "error" && (
+        {variant == "error" && (
           <ButtonContainer>
             <CloseIcon color={COLORS.Red_300} />
           </ButtonContainer>
@@ -69,7 +69,7 @@ const Root = styled.div`
 
 const StyledInput = styled.input<{
   $isDisabled?: boolean;
-  $result?: () => string;
+  $variant?: () => string;
 }>`
   ${TYPOGRAPHY.text_single}
   width: 100%;
@@ -78,7 +78,7 @@ const StyledInput = styled.input<{
   border-radius: 6px;
   background-color: ${COLORS.Color_100};
   opacity: ${({ $isDisabled }) => $isDisabled && 0.6};
-  ${({ $result }) => $result}
+  ${({ $variant }) => $variant}
 `;
 
 const ButtonContainer = styled.button`

@@ -70,6 +70,7 @@ export const TabCreateAccount: FC = () => {
 const StyledTabs = styled(Tabs)`
   font-size: 20px;
   width: 100%;
+  margin-bottom: 20px;
   @media (max-width: 375px) {
     width: 100%;
     font-size: 14px;

@@ -12,8 +12,6 @@ export interface pricingCard {
   features: string[];
 }
 
-//==========================
-
 export type BuySubscribeResponseType = {
   subscribe: {
     userId: number;
@@ -24,8 +22,6 @@ export type BuySubscribeResponseType = {
     id: number;
   };
 };
-
-//==========================
 
 export type PriceType = {
   id: number;
@@ -40,8 +36,6 @@ export type ProductType = {
   name: string;
   prices: PriceType[];
 };
-
-//==========================
 
 export type UserType = {
   id: number;
@@ -93,8 +87,6 @@ export type UpdatePasswordResponseType = {
   username: string;
 };
 
-//==========================
-
 export type CodeType = {
   id: number;
   code: string;
@@ -108,7 +100,6 @@ export type CodeManageRequestType = {
   codesIds: number[];
   subscribeId: number;
 };
-//==========================
 
 export type SubscribesResponseType = {
   id: number;

@@ -62,7 +62,7 @@ const ContainerLogo = styled.a`
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  @media (max-width: 550px) {
+  @media (max-width: 576px) {
     display: none;
   }
 `;

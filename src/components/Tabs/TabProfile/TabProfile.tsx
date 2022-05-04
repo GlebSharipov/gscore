@@ -34,6 +34,7 @@ const StyledTabs = styled(Tabs)`
   align-items: flex-start;
   font-size: 20px;
   width: 100%;
+  margin-bottom: 20px;
   @media (max-width: 410px) {
     width: 100%;
     font-size: 14px;
