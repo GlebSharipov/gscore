@@ -11,6 +11,7 @@ interface PricingCardProps {
   sitesCount: number;
   isSecondType?: boolean;
   onClick?: () => void;
+  onCardClick?: () => void;
 }
 
 export const PricingCard: FC<PricingCardProps> = ({
@@ -18,9 +19,10 @@ export const PricingCard: FC<PricingCardProps> = ({
   sitesCount,
   isSecondType,
   onClick,
+  onCardClick,
 }) => {
   return (
-    <Root $isSecondType={isSecondType}>
+    <Root onClick={onCardClick} $isSecondType={isSecondType}>
       <PriceContainer $isSecondType={isSecondType}>
         <Price>${prices[0].price}</Price>
         <LicenseTerm>{sitesCount} Site license</LicenseTerm>

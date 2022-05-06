@@ -1,16 +1,38 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Link from "next/link";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
-import { Button, Input } from "UI";
+import { Button } from "UI";
 import { ShoppingBasketIcon } from "icons";
 import { CreateAccountForm, LoginForm } from "src/components/Forms";
+import { buySubscribe } from "src/services/requests";
+import { ProductType } from "src/types";
 
-export const TabCreateAccount: FC = () => {
+interface TabCreateAccountProps {
+  product: ProductType;
+  index?: number;
+}
+
+export const TabCreateAccount: FC<TabCreateAccountProps> = ({
+  product,
+  index = 0,
+}) => {
+  const [tabIndex, setTabIndex] = useState(index);
+  const { name, prices, id } = product;
+
+  const handlePurchaseSubscribe = async () => {
+    await buySubscribe(id);
+  };
+
   return (
-    <StyledTabs defaultFocus>
+    <StyledTabs
+      defaultFocus
+      selectedIndex={tabIndex}
+      onSelect={(index) => setTabIndex(index)}
+      focusTabOnClick={true}
+    >
       <StyledTabList>
         <StyledTab>Create account</StyledTab>
         <StyledTab>Log in</StyledTab>
@@ -24,7 +46,7 @@ export const TabCreateAccount: FC = () => {
           password by email
         </Text>
 
-        <CreateAccountForm />
+        <CreateAccountForm onClick={() => setTabIndex(2)} />
 
         <Container>
           Have an account?
@@ -48,19 +70,23 @@ export const TabCreateAccount: FC = () => {
           <Line />
 
           <СardСontent>
-            <NumberOfSites>Single site license</NumberOfSites>
+            <NumberOfSites>{name} license</NumberOfSites>
             <PriceContainer>
-              $77 <StyledShoppingBasketIcon />
+              ${prices[0].price} <StyledShoppingBasketIcon />
             </PriceContainer>
           </СardСontent>
         </CardContainer>
 
         <TotalPrice>
-          Total:<Price>$77</Price>
+          Total:<Price>${prices[0].price}</Price>
         </TotalPrice>
 
         <Link href="/purchase-page" passHref>
-          <StyledButton type="submit" text="Purchase" />
+          <StyledButton
+            onClick={handlePurchaseSubscribe}
+            type="submit"
+            text="Purchase"
+          />
         </Link>
       </StyledTabPanel>
     </StyledTabs>
@@ -118,18 +144,10 @@ const Title = styled.h2`
   margin-bottom: 16px;
 `;
 
-const StyledInput = styled(Input)`
-  max-width: 620px;
-`;
-
 const Text = styled.div`
   font-size: 14px;
   color: ${COLORS.Color_100};
   margin-bottom: 32px;
-`;
-
-const Form = styled.form`
-  width: 100%;
 `;
 
 const StyledButton = styled(Button)`

@@ -9,9 +9,17 @@ interface CardProps {
   isDisabled?: boolean;
   price: string;
   className?: string;
+  cardName: string;
+  onClick: () => void;
 }
 
-export const Card: FC<CardProps> = ({ isDisabled, price, className }) => {
+export const Card: FC<CardProps> = ({
+  isDisabled,
+  price,
+  className,
+  cardName,
+  onClick,
+}) => {
   const day = dayjs().format("DD.MM.YYYY");
 
   return (
@@ -23,9 +31,14 @@ export const Card: FC<CardProps> = ({ isDisabled, price, className }) => {
 
       <LicenseContainer>
         <LeftSide>
-          <TitleLicnse>Single site license</TitleLicnse>
+          <TitleLicnse>{cardName} license</TitleLicnse>
           <ValidUntil>valid until {day}</ValidUntil>
-          <Button variant="secondary" isDisabled={isDisabled} text="View" />
+          <Button
+            onClick={onClick}
+            variant="secondary"
+            isDisabled={isDisabled}
+            text="View"
+          />
         </LeftSide>
         <Price>${price}</Price>
       </LicenseContainer>

@@ -3,7 +3,7 @@ import { COLORS } from "assets/constant/colors";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
-import { userAPI } from "src/pages/services/requests";
+import { signIn } from "src/services/requests";
 import { SignInRequestType, SignInResponseType } from "src/types";
 
 export const LoginForm = () => {
@@ -14,8 +14,10 @@ export const LoginForm = () => {
     formState: { errors },
   } = useForm<SignInRequestType>();
 
-  const handleLogInSubmit: SubmitHandler<SignInRequestType> = (data) => {
-    userAPI.signIn(data);
+  const handleLogInSubmit: SubmitHandler<SignInRequestType> = async (data) => {
+    const { user } = await signIn(data);
+    localStorage.setItem("userName", user.username);
+
     reset();
   };
 
@@ -27,7 +29,7 @@ export const LoginForm = () => {
         {...register("email", {
           required: "field cannot be empty",
         })}
-        result="initial"
+        variant="initial"
         placeholder="Email"
       />
 
@@ -40,7 +42,7 @@ export const LoginForm = () => {
             message: "password cannot be shorter than 6 characters ",
           },
         })}
-        result="initial"
+        variant="initial"
         type="password"
         placeholder="Password"
       />

@@ -7,11 +7,10 @@ import { TYPOGRAPHY } from "assets/styles/typography";
 import { Accordion } from "../Accordion";
 
 interface BurgerMenuProps {
-  isVisible?: boolean;
-  userName?: string;
+  userName: string | null;
 }
 
-export const BurgerMenu: FC<BurgerMenuProps> = ({ isVisible, userName }) => {
+export const BurgerMenu: FC<BurgerMenuProps> = ({ userName }) => {
   const [visibleMenu, setVisibleMenu] = useState(false);
 
   const handleVisibleMenu = () => {

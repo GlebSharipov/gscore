@@ -9,6 +9,19 @@ class ApiService {
     this.request = axios.create({
       baseURL: `${BASE_URL}/`,
     });
+    this.request.interceptors.request.use(function (config: any) {
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("token");
+
+        const Authorization = `Bearer ${token}`;
+        return {
+          ...config,
+          headers: { ...config.headers, Authorization },
+        };
+      }
+
+      return config;
+    });
   }
 
   get = <T>(url: string) => this.request.get<T>(url);

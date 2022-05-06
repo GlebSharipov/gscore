@@ -14,6 +14,9 @@ interface AccordionProps {
 }
 
 export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
+  const hahdleLogout = () => {
+    localStorage.removeItem("userName");
+  };
   return (
     <Root className={className}>
       <Collapsible trigger={trigger} transitionTime={200}>
@@ -28,7 +31,7 @@ export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
           </Container>
 
           <Container>
-            <LogoutButton>
+            <LogoutButton onClick={hahdleLogout}>
               <LogoutIcon />
               <Text>Logout</Text>
             </LogoutButton>

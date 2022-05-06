@@ -3,7 +3,7 @@ import { COLORS } from "assets/constant/colors";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
-import { userAPI } from "src/pages/services/requests";
+import { updatePassword } from "src/services/requests";
 import {
   UpdatePasswordRequestType,
   UpdatePasswordResponseType,
@@ -20,7 +20,7 @@ export const UpdatePasswordForm = () => {
   const handleLogInSubmit: SubmitHandler<UpdatePasswordRequestType> = (
     data
   ) => {
-    userAPI.updatePassword(data);
+    updatePassword(data);
     reset();
   };
 
@@ -38,7 +38,7 @@ export const UpdatePasswordForm = () => {
           },
         })}
         type="password"
-        result="initial"
+        variant="initial"
         placeholder="Current Password"
       />
 
@@ -51,7 +51,7 @@ export const UpdatePasswordForm = () => {
             message: "password cannot be shorter than 6 characters ",
           },
         })}
-        result="initial"
+        variant="initial"
         type="password"
         placeholder="New Password"
       />

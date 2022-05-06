@@ -7,14 +7,16 @@ import { CopyIcon } from "icons";
 
 interface CardLicenseProps {
   className?: string;
-  code?: string;
-  domain?: string;
+  code: string;
+  domain: string;
+  onClick: () => void;
 }
 
 export const CardLicense: FC<CardLicenseProps> = ({
   className,
   code,
   domain,
+  onClick,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
 
@@ -44,7 +46,9 @@ export const CardLicense: FC<CardLicenseProps> = ({
       </DomainContainer>
 
       <StatusContainer>
-        {!domain && <StyledButton variant="secondary" text="Activate" />}
+        {!domain && (
+          <StyledButton onClick={onClick} variant="secondary" text="Activate" />
+        )}
         <TitleContainer>
           <TitleStatus>Status</TitleStatus>
           {domain ? <Status isActive /> : <Status isInactive />}

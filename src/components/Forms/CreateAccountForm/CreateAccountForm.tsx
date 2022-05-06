@@ -3,10 +3,14 @@ import { COLORS } from "assets/constant/colors";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
-import { userAPI } from "src/pages/services/requests";
+import { signUp } from "src/services/requests";
 import { SignUpRequestType, SignUpResponseType } from "src/types";
 
-export const CreateAccountForm = () => {
+interface CreateAccountFormProps {
+  onClick: () => void;
+}
+
+export const CreateAccountForm: FC<CreateAccountFormProps> = ({ onClick }) => {
   const {
     register,
     handleSubmit,
@@ -14,9 +18,12 @@ export const CreateAccountForm = () => {
     formState: { errors },
   } = useForm<SignUpRequestType>();
 
-  const handleRegisterSubmit: SubmitHandler<SignUpRequestType> = (data) => {
-    const token = userAPI.signUp(data).then((res) => res.data);
-    localStorage.setItem("token", JSON.stringify(token));
+  const handleRegisterSubmit: SubmitHandler<SignUpRequestType> = async (
+    data
+  ) => {
+    const { token } = await signUp(data);
+    localStorage.setItem("token", token);
+
     reset();
   };
 
@@ -27,7 +34,7 @@ export const CreateAccountForm = () => {
         {...register("username", {
           required: "field cannot be empty",
         })}
-        result="initial"
+        variant="initial"
         placeholder="Username"
       />
 
@@ -37,7 +44,7 @@ export const CreateAccountForm = () => {
           required: "field cannot be empty",
         })}
         type="email"
-        result="initial"
+        variant="initial"
         placeholder="Email"
       />
 
@@ -50,12 +57,12 @@ export const CreateAccountForm = () => {
             message: "password cannot be shorter than 6 characters ",
           },
         })}
-        result="initial"
+        variant="initial"
         type="password"
         placeholder="Password"
       />
 
-      <StyledButton type="submit" text="Send password" />
+      <StyledButton onClick={onClick} type="submit" text="Send password" />
     </Root>
   );
 };

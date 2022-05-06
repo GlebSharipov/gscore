@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
 import styled from "styled-components";
 import { Header } from "../Header";
 import { Footer } from "../Footer";
@@ -7,10 +7,16 @@ import { COLORS } from "assets/constant/colors";
 
 interface LoyoutProps {
   children: React.ReactNode;
-  userName?: string;
 }
 
-export const Layout: FC<LoyoutProps> = ({ children, userName }) => {
+export const Layout: FC<LoyoutProps> = ({ children }) => {
+  const [userName, setUserName] = useState<string | null>("");
+
+  useEffect(() => {
+    const userName = localStorage.getItem("userName");
+    setUserName(userName);
+  }, []);
+
   return (
     <Root>
       <Container>

@@ -117,6 +117,7 @@ const Link = styled.a`
 
 const SocialLink = styled.a`
   cursor: pointer;
+  border-bottom: 1px solid;
   &:hover {
     border-bottom: 1px solid ${COLORS.Primari_1};
   }

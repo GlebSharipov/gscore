@@ -7,16 +7,29 @@ import { ProductType } from "src/types";
 
 interface HomeProps {
   products: ProductType[];
+  isToken?: boolean;
 }
 
 const Home: FC<HomeProps> = ({ products }) => {
   const [authorization, setAuthorization] = useState(false);
+  const [cardIndex, setCardIndex] = useState(0);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userName = localStorage.getItem("userName");
+    if (userName && token) {
+      setIndex(2);
+    } else if (token) {
+      setIndex(1);
+    }
+  }, []);
 
   return (
     <>
       {authorization ? (
         <Container>
-          <TabCreateAccount />
+          <TabCreateAccount index={index} product={products[cardIndex]} />
         </Container>
       ) : (
         <Root>
@@ -30,6 +43,7 @@ const Home: FC<HomeProps> = ({ products }) => {
                 prices={product.prices}
                 isSecondType={index == 1}
                 onClick={() => setAuthorization(true)}
+                onCardClick={() => setCardIndex(index)}
               />
             ))}
           </CardContainer>

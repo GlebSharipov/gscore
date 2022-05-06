@@ -7,7 +7,7 @@ import { ArrowRightIcon, ArrowLeftIcon } from "icons";
 
 interface SliderCardProps {
   children?: React.ReactNode;
-  numberOfСards: number;
+  numberOfСards?: number;
 }
 
 export const SliderCard: FC<SliderCardProps> = ({

@@ -9,7 +9,7 @@ import { TYPOGRAPHY } from "assets/styles/typography";
 import { BurgerMenu } from "../BurgerMenu";
 
 interface HeaderProps {
-  userName?: string;
+  userName: string | null;
 }
 
 export const Header: FC<HeaderProps> = ({ userName }) => {

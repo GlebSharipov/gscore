@@ -1,18 +1,52 @@
 import type { NextPage } from "next";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { COLORS } from "assets/constant/colors";
 import { CardLicense, Card, SliderCard } from "../components";
 import { Button } from "../components/UI";
-import { pricingCardsData, cardsLicenseData } from "src/components/utils/mock";
 import { CloseIcon } from "icons";
+import { SubscribesResponseType, CodeType } from "src/types";
+import { subscribeSelf, codeActivate } from "src/services/requests";
+
+// export async function getStaticProps() {
+//   const subscriptionsData = await subscribeSelf();
+//   console.log(subscriptionsData);
+
+//   return {
+//     props: {
+//       subscriptionsData,
+//     },
+//   };
+// }
+
+// interface SubscriptionsProps {
+//   subscriptionsData: SubscribesResponseType[];
+// }
 
 const Subscriptions: NextPage = () => {
-  const prices = pricingCardsData.map((card) => card.price);
-  const numberOfСards = prices.length;
+  const [subscribes, setSubscribes] = useState<SubscribesResponseType[]>([]);
+  const [codes, setCodes] = useState<CodeType[]>([]);
+  const numberOfСards = subscribes?.length;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const subscribes = await subscribeSelf();
+      setSubscribes(subscribes);
+    };
+    fetchData();
+  }, []);
+
+  const handleGetCodes = async (index: number) => {
+    setCodes(subscribes[index].codes);
+  };
+
+  const handleCodeActivate = async (code: string) => {
+    await codeActivate(code);
+  };
 
   return (
     <Root>
-      {prices ? (
+      {numberOfСards ? (
         <>
           <TitleContainer>
             <Title>My subscriptions</Title>
@@ -20,17 +54,23 @@ const Subscriptions: NextPage = () => {
           </TitleContainer>
 
           <SliderCard numberOfСards={numberOfСards}>
-            {prices.map((price) => (
-              <Card key={price} price={price} />
+            {subscribes?.map((subscribe, index) => (
+              <Card
+                key={subscribe.id}
+                onClick={() => handleGetCodes(index)}
+                price={subscribe.product.prices[0].price}
+                cardName={subscribe.product.name}
+              />
             ))}
           </SliderCard>
 
           <LicenseContainer>
-            {cardsLicenseData.map((card) => (
+            {codes.map((code) => (
               <StyledCardLicense
-                key={card.code}
-                domain={card.domain}
-                code={card.code}
+                key={code.id}
+                code={code.code}
+                domain={code.origin}
+                onClick={() => handleCodeActivate(code.code)}
               />
             ))}
           </LicenseContainer>

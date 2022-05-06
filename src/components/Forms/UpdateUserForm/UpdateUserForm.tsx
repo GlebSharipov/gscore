@@ -3,7 +3,7 @@ import { COLORS } from "assets/constant/colors";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
-import { userAPI } from "src/pages/services/requests";
+import { updateUser } from "src/services/requests";
 import { UpdateUserRequestType, UpdateUserResponseType } from "src/types";
 
 export const UpdateUserForm = () => {
@@ -15,7 +15,7 @@ export const UpdateUserForm = () => {
   } = useForm<UpdateUserRequestType>();
 
   const handleLogInSubmit: SubmitHandler<UpdateUserRequestType> = (data) => {
-    userAPI.updateUser(data);
+    updateUser(data);
     reset();
   };
 
@@ -26,7 +26,7 @@ export const UpdateUserForm = () => {
         {...register("username", {
           required: "field cannot be empty",
         })}
-        result="initial"
+        variant="initial"
         placeholder="User Name"
       />
 
@@ -35,7 +35,7 @@ export const UpdateUserForm = () => {
         {...register("email", {
           required: "field cannot be empty",
         })}
-        result="initial"
+        variant="initial"
         type="email"
         placeholder="Email"
       />

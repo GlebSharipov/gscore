@@ -65,7 +65,9 @@ export const codeManage = async ({
 };
 
 export const subscribeSelf = async () => {
-  return get<SubscribesResponseType>(Endpoints.SUBSCRIBE_SELF);
+  return get<SubscribesResponseType[]>(Endpoints.SUBSCRIBE_SELF).then(
+    (res) => res.data
+  );
 };
 
 export const subscribeChangeProduct = async ({
@@ -76,7 +78,9 @@ export const subscribeChangeProduct = async ({
 };
 
 export const signIn = async ({ email, password }: SignInRequestType) => {
-  return post<SignInResponseType>(Endpoints.SIGN_IN, { email, password });
+  return post<SignInResponseType>(Endpoints.SIGN_IN, { email, password }).then(
+    (res) => res.data
+  );
 };
 
 export const signUp = async ({
@@ -88,7 +92,7 @@ export const signUp = async ({
     email,
     username,
     password,
-  });
+  }).then((res) => res.data);
 };
 
 export const updateUser = async ({
