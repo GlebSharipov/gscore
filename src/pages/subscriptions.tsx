@@ -8,32 +8,17 @@ import { CloseIcon } from "icons";
 import { SubscribesResponseType, CodeType } from "src/types";
 import { subscribeSelf, codeActivate } from "src/services/requests";
 
-// export async function getStaticProps() {
-//   const subscriptionsData = await subscribeSelf();
-//   console.log(subscriptionsData);
-
-//   return {
-//     props: {
-//       subscriptionsData,
-//     },
-//   };
-// }
-
-// interface SubscriptionsProps {
-//   subscriptionsData: SubscribesResponseType[];
-// }
-
 const Subscriptions: NextPage = () => {
   const [subscribes, setSubscribes] = useState<SubscribesResponseType[]>([]);
   const [codes, setCodes] = useState<CodeType[]>([]);
   const numberOfСards = subscribes?.length;
 
   useEffect(() => {
-    const fetchData = async () => {
+    const data = async () => {
       const subscribes = await subscribeSelf();
       setSubscribes(subscribes);
     };
-    fetchData();
+    data();
   }, []);
 
   const handleGetCodes = async (index: number) => {
@@ -41,7 +26,9 @@ const Subscriptions: NextPage = () => {
   };
 
   const handleCodeActivate = async (code: string) => {
-    await codeActivate(code);
+    const { data } = await codeActivate(code);
+    const newCodes = codes.map((code) => (code.id === data.id ? data : code));
+    setCodes(newCodes);
   };
 
   return (
@@ -53,16 +40,29 @@ const Subscriptions: NextPage = () => {
             <StyledButton text="Upgrade" variant="primary" />
           </TitleContainer>
 
-          <SliderCard numberOfСards={numberOfСards}>
-            {subscribes?.map((subscribe, index) => (
-              <Card
-                key={subscribe.id}
-                onClick={() => handleGetCodes(index)}
-                price={subscribe.product.prices[0].price}
-                cardName={subscribe.product.name}
-              />
-            ))}
-          </SliderCard>
+          {subscribes.length == 1 ? (
+            <CardContainer>
+              {subscribes?.map((subscribe, index) => (
+                <Card
+                  key={subscribe.id}
+                  onClick={() => handleGetCodes(index)}
+                  price={subscribe.product.prices[0].price}
+                  cardName={subscribe.product.name}
+                />
+              ))}
+            </CardContainer>
+          ) : (
+            <SliderCard numberOfСards={numberOfСards}>
+              {subscribes?.map((subscribe, index) => (
+                <Card
+                  key={subscribe.id}
+                  onClick={() => handleGetCodes(index)}
+                  price={subscribe.product.prices[0].price}
+                  cardName={subscribe.product.name}
+                />
+              ))}
+            </SliderCard>
+          )}
 
           <LicenseContainer>
             {codes.map((code) => (
@@ -101,6 +101,12 @@ const Root = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+`;
+
+const CardContainer = styled.div`
+  width: 100%;
+  margin-bottom: 100px;
+  border-top: 1px solid ${COLORS.Color_700};
 `;
 
 const Title = styled.h1`

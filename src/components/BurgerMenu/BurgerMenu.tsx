@@ -12,6 +12,7 @@ interface BurgerMenuProps {
 
 export const BurgerMenu: FC<BurgerMenuProps> = ({ userName }) => {
   const [visibleMenu, setVisibleMenu] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleVisibleMenu = () => {
     setVisibleMenu((prevState) => !prevState);
@@ -37,8 +38,10 @@ export const BurgerMenu: FC<BurgerMenuProps> = ({ userName }) => {
             </Link>
 
             <StyledAccordion
+              onOpen={setIsOpen}
+              isOpen={isOpen}
               trigger={
-                <ButtonUser>
+                <ButtonUser onClick={() => setIsOpen(true)}>
                   <UserName>{userName}</UserName>
                   <ChevronDownIcon />
                 </ButtonUser>

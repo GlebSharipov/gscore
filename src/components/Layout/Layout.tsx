@@ -10,17 +10,10 @@ interface LoyoutProps {
 }
 
 export const Layout: FC<LoyoutProps> = ({ children }) => {
-  const [userName, setUserName] = useState<string | null>("");
-
-  useEffect(() => {
-    const userName = localStorage.getItem("userName");
-    setUserName(userName);
-  }, []);
-
   return (
     <Root>
       <Container>
-        <Header userName={userName} />
+        <Header />
         <Main>{children}</Main>
         <Footer />
       </Container>

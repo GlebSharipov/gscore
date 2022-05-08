@@ -7,10 +7,12 @@ import { signUp } from "src/services/requests";
 import { SignUpRequestType, SignUpResponseType } from "src/types";
 
 interface CreateAccountFormProps {
-  onClick: () => void;
+  onUpdateTabIndex: (index: number) => void;
 }
 
-export const CreateAccountForm: FC<CreateAccountFormProps> = ({ onClick }) => {
+export const CreateAccountForm: FC<CreateAccountFormProps> = ({
+  onUpdateTabIndex,
+}) => {
   const {
     register,
     handleSubmit,
@@ -23,6 +25,10 @@ export const CreateAccountForm: FC<CreateAccountFormProps> = ({ onClick }) => {
   ) => {
     const { token } = await signUp(data);
     localStorage.setItem("token", token);
+
+    if (token) {
+      onUpdateTabIndex(1);
+    }
 
     reset();
   };
@@ -62,7 +68,7 @@ export const CreateAccountForm: FC<CreateAccountFormProps> = ({ onClick }) => {
         placeholder="Password"
       />
 
-      <StyledButton onClick={onClick} type="submit" text="Send password" />
+      <StyledButton type="submit" text="Send password" />
     </Root>
   );
 };

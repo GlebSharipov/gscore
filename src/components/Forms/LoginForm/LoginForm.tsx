@@ -6,7 +6,11 @@ import { Button, Input } from "UI";
 import { signIn } from "src/services/requests";
 import { SignInRequestType, SignInResponseType } from "src/types";
 
-export const LoginForm = () => {
+interface LoginFormProps {
+  onUpdateTabIndex: (index: number) => void;
+}
+
+export const LoginForm: FC<LoginFormProps> = ({ onUpdateTabIndex }) => {
   const {
     register,
     handleSubmit,
@@ -17,6 +21,10 @@ export const LoginForm = () => {
   const handleLogInSubmit: SubmitHandler<SignInRequestType> = async (data) => {
     const { user } = await signIn(data);
     localStorage.setItem("userName", user.username);
+
+    if (user) {
+      onUpdateTabIndex(2);
+    }
 
     reset();
   };

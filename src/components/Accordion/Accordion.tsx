@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Link from "next/link";
 import Collapsible from "react-collapsible";
 import { COLORS } from "assets/constant/colors";
@@ -8,22 +8,31 @@ import { TYPOGRAPHY } from "assets/styles/typography";
 
 interface AccordionProps {
   className?: string;
+  isOpen?: boolean;
+  onOpen: (isOpen: boolean) => void;
   trigger:
     | string
     | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
 }
 
-export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
-  const hahdleLogout = () => {
+export const Accordion: FC<AccordionProps> = ({
+  className,
+  trigger,
+  isOpen,
+  onOpen,
+}) => {
+  const hadleLogout = () => {
     localStorage.removeItem("userName");
+    onOpen(false);
   };
+
   return (
     <Root className={className}>
-      <Collapsible trigger={trigger} transitionTime={200}>
+      <Collapsible trigger={trigger} transitionTime={200} open={isOpen}>
         <Menu>
           <Container>
             <Link href="/settings-profile" passHref>
-              <Settings>
+              <Settings onClick={() => onOpen(false)}>
                 <SettingsIcon />
                 <Text>Settings</Text>
               </Settings>
@@ -31,7 +40,7 @@ export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
           </Container>
 
           <Container>
-            <LogoutButton onClick={hahdleLogout}>
+            <LogoutButton onClick={hadleLogout}>
               <LogoutIcon />
               <Text>Logout</Text>
             </LogoutButton>

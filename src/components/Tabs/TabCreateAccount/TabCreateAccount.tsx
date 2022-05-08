@@ -20,76 +20,108 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({
   index = 0,
 }) => {
   const [tabIndex, setTabIndex] = useState(index);
+  const [isPurchase, setIsParchase] = useState(false);
+
   const { name, prices, id } = product;
 
   const handlePurchaseSubscribe = async () => {
     await buySubscribe(id);
+    setIsParchase(true);
   };
 
   return (
-    <StyledTabs
-      defaultFocus
-      selectedIndex={tabIndex}
-      onSelect={(index) => setTabIndex(index)}
-      focusTabOnClick={true}
-    >
-      <StyledTabList>
-        <StyledTab>Create account</StyledTab>
-        <StyledTab>Log in</StyledTab>
-        <StyledTab>Checkout</StyledTab>
-      </StyledTabList>
+    <>
+      {isPurchase ? (
+        <PurchaseContainer>
+          <Title>Start your subscription</Title>
+          <Text>
+            We have sent you a payment receipt by e-mail and a link to download
+            the plugin with a license key.
+          </Text>
 
-      <StyledTabPanel>
-        <Title>Create account</Title>
-        <Text>
-          You need to enter your name and email. We will send you a temporary
-          password by email
-        </Text>
+          <CardContainer>
+            <TitleContainer>
+              <div>Package name</div> <div>Price</div>
+            </TitleContainer>
 
-        <CreateAccountForm onClick={() => setTabIndex(2)} />
+            <Line />
 
-        <Container>
-          Have an account?
-          <NextStep>Go to the next step</NextStep>
-        </Container>
-      </StyledTabPanel>
+            <СardСontent>
+              <NumberOfSites>{name} license</NumberOfSites>
+              <PricePurchase>${prices[0].price}</PricePurchase>
+            </СardСontent>
+          </CardContainer>
 
-      <StyledTabPanel>
-        <Title>Log in</Title>
-        <LoginForm />
-      </StyledTabPanel>
+          <Link href="/subscriptions" passHref>
+            <PurchaseButton text="Go to my subscriptions" />
+          </Link>
+        </PurchaseContainer>
+      ) : (
+        <StyledTabs
+          defaultFocus
+          selectedIndex={tabIndex}
+          onSelect={(index) => setTabIndex(index)}
+          focusTabOnClick={true}
+        >
+          <StyledTabList>
+            <StyledTab>Create account</StyledTab>
+            <StyledTab>Log in</StyledTab>
+            <StyledTab>Checkout</StyledTab>
+          </StyledTabList>
 
-      <StyledTabPanel>
-        <Title>Checkout</Title>
+          <StyledTabPanel>
+            <Title>Create account</Title>
+            <Text>
+              You need to enter your name and email. We will send you a
+              temporary password by email
+            </Text>
 
-        <CardContainer>
-          <TitleContainer>
-            <div>Package name</div> <div>Price</div>
-          </TitleContainer>
+            <CreateAccountForm
+              onUpdateTabIndex={(index) => setTabIndex(index)}
+            />
 
-          <Line />
+            <Container>
+              Have an account?
+              <NextStep>Go to the next step</NextStep>
+            </Container>
+          </StyledTabPanel>
 
-          <СardСontent>
-            <NumberOfSites>{name} license</NumberOfSites>
-            <PriceContainer>
-              ${prices[0].price} <StyledShoppingBasketIcon />
-            </PriceContainer>
-          </СardСontent>
-        </CardContainer>
+          <StyledTabPanel>
+            <Title>Log in</Title>
+            <LoginForm onUpdateTabIndex={(index) => setTabIndex(index)} />
+          </StyledTabPanel>
 
-        <TotalPrice>
-          Total:<Price>${prices[0].price}</Price>
-        </TotalPrice>
+          <StyledTabPanel>
+            <Title>Checkout</Title>
 
-        <Link href="/purchase-page" passHref>
-          <StyledButton
-            onClick={handlePurchaseSubscribe}
-            type="submit"
-            text="Purchase"
-          />
-        </Link>
-      </StyledTabPanel>
-    </StyledTabs>
+            <CardContainer>
+              <TitleContainer>
+                <div>Package name</div> <div>Price</div>
+              </TitleContainer>
+
+              <Line />
+
+              <СardСontent>
+                <NumberOfSites>{name} license</NumberOfSites>
+                <PriceContainer>
+                  ${prices[0].price} <StyledShoppingBasketIcon />
+                </PriceContainer>
+              </СardСontent>
+            </CardContainer>
+
+            <TotalPrice>
+              Total:<Price>${prices[0].price}</Price>
+            </TotalPrice>
+
+            <StyledButton
+              onClick={handlePurchaseSubscribe}
+              type="submit"
+              text="Purchase"
+            />
+          </StyledTabPanel>
+        </StyledTabs>
+      )}
+    </>
   );
 };
 
@@ -101,6 +133,17 @@ const StyledTabs = styled(Tabs)`
     width: 100%;
     font-size: 14px;
   }
+`;
+
+const PurchaseContainer = styled.div`
+  max-width: 620px;
+  margin: 0 auto;
+`;
+
+const PurchaseButton = styled(Button)`
+  max-width: 620px;
+  width: 100%;
+  margin-top: 24px;
 `;
 
 const StyledTab = styled(Tab)`
@@ -227,4 +270,9 @@ const TotalPrice = styled.div`
 
 const Price = styled.div`
   font-size: 28px;
+`;
+
+const PricePurchase = styled.div`
+  font-size: 28px;
+  margin-right: 26px;
 `;
