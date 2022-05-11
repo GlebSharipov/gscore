@@ -9,23 +9,32 @@ import { ShoppingBasketIcon } from "icons";
 import { CreateAccountForm, LoginForm } from "src/components/Forms";
 import { buySubscribe } from "src/services/requests";
 import { ProductType } from "src/types";
+import { ToastContainer, toast } from "react-toastify";
 
 interface TabCreateAccountProps {
   product: ProductType;
   index?: number;
+  isDisabled?: boolean;
 }
 
 export const TabCreateAccount: FC<TabCreateAccountProps> = ({
   product,
   index = 0,
+  isDisabled,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const notify = () => toast("You have purchased a new subscription");
   const [tabIndex, setTabIndex] = useState(index);
   const [isPurchase, setIsParchase] = useState(false);
 
   const { name, prices, id } = product;
 
   const handlePurchaseSubscribe = async () => {
+    setIsLoading(true);
     await buySubscribe(id);
+    notify();
+    setIsLoading(false);
+
     setIsParchase(true);
   };
 
@@ -33,6 +42,7 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({
     <>
       {isPurchase ? (
         <PurchaseContainer>
+          <ToastContainer />
           <Title>Start your subscription</Title>
           <Text>
             We have sent you a payment receipt by e-mail and a link to download
@@ -66,7 +76,7 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({
           <StyledTabList>
             <StyledTab>Create account</StyledTab>
             <StyledTab>Log in</StyledTab>
-            <StyledTab>Checkout</StyledTab>
+            <StyledTab disabled={isDisabled}>Checkout</StyledTab>
           </StyledTabList>
 
           <StyledTabPanel>
@@ -114,6 +124,7 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({
             </TotalPrice>
 
             <StyledButton
+              isLoading={isLoading}
               onClick={handlePurchaseSubscribe}
               type="submit"
               text="Purchase"
@@ -158,12 +169,12 @@ const StyledTab = styled(Tab)`
   padding-bottom: 20px;
 
   &:focus {
-    color: ${COLORS.Primari_1};
-    border-color: ${COLORS.Primari_1};
+    color: ${COLORS.Primary_1};
+    border-color: ${COLORS.Primary_1};
   }
   &:active {
-    color: ${COLORS.Primari_1};
-    border-color: ${COLORS.Primari_1};
+    color: ${COLORS.Primary_1};
+    border-color: ${COLORS.Primary_1};
   }
   @media (max-width: 375px) {
     border-bottom: 2px solid ${COLORS.Color_600};
@@ -206,7 +217,7 @@ const Container = styled.div`
 
 const NextStep = styled.a`
   cursor: pointer;
-  color: ${COLORS.Primari_1};
+  color: ${COLORS.Primary_1};
   font-size: 16px;
   margin-left: 6px;
 `;

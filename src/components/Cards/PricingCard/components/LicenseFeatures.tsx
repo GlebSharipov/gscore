@@ -72,7 +72,7 @@ const StyledCheckIcon = styled(CheckIcon)<{ $isSecodType?: boolean }>`
   height: 26px;
   path {
     stroke: ${({ $isSecodType }) =>
-      $isSecodType ? COLORS.Primari_1 : COLORS.Color_700};
+      $isSecodType ? COLORS.Primary_1 : COLORS.Color_700};
   }
 `;
 

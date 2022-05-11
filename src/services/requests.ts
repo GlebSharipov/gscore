@@ -49,22 +49,22 @@ export const codeActivate = async (code: string) => {
   return post<CodeType>(Endpoints.CODE_ACTIVATE, { code: code });
 };
 
-export const constcodeSelf = async () => {
+export const getCodes = async () => {
   return get(Endpoints.CODE_SELF);
 };
 
-export const codeHealth = async (code: string) => {
+export const codeInformation = async (code: string) => {
   return post(Endpoints.CODE_HEALTH, { code: code });
 };
 
-export const codeManage = async ({
+export const saveCode = async ({
   codesIds,
   subscribeId,
 }: CodeManageRequestType) => {
   return put(Endpoints.CODE_MANAGE, { codesIds, subscribeId });
 };
 
-export const subscribeSelf = async () => {
+export const getSubscriptions = async () => {
   return get<SubscribesResponseType[]>(Endpoints.SUBSCRIBE_SELF).then(
     (res) => res.data
   );
@@ -78,9 +78,7 @@ export const subscribeChangeProduct = async ({
 };
 
 export const signIn = async ({ email, password }: SignInRequestType) => {
-  return post<SignInResponseType>(Endpoints.SIGN_IN, { email, password }).then(
-    (res) => res.data
-  );
+  return post<SignInResponseType>(Endpoints.SIGN_IN, { email, password });
 };
 
 export const signUp = async ({
@@ -112,6 +110,6 @@ export const updatePassword = async ({
   });
 };
 
-export const usersMe = async () => {
+export const getUserData = async () => {
   return get<UserType>(Endpoints.USER_ME);
 };

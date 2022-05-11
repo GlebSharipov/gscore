@@ -50,7 +50,7 @@ const Root = styled.div<{ $isSecondType?: boolean }>`
   padding: 42px 48px;
   transform: ${({ $isSecondType }) => $isSecondType && "translateY(-50px)"};
   background-color: ${({ $isSecondType }) =>
-    $isSecondType ? COLORS.Primari_1 : COLORS.Color_700};
+    $isSecondType ? COLORS.Primary_1 : COLORS.Color_700};
 
   @media (max-width: 1200px) {
     transform: translateY(0);
@@ -107,7 +107,7 @@ const StyledButton = styled(Button)<{ $isSecondType?: boolean }>`
   margin-top: 16px;
   font-size: 18px;
   padding: 26px;
-  color: ${({ $isSecondType }) => $isSecondType && COLORS.Color_800};
+  color: ${({ $isSecondType }) => !$isSecondType && COLORS.Color_800};
 
   @media (max-width: 576px) {
     max-width: 360px;

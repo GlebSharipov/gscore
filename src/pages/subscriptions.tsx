@@ -1,24 +1,32 @@
 import type { NextPage } from "next";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import styled from "styled-components";
 import { COLORS } from "assets/constant/colors";
 import { CardLicense, Card, SliderCard } from "../components";
 import { Button } from "../components/UI";
 import { CloseIcon } from "icons";
 import { SubscribesResponseType, CodeType } from "src/types";
-import { subscribeSelf, codeActivate } from "src/services/requests";
+import { getSubscriptions, codeActivate } from "src/services/requests";
+import { css } from "@emotion/react";
+import ClipLoader from "react-spinners/ClipLoader";
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: ${COLORS.Primary_1};
+`;
 
 const Subscriptions: NextPage = () => {
   const [subscribes, setSubscribes] = useState<SubscribesResponseType[]>([]);
   const [codes, setCodes] = useState<CodeType[]>([]);
+
+  const [isLoading, setIsLoading] = useState(true);
   const numberOfСards = subscribes?.length;
 
   useEffect(() => {
-    const data = async () => {
-      const subscribes = await subscribeSelf();
-      setSubscribes(subscribes);
-    };
-    data();
+    getSubscriptions().then((data) => setSubscribes(data));
+    setIsLoading(false);
   }, []);
 
   const handleGetCodes = async (index: number) => {
@@ -42,14 +50,12 @@ const Subscriptions: NextPage = () => {
 
           {subscribes.length == 1 ? (
             <CardContainer>
-              {subscribes?.map((subscribe, index) => (
-                <Card
-                  key={subscribe.id}
-                  onClick={() => handleGetCodes(index)}
-                  price={subscribe.product.prices[0].price}
-                  cardName={subscribe.product.name}
-                />
-              ))}
+              <Card
+                key={subscribes[0].id}
+                onClick={() => handleGetCodes(0)}
+                price={subscribes[0].product.prices[0].price}
+                cardName={subscribes[0].product.name}
+              />
             </CardContainer>
           ) : (
             <SliderCard numberOfСards={numberOfСards}>
@@ -65,23 +71,27 @@ const Subscriptions: NextPage = () => {
           )}
 
           <LicenseContainer>
-            {codes.map((code) => (
+            {codes.map((codeInfo) => (
               <StyledCardLicense
-                key={code.id}
-                code={code.code}
-                domain={code.origin}
-                onClick={() => handleCodeActivate(code.code)}
+                key={codeInfo.id}
+                code={codeInfo.code}
+                domain={codeInfo.origin}
+                onClick={() => handleCodeActivate(codeInfo.code)}
               />
             ))}
           </LicenseContainer>
+
+          <ClipLoader loading={isLoading} css={override} size={150} />
         </>
       ) : (
         <>
           <Title>My subscriptions</Title>
           <Container>
-            <ButtonCross>
-              <CloseIcon />
-            </ButtonCross>
+            <Link href="/" passHref>
+              <ButtonCross>
+                <CloseIcon />
+              </ButtonCross>
+            </Link>
 
             <Subtitle>No active subscriptions</Subtitle>
 
@@ -89,7 +99,9 @@ const Subscriptions: NextPage = () => {
               You can subscribe right now by <br /> clicking on the button below
             </Description>
 
-            <StyledButton text="Get Gscores" />
+            <Link href="/" passHref>
+              <StyledButton text="Get Gscores" />
+            </Link>
           </Container>
         </>
       )}
@@ -106,7 +118,6 @@ const Root = styled.div`
 const CardContainer = styled.div`
   width: 100%;
   margin-bottom: 100px;
-  border-top: 1px solid ${COLORS.Color_700};
 `;
 
 const Title = styled.h1`
@@ -162,7 +173,7 @@ const ButtonCross = styled.button`
   margin-bottom: 24px;
 
   &:hover {
-    background-color: ${COLORS.Primari_1};
+    background-color: ${COLORS.Primary_1};
   }
 `;
 

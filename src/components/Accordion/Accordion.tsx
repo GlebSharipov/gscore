@@ -1,10 +1,12 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import Link from "next/link";
 import Collapsible from "react-collapsible";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 import { SettingsIcon, LogoutIcon } from "../icons";
 import { TYPOGRAPHY } from "assets/styles/typography";
+import { addUserName } from "src/store/ducks/user";
+import { useAppDispatch } from "src/store/store";
 
 interface AccordionProps {
   className?: string;
@@ -21,8 +23,10 @@ export const Accordion: FC<AccordionProps> = ({
   isOpen,
   onOpen,
 }) => {
+  const dispatch = useAppDispatch();
+
   const hadleLogout = () => {
-    localStorage.removeItem("userName");
+    dispatch(addUserName(""));
     onOpen(false);
   };
 
@@ -40,10 +44,12 @@ export const Accordion: FC<AccordionProps> = ({
           </Container>
 
           <Container>
-            <LogoutButton onClick={hadleLogout}>
-              <LogoutIcon />
-              <Text>Logout</Text>
-            </LogoutButton>
+            <Link href="/" passHref>
+              <LogoutButton onClick={hadleLogout}>
+                <LogoutIcon />
+                <Text>Logout</Text>
+              </LogoutButton>
+            </Link>
           </Container>
         </Menu>
       </Collapsible>

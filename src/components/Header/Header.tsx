@@ -1,5 +1,6 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState } from "react";
 import Link from "next/link";
+import { useAppSelector, RootState } from "src/store/store";
 import { Accordion } from "../Accordion";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
@@ -9,13 +10,9 @@ import { TYPOGRAPHY } from "assets/styles/typography";
 import { BurgerMenu } from "../BurgerMenu";
 
 export const Header: FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [userName, setUserName] = useState<string | null>("");
+  const userName = useAppSelector((state: RootState) => state.user.userName);
 
-  useEffect(() => {
-    const userName = localStorage.getItem("userName");
-    setUserName(userName);
-  }, []);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Root>

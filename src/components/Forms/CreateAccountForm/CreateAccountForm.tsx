@@ -1,10 +1,13 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { COLORS } from "assets/constant/colors";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
 import { signUp } from "src/services/requests";
-import { SignUpRequestType, SignUpResponseType } from "src/types";
+import { SignUpRequestType } from "src/types";
+import { addUserToken } from "src/store/ducks/user";
+import { useAppDispatch } from "src/store/store";
+import { ToastContainer, toast } from "react-toastify";
 
 interface CreateAccountFormProps {
   onUpdateTabIndex: (index: number) => void;
@@ -13,6 +16,10 @@ interface CreateAccountFormProps {
 export const CreateAccountForm: FC<CreateAccountFormProps> = ({
   onUpdateTabIndex,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const notify = (text: string) => toast(text);
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
@@ -23,18 +30,27 @@ export const CreateAccountForm: FC<CreateAccountFormProps> = ({
   const handleRegisterSubmit: SubmitHandler<SignUpRequestType> = async (
     data
   ) => {
-    const { token } = await signUp(data);
-    localStorage.setItem("token", token);
+    setIsLoading(true);
+    try {
+      const { token } = await signUp(data);
+      notify("Registration completed successfully");
+      dispatch(addUserToken(token));
+      setIsLoading(false);
 
-    if (token) {
-      onUpdateTabIndex(1);
+      if (token) {
+        onUpdateTabIndex(1);
+      }
+
+      reset();
+    } catch (error: any) {
+      notify(error.response.data.message);
+      setIsLoading(false);
     }
-
-    reset();
   };
 
   return (
     <Root onSubmit={handleSubmit(handleRegisterSubmit)}>
+      <ToastContainer />
       <Error>{errors.username && <p>{errors.username.message}</p>}</Error>
       <StyledInput
         {...register("username", {
@@ -68,7 +84,7 @@ export const CreateAccountForm: FC<CreateAccountFormProps> = ({
         placeholder="Password"
       />
 
-      <StyledButton type="submit" text="Send password" />
+      <StyledButton isLoading={isLoading} type="submit" text="Send password" />
     </Root>
   );
 };
@@ -83,7 +99,7 @@ const StyledInput = styled(Input)`
 
 const Error = styled.div`
   font-size: 14px;
-  color: ${COLORS.Primari_1};
+  color: ${COLORS.Primary_1};
 `;
 
 const StyledButton = styled(Button)`

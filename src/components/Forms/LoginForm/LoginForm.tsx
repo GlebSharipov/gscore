@@ -1,16 +1,24 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { COLORS } from "assets/constant/colors";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
 import { signIn } from "src/services/requests";
-import { SignInRequestType, SignInResponseType } from "src/types";
+import { SignInRequestType } from "src/types";
+import { addUserName } from "src/store/ducks/user";
+import { useAppDispatch } from "src/store/store";
+import { ToastContainer, toast } from "react-toastify";
 
 interface LoginFormProps {
   onUpdateTabIndex: (index: number) => void;
 }
 
 export const LoginForm: FC<LoginFormProps> = ({ onUpdateTabIndex }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const notify = (text: string) => toast(text);
+
   const {
     register,
     handleSubmit,
@@ -19,18 +27,27 @@ export const LoginForm: FC<LoginFormProps> = ({ onUpdateTabIndex }) => {
   } = useForm<SignInRequestType>();
 
   const handleLogInSubmit: SubmitHandler<SignInRequestType> = async (data) => {
-    const { user } = await signIn(data);
-    localStorage.setItem("userName", user.username);
+    setIsLoading(true);
+    try {
+      const { user } = await signIn(data).then((res) => res.data);
+      notify("Correct password");
+      dispatch(addUserName(user.username));
+      setIsLoading(false);
 
-    if (user) {
-      onUpdateTabIndex(2);
+      if (user.username) {
+        onUpdateTabIndex(2);
+      }
+
+      reset();
+    } catch (error: any) {
+      notify(error.response.data.message);
+      setIsLoading(false);
     }
-
-    reset();
   };
 
   return (
     <Root onSubmit={handleSubmit(handleLogInSubmit)}>
+      <ToastContainer />
       <Error>{errors.email && <p>{errors.email.message}</p>}</Error>
       <StyledInput
         type="email"
@@ -55,7 +72,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onUpdateTabIndex }) => {
         placeholder="Password"
       />
 
-      <StyledButton type="submit" text="Log in" />
+      <StyledButton isLoading={isLoading} type="submit" text="Log in" />
     </Root>
   );
 };
@@ -75,5 +92,5 @@ const StyledButton = styled(Button)`
 
 const Error = styled.div`
   font-size: 14px;
-  color: ${COLORS.Primari_1};
+  color: ${COLORS.Primary_1};
 `;

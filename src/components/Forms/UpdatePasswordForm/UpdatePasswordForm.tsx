@@ -1,15 +1,16 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { COLORS } from "assets/constant/colors";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
 import { updatePassword } from "src/services/requests";
-import {
-  UpdatePasswordRequestType,
-  UpdatePasswordResponseType,
-} from "src/types";
+import { UpdatePasswordRequestType } from "src/types";
+import { ToastContainer, toast } from "react-toastify";
 
 export const UpdatePasswordForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const notify = (text: string) => toast(text);
+
   const {
     register,
     handleSubmit,
@@ -17,15 +18,25 @@ export const UpdatePasswordForm = () => {
     formState: { errors },
   } = useForm<UpdatePasswordRequestType>();
 
-  const handleLogInSubmit: SubmitHandler<UpdatePasswordRequestType> = (
+  const handleLogInSubmit: SubmitHandler<UpdatePasswordRequestType> = async (
     data
   ) => {
-    updatePassword(data);
-    reset();
+    setIsLoading(true);
+    try {
+      await updatePassword(data);
+      notify("Password updated");
+      setIsLoading(false);
+
+      reset();
+    } catch (error: any) {
+      notify(error.response.data.message);
+      setIsLoading(false);
+    }
   };
 
   return (
     <Root onSubmit={handleSubmit(handleLogInSubmit)}>
+      <ToastContainer />
       <Error>
         {errors.currentPassword && <p>{errors.currentPassword.message}</p>}
       </Error>
@@ -56,7 +67,7 @@ export const UpdatePasswordForm = () => {
         placeholder="New Password"
       />
 
-      <StyledButton type="submit" text="Save" />
+      <StyledButton isLoading={isLoading} type="submit" text="Save" />
     </Root>
   );
 };
@@ -76,5 +87,5 @@ const StyledButton = styled(Button)`
 
 const Error = styled.div`
   font-size: 14px;
-  color: ${COLORS.Primari_1};
+  color: ${COLORS.Primary_1};
 `;

@@ -41,7 +41,7 @@ const Root = styled.button<{ $isDisabled?: boolean; $isNextButton?: boolean }>`
   opacity: ${({ $isDisabled }) => $isDisabled && 0.6};
 
   &:hover {
-    background-color: ${COLORS.Primari_1};
+    background-color: ${COLORS.Primary_1};
   }
 
   @media (max-width: 480px) {

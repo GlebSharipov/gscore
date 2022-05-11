@@ -4,6 +4,7 @@ import { COLORS } from "assets/constant/colors";
 import { PricingCard, TabCreateAccount } from "../components";
 import { getProducts } from "src/services/requests";
 import { ProductType } from "src/types";
+import { useAppSelector, RootState } from "src/store/store";
 
 interface HomeProps {
   products: ProductType[];
@@ -14,22 +15,26 @@ const Home: FC<HomeProps> = ({ products }) => {
   const [authorization, setAuthorization] = useState(false);
   const [cardIndex, setCardIndex] = useState(0);
   const [index, setIndex] = useState(0);
+  const userName = useAppSelector((state: RootState) => state.user.userName);
+  const token = useAppSelector((state: RootState) => state.user.token);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userName = localStorage.getItem("userName");
     if (userName && token) {
       setIndex(2);
     } else if (token) {
       setIndex(1);
     }
-  }, []);
+  }, [token, userName]);
 
   return (
     <>
       {authorization ? (
         <Container>
-          <TabCreateAccount index={index} product={products[cardIndex]} />
+          <TabCreateAccount
+            isDisabled={userName.length === 0}
+            index={index}
+            product={products[cardIndex]}
+          />
         </Container>
       ) : (
         <Root>
@@ -96,9 +101,9 @@ const Text = styled.div`
 
 const Link = styled.a`
   cursor: pointer;
-  color: ${COLORS.Primari_1};
+  color: ${COLORS.Primary_1};
   font-size: 18px;
-  border-bottom: 1px solid ${COLORS.Primari_1};
+  border-bottom: 1px solid ${COLORS.Primary_1};
 
   &:hover {
     color: ${COLORS.Color_100};
