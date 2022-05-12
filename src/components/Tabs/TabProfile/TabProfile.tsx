@@ -4,7 +4,6 @@ import "react-tabs/style/react-tabs.css";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 import { UpdateUserForm, UpdatePasswordForm } from "src/components/Forms";
-import { Button, Input } from "UI";
 
 export const TabProfile: FC = () => {
   return (
@@ -55,8 +54,8 @@ const StyledTab = styled(Tab)`
   padding-bottom: 20px;
 
   &:focus {
-    color: ${COLORS.Primari_1};
-    border-color: ${COLORS.Primari_1};
+    color: ${COLORS.Primary_1};
+    border-color: ${COLORS.Primary_1};
   }
 
   @media (max-width: 410px) {
@@ -89,16 +88,4 @@ const Label = styled.h2`
   font-size: 28px;
   color: ${COLORS.Color_100};
   margin-bottom: 24px;
-`;
-
-const Form = styled.form`
-  width: 100%;
-  @media (max-width: 410px) {
-    margin-bottom: 12px;
-  }
-`;
-
-const StyledButton = styled(Button)`
-  max-width: 160px;
-  margin-top: 24px;
 `;

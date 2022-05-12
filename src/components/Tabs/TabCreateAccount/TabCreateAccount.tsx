@@ -1,39 +1,39 @@
 import React, { FC, useState } from "react";
 import Link from "next/link";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
+
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 import { Button } from "UI";
 import { ShoppingBasketIcon } from "icons";
 import { CreateAccountForm, LoginForm } from "src/components/Forms";
 import { buySubscribe } from "src/services/requests";
-import { ProductType } from "src/types";
-import { ToastContainer, toast } from "react-toastify";
+import { useAppSelector, RootState } from "src/store/store";
+import { toast } from "react-toastify";
 
 interface TabCreateAccountProps {
-  product: ProductType;
-  index?: number;
   isDisabled?: boolean;
+  tabId: number;
 }
 
 export const TabCreateAccount: FC<TabCreateAccountProps> = ({
-  product,
-  index = 0,
   isDisabled,
+  tabId,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const notify = () => toast("You have purchased a new subscription");
-  const [tabIndex, setTabIndex] = useState(index);
-  const [isPurchase, setIsParchase] = useState(false);
+  const product = useAppSelector(
+    (state: RootState) => state.products.selectedProduct
+  );
+  const userName = useAppSelector((state: RootState) => state.user.userName);
 
-  const { name, prices, id } = product;
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPurchase, setIsParchase] = useState(false);
 
   const handlePurchaseSubscribe = async () => {
     setIsLoading(true);
-    await buySubscribe(id);
-    notify();
-    setIsLoading(false);
+
+    await buySubscribe(product?.id).finally(() => {
+      setIsLoading(false);
+      toast("You have purchased a new subscription");
+    });
 
     setIsParchase(true);
   };
@@ -42,7 +42,6 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({
     <>
       {isPurchase ? (
         <PurchaseContainer>
-          <ToastContainer />
           <Title>Start your subscription</Title>
           <Text>
             We have sent you a payment receipt by e-mail and a link to download
@@ -57,8 +56,8 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({
             <Line />
 
             <СardСontent>
-              <NumberOfSites>{name} license</NumberOfSites>
-              <PricePurchase>${prices[0].price}</PricePurchase>
+              <NumberOfSites>{product?.name} license</NumberOfSites>
+              <PricePurchase>${product?.prices[0].price}</PricePurchase>
             </СardСontent>
           </CardContainer>
 
@@ -67,76 +66,85 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({
           </Link>
         </PurchaseContainer>
       ) : (
-        <StyledTabs
-          defaultFocus
-          selectedIndex={tabIndex}
-          onSelect={(index) => setTabIndex(index)}
-          focusTabOnClick={true}
-        >
+        <StyledTabs>
           <StyledTabList>
-            <StyledTab>Create account</StyledTab>
-            <StyledTab>Log in</StyledTab>
-            <StyledTab disabled={isDisabled}>Checkout</StyledTab>
+            <Link href="/authorization/1" passHref>
+              <StyledTab $isActive={tabId === 1}>Create account</StyledTab>
+            </Link>
+
+            <Link href="/authorization/2" passHref>
+              <StyledTab $isActive={tabId === 2}>Log in</StyledTab>
+            </Link>
+
+            {userName && (
+              <Link href="/authorization/3" passHref>
+                <StyledTab $isActive={tabId === 3}>Checkout</StyledTab>
+              </Link>
+            )}
           </StyledTabList>
 
-          <StyledTabPanel>
-            <Title>Create account</Title>
-            <Text>
-              You need to enter your name and email. We will send you a
-              temporary password by email
-            </Text>
+          {tabId === 1 && (
+            <StyledTabPanel>
+              <Title>Create account</Title>
+              <Text>
+                You need to enter your name and email. We will send you a
+                temporary password by email
+              </Text>
 
-            <CreateAccountForm
-              onUpdateTabIndex={(index) => setTabIndex(index)}
-            />
+              <CreateAccountForm />
 
-            <Container>
-              Have an account?
-              <NextStep>Go to the next step</NextStep>
-            </Container>
-          </StyledTabPanel>
+              <Container>
+                Have an account?
+                <NextStep>Go to the next step</NextStep>
+              </Container>
+            </StyledTabPanel>
+          )}
 
-          <StyledTabPanel>
-            <Title>Log in</Title>
-            <LoginForm onUpdateTabIndex={(index) => setTabIndex(index)} />
-          </StyledTabPanel>
+          {tabId === 2 && (
+            <StyledTabPanel>
+              <Title>Log in</Title>
+              <LoginForm />
+            </StyledTabPanel>
+          )}
 
-          <StyledTabPanel>
-            <Title>Checkout</Title>
+          {tabId === 3 && (
+            <StyledTabPanel>
+              <Title>Checkout</Title>
 
-            <CardContainer>
-              <TitleContainer>
-                <div>Package name</div> <div>Price</div>
-              </TitleContainer>
+              <CardContainer>
+                <TitleContainer>
+                  <div>Package name</div> <div>Price</div>
+                </TitleContainer>
 
-              <Line />
+                <Line />
 
-              <СardСontent>
-                <NumberOfSites>{name} license</NumberOfSites>
-                <PriceContainer>
-                  ${prices[0].price} <StyledShoppingBasketIcon />
-                </PriceContainer>
-              </СardСontent>
-            </CardContainer>
+                <СardСontent>
+                  <NumberOfSites>{product?.name} license</NumberOfSites>
+                  <PriceContainer>
+                    ${product?.prices[0].price} <StyledShoppingBasketIcon />
+                  </PriceContainer>
+                </СardСontent>
+              </CardContainer>
 
-            <TotalPrice>
-              Total:<Price>${prices[0].price}</Price>
-            </TotalPrice>
+              <TotalPrice>
+                Total:<Price>${product?.prices[0].price}</Price>
+              </TotalPrice>
 
-            <StyledButton
-              isLoading={isLoading}
-              onClick={handlePurchaseSubscribe}
-              type="submit"
-              text="Purchase"
-            />
-          </StyledTabPanel>
+              <StyledButton
+                isLoading={isLoading}
+                onClick={handlePurchaseSubscribe}
+                type="submit"
+                text="Purchase"
+              />
+            </StyledTabPanel>
+          )}
         </StyledTabs>
       )}
     </>
   );
 };
 
-const StyledTabs = styled(Tabs)`
+const StyledTabs = styled.div`
   font-size: 20px;
   width: 100%;
   margin-bottom: 20px;
@@ -157,38 +165,33 @@ const PurchaseButton = styled(Button)`
   margin-top: 24px;
 `;
 
-const StyledTab = styled(Tab)`
+const StyledTab = styled.a<{ $isActive: boolean }>`
   cursor: pointer;
   max-width: 195px;
   width: 100%;
   margin-right: 20px;
   white-space: nowrap;
-  color: ${COLORS.Color_100};
+  color: ${({ $isActive }) =>
+    $isActive ? COLORS.Primary_1 : COLORS.Color_100};
   background-color: ${COLORS.Color_800};
-  border-bottom: 8px solid ${COLORS.Color_600};
+  border-bottom: 8px solid
+    ${({ $isActive }) => ($isActive ? COLORS.Primary_1 : COLORS.Color_600)};
   padding-bottom: 20px;
 
-  &:focus {
-    color: ${COLORS.Primary_1};
-    border-color: ${COLORS.Primary_1};
-  }
-  &:active {
-    color: ${COLORS.Primary_1};
-    border-color: ${COLORS.Primary_1};
-  }
   @media (max-width: 375px) {
-    border-bottom: 2px solid ${COLORS.Color_600};
+    border-bottom: 2px solid
+      ${({ $isActive }) => ($isActive ? COLORS.Primary_1 : COLORS.Color_600)};
     padding-bottom: 5px;
   }
 `;
 
-const StyledTabList = styled(TabList)`
+const StyledTabList = styled.div`
   padding: 4px;
   display: flex;
   margin-bottom: 64px;
 `;
 
-const StyledTabPanel = styled(TabPanel)`
+const StyledTabPanel = styled.div`
   max-width: 620px;
 `;
 

@@ -71,7 +71,7 @@ const themes = {
   `,
 
   secondary: () => `
-  background-color: ${COLORS.Color_100}};
+  background-color: ${COLORS.Color_100};
   color: ${COLORS.Primary_1};
   &:not([disabled]):hover {
    color: ${COLORS.Red_400};

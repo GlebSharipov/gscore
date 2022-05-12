@@ -39,7 +39,7 @@ export const getProducts = async () => {
   return get<ProductType[]>(Endpoints.PRODUCT).then((res) => res.data);
 };
 
-export const buySubscribe = async (priceId: number) => {
+export const buySubscribe = async (priceId: number | undefined) => {
   return post<BuySubscribeResponseType>(Endpoints.PAYMENT, {
     priceId: priceId,
   });
@@ -53,7 +53,7 @@ export const getCodes = async () => {
   return get(Endpoints.CODE_SELF);
 };
 
-export const codeInformation = async (code: string) => {
+export const getCodeInformation = async (code: string) => {
   return post(Endpoints.CODE_HEALTH, { code: code });
 };
 
@@ -65,9 +65,7 @@ export const saveCode = async ({
 };
 
 export const getSubscriptions = async () => {
-  return get<SubscribesResponseType[]>(Endpoints.SUBSCRIBE_SELF).then(
-    (res) => res.data
-  );
+  return get<SubscribesResponseType[]>(Endpoints.SUBSCRIBE_SELF);
 };
 
 export const subscribeChangeProduct = async ({
@@ -77,7 +75,7 @@ export const subscribeChangeProduct = async ({
   return post(Endpoints.CHANGE_PRODUCT, { productId, subscribeId });
 };
 
-export const signIn = async ({ email, password }: SignInRequestType) => {
+export const signIn = ({ email, password }: SignInRequestType) => {
   return post<SignInResponseType>(Endpoints.SIGN_IN, { email, password });
 };
 
@@ -90,7 +88,7 @@ export const signUp = async ({
     email,
     username,
     password,
-  }).then((res) => res.data);
+  });
 };
 
 export const updateUser = async ({

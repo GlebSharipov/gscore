@@ -5,20 +5,12 @@ import styled from "styled-components";
 import { Button, Input } from "UI";
 import { signUp } from "src/services/requests";
 import { SignUpRequestType } from "src/types";
-import { addUserToken } from "src/store/ducks/user";
-import { useAppDispatch } from "src/store/store";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
-interface CreateAccountFormProps {
-  onUpdateTabIndex: (index: number) => void;
-}
-
-export const CreateAccountForm: FC<CreateAccountFormProps> = ({
-  onUpdateTabIndex,
-}) => {
+export const CreateAccountForm: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const notify = (text: string) => toast(text);
-  const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const {
     register,
@@ -31,26 +23,20 @@ export const CreateAccountForm: FC<CreateAccountFormProps> = ({
     data
   ) => {
     setIsLoading(true);
-    try {
-      const { token } = await signUp(data);
-      notify("Registration completed successfully");
-      dispatch(addUserToken(token));
-      setIsLoading(false);
 
-      if (token) {
-        onUpdateTabIndex(1);
-      }
+    signUp(data)
+      .then(() => {
+        toast("Registration completed successfully");
+        router.push("/authorization/2");
+      })
+      .catch((error) => toast(error.response.data.message))
+      .finally(() => setIsLoading(false));
 
-      reset();
-    } catch (error: any) {
-      notify(error.response.data.message);
-      setIsLoading(false);
-    }
+    reset();
   };
 
   return (
     <Root onSubmit={handleSubmit(handleRegisterSubmit)}>
-      <ToastContainer />
       <Error>{errors.username && <p>{errors.username.message}</p>}</Error>
       <StyledInput
         {...register("username", {

@@ -1,7 +1,8 @@
 import React, { FC } from "react";
+import Link from "next/link";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
-import { Button } from "UI";
+import { LinkButton } from "UI";
 import { LicenseFeatures } from "./components";
 import { TYPOGRAPHY } from "assets/styles/typography";
 import { PriceType } from "src/types";
@@ -10,19 +11,19 @@ interface PricingCardProps {
   prices: PriceType[];
   sitesCount: number;
   isSecondType?: boolean;
+  tabId?: number;
   onClick?: () => void;
-  onCardClick?: () => void;
 }
 
 export const PricingCard: FC<PricingCardProps> = ({
   prices,
   sitesCount,
   isSecondType,
+  tabId,
   onClick,
-  onCardClick,
 }) => {
   return (
-    <Root onClick={onCardClick} $isSecondType={isSecondType}>
+    <Root $isSecondType={isSecondType}>
       <PriceContainer $isSecondType={isSecondType}>
         <Price>${prices[0].price}</Price>
         <LicenseTerm>{sitesCount} Site license</LicenseTerm>
@@ -34,12 +35,13 @@ export const PricingCard: FC<PricingCardProps> = ({
 
       <LicenseFeatures isSecondType={isSecondType} sitesCount={sitesCount} />
 
-      <StyledButton
-        $isSecondType={isSecondType}
-        variant="secondary"
-        text="Get Gscore"
-        onClick={onClick}
-      />
+      <Link href={`/authorization/${tabId}`} passHref>
+        <LinkButton
+          isSecondType={isSecondType}
+          text="Get Gscore"
+          onClick={onClick}
+        />
+      </Link>
     </Root>
   );
 };
@@ -97,19 +99,4 @@ const Text = styled.p<{ $isSecondType?: boolean }>`
   ${TYPOGRAPHY.paragraph}
   color: ${({ $isSecondType }) =>
     $isSecondType ? COLORS.Color_100 : COLORS.Color_400};
-`;
-
-const StyledButton = styled(Button)<{ $isSecondType?: boolean }>`
-  max-width: 308px;
-  width: 100%;
-  text-align: center;
-  white-space: nowrap;
-  margin-top: 16px;
-  font-size: 18px;
-  padding: 26px;
-  color: ${({ $isSecondType }) => !$isSecondType && COLORS.Color_800};
-
-  @media (max-width: 576px) {
-    max-width: 360px;
-  }
 `;

@@ -11,22 +11,18 @@ import { getSubscriptions, codeActivate } from "src/services/requests";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/ClipLoader";
 
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: ${COLORS.Primary_1};
-`;
-
 const Subscriptions: NextPage = () => {
   const [subscribes, setSubscribes] = useState<SubscribesResponseType[]>([]);
   const [codes, setCodes] = useState<CodeType[]>([]);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const numberOfСards = subscribes?.length;
 
   useEffect(() => {
-    getSubscriptions().then((data) => setSubscribes(data));
-    setIsLoading(false);
+    setIsLoading(true);
+    getSubscriptions()
+      .then((res) => setSubscribes(res.data))
+      .finally(() => setIsLoading(false));
   }, []);
 
   const handleGetCodes = async (index: number) => {
@@ -48,7 +44,7 @@ const Subscriptions: NextPage = () => {
             <StyledButton text="Upgrade" variant="primary" />
           </TitleContainer>
 
-          {subscribes.length == 1 ? (
+          {subscribes.length === 1 ? (
             <CardContainer>
               <Card
                 key={subscribes[0].id}
@@ -80,29 +76,34 @@ const Subscriptions: NextPage = () => {
               />
             ))}
           </LicenseContainer>
-
-          <ClipLoader loading={isLoading} css={override} size={150} />
         </>
       ) : (
         <>
-          <Title>My subscriptions</Title>
-          <Container>
-            <Link href="/" passHref>
-              <ButtonCross>
-                <CloseIcon />
-              </ButtonCross>
-            </Link>
+          {isLoading ? (
+            <ClipLoader loading={isLoading} css={override} size={150} />
+          ) : (
+            <>
+              <Title>My subscriptions</Title>
+              <Container>
+                <Link href="/" passHref>
+                  <ButtonCross>
+                    <CloseIcon />
+                  </ButtonCross>
+                </Link>
 
-            <Subtitle>No active subscriptions</Subtitle>
+                <Subtitle>No active subscriptions</Subtitle>
 
-            <Description>
-              You can subscribe right now by <br /> clicking on the button below
-            </Description>
+                <Description>
+                  You can subscribe right now by <br /> clicking on the button
+                  below
+                </Description>
 
-            <Link href="/" passHref>
-              <StyledButton text="Get Gscores" />
-            </Link>
-          </Container>
+                <Link href="/" passHref>
+                  <StyledButton text="Get Gscores" />
+                </Link>
+              </Container>
+            </>
+          )}
         </>
       )}
     </Root>
@@ -113,6 +114,13 @@ const Root = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+`;
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  margin-top: 200px;
+  border-color: ${COLORS.Primary_1};
 `;
 
 const CardContainer = styled.div`

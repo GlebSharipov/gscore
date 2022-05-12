@@ -1,65 +1,56 @@
 import React, { FC, useState, useEffect } from "react";
 import styled from "styled-components";
 import { COLORS } from "assets/constant/colors";
-import { PricingCard, TabCreateAccount } from "../components";
+import { PricingCard } from "../components";
 import { getProducts } from "src/services/requests";
 import { ProductType } from "src/types";
-import { useAppSelector, RootState } from "src/store/store";
+import { useAppDispatch, useAppSelector, RootState } from "src/store/store";
+import { selectProduct } from "src/store/ducks/product";
 
 interface HomeProps {
   products: ProductType[];
-  isToken?: boolean;
 }
 
 const Home: FC<HomeProps> = ({ products }) => {
-  const [authorization, setAuthorization] = useState(false);
-  const [cardIndex, setCardIndex] = useState(0);
-  const [index, setIndex] = useState(0);
+  const [tabId, setTabId] = useState(0);
   const userName = useAppSelector((state: RootState) => state.user.userName);
   const token = useAppSelector((state: RootState) => state.user.token);
+  const dispatch = useAppDispatch();
+
+  const handleSelectedProduct = (index: number) => {
+    dispatch(selectProduct(products[index]));
+  };
 
   useEffect(() => {
     if (userName && token) {
-      setIndex(2);
-    } else if (token) {
-      setIndex(1);
+      setTabId(3);
+    } else {
+      setTabId(1);
     }
   }, [token, userName]);
 
   return (
-    <>
-      {authorization ? (
-        <Container>
-          <TabCreateAccount
-            isDisabled={userName.length === 0}
-            index={index}
-            product={products[cardIndex]}
+    <Root>
+      <Title>Get started with Gscore today!</Title>
+
+      <CardContainer>
+        {products.map((product: ProductType, index) => (
+          <PricingCard
+            key={product.id}
+            sitesCount={product.sitesCount}
+            prices={product.prices}
+            isSecondType={index === 1}
+            tabId={tabId}
+            onClick={() => handleSelectedProduct(index)}
           />
-        </Container>
-      ) : (
-        <Root>
-          <Title>Get started with Gscore today!</Title>
+        ))}
+      </CardContainer>
 
-          <CardContainer>
-            {products.map((product: ProductType, index) => (
-              <PricingCard
-                key={product.id}
-                sitesCount={product.sitesCount}
-                prices={product.prices}
-                isSecondType={index == 1}
-                onClick={() => setAuthorization(true)}
-                onCardClick={() => setCardIndex(index)}
-              />
-            ))}
-          </CardContainer>
-
-          <ContactUsContainer>
-            <Text>Have more than 10 sites?</Text>
-            <Link>Contact us</Link>
-          </ContactUsContainer>
-        </Root>
-      )}
-    </>
+      <ContactUsContainer>
+        <Text>Have more than 10 sites?</Text>
+        <Link>Contact us</Link>
+      </ContactUsContainer>
+    </Root>
   );
 };
 
@@ -118,13 +109,6 @@ const ContactUsContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 42px;
-`;
-
-const Container = styled.div`
-  max-width: 620px;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
 `;
 
 export async function getStaticProps() {

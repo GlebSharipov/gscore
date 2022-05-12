@@ -4,15 +4,14 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
 import { updateUser } from "src/services/requests";
-import { UpdateUserRequestType, UpdateUserResponseType } from "src/types";
+import { UpdateUserRequestType } from "src/types";
 import { addUserName } from "src/store/ducks/user";
 import { useAppDispatch } from "src/store/store";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export const UpdateUserForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const notify = (text: string) => toast(text);
 
   const {
     register,
@@ -21,27 +20,22 @@ export const UpdateUserForm = () => {
     formState: { errors },
   } = useForm<UpdateUserRequestType>();
 
-  const handleLogInSubmit: SubmitHandler<UpdateUserRequestType> = async (
-    data
-  ) => {
+  const handleLogInSubmit: SubmitHandler<UpdateUserRequestType> = (data) => {
     setIsLoading(true);
-    try {
-      const { username } = await updateUser(data).then((res) => res.data);
 
-      notify("Updating your data");
-      dispatch(addUserName(username));
-      setIsLoading(false);
+    updateUser(data)
+      .then((res) => {
+        dispatch(addUserName(res.data.username));
+        toast("Updating your data");
+      })
+      .catch((error) => toast(error.response.data.message))
+      .finally(() => setIsLoading(false));
 
-      reset();
-    } catch (error: any) {
-      notify(error.response.data.message);
-      setIsLoading(false);
-    }
+    reset();
   };
 
   return (
     <Root onSubmit={handleSubmit(handleLogInSubmit)}>
-      <ToastContainer />
       <Error>{errors.username && <p>{errors.username.message}</p>}</Error>
       <StyledInput
         {...register("username", {

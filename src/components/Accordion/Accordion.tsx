@@ -5,7 +5,7 @@ import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 import { SettingsIcon, LogoutIcon } from "../icons";
 import { TYPOGRAPHY } from "assets/styles/typography";
-import { addUserName } from "src/store/ducks/user";
+import { addUserName, addUserToken } from "src/store/ducks/user";
 import { useAppDispatch } from "src/store/store";
 
 interface AccordionProps {
@@ -27,6 +27,7 @@ export const Accordion: FC<AccordionProps> = ({
 
   const hadleLogout = () => {
     dispatch(addUserName(""));
+    dispatch(addUserToken(""));
     onOpen(false);
   };
 

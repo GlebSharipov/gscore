@@ -5,11 +5,10 @@ import styled from "styled-components";
 import { Button, Input } from "UI";
 import { updatePassword } from "src/services/requests";
 import { UpdatePasswordRequestType } from "src/types";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export const UpdatePasswordForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const notify = (text: string) => toast(text);
 
   const {
     register,
@@ -18,25 +17,19 @@ export const UpdatePasswordForm = () => {
     formState: { errors },
   } = useForm<UpdatePasswordRequestType>();
 
-  const handleLogInSubmit: SubmitHandler<UpdatePasswordRequestType> = async (
+  const handleLogInSubmit: SubmitHandler<UpdatePasswordRequestType> = (
     data
   ) => {
     setIsLoading(true);
-    try {
-      await updatePassword(data);
-      notify("Password updated");
-      setIsLoading(false);
 
-      reset();
-    } catch (error: any) {
-      notify(error.response.data.message);
-      setIsLoading(false);
-    }
+    updatePassword(data)
+      .then(() => toast("Password updated"))
+      .catch((error) => toast(error.response.data.message))
+      .finally(() => setIsLoading(false));
   };
 
   return (
     <Root onSubmit={handleSubmit(handleLogInSubmit)}>
-      <ToastContainer />
       <Error>
         {errors.currentPassword && <p>{errors.currentPassword.message}</p>}
       </Error>

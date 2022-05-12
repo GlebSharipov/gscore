@@ -13,9 +13,11 @@ import {
 import storage from "redux-persist/lib/storage";
 
 import { UserReducer } from "./ducks/user";
+import { ProductsReducer } from "./ducks/product";
 
 const rootReducer = combineReducers({
   user: UserReducer,
+  products: ProductsReducer,
 });
 
 const persistConfig = {

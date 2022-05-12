@@ -29,7 +29,6 @@ class ApiService {
         return response;
       },
       function (error: AxiosError) {
-        console.log(Promise.reject(error));
         return Promise.reject(error);
       }
     );
