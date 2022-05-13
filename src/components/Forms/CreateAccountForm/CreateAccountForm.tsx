@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { COLORS } from "assets/constant/colors";
+import { COLORS, ROUTERS } from "assets/constant";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
@@ -19,15 +19,13 @@ export const CreateAccountForm: FC = () => {
     formState: { errors },
   } = useForm<SignUpRequestType>();
 
-  const handleRegisterSubmit: SubmitHandler<SignUpRequestType> = async (
-    data
-  ) => {
+  const handleRegisterSubmit: SubmitHandler<SignUpRequestType> = (data) => {
     setIsLoading(true);
 
     signUp(data)
       .then(() => {
         toast("Registration completed successfully");
-        router.push("/authorization/2");
+        router.push(ROUTERS.LOG_IN);
       })
       .catch((error) => toast(error.response.data.message))
       .finally(() => setIsLoading(false));

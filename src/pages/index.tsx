@@ -1,33 +1,32 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
-import { COLORS } from "assets/constant/colors";
+import { COLORS, ROUTERS } from "assets/constant";
 import { PricingCard } from "../components";
 import { getProducts } from "src/services/requests";
 import { ProductType } from "src/types";
 import { useAppDispatch, useAppSelector, RootState } from "src/store/store";
 import { selectProduct } from "src/store/ducks/product";
+import { useRouter } from "next/router";
 
 interface HomeProps {
   products: ProductType[];
 }
 
 const Home: FC<HomeProps> = ({ products }) => {
-  const [tabId, setTabId] = useState(0);
   const userName = useAppSelector((state: RootState) => state.user.userName);
-  const token = useAppSelector((state: RootState) => state.user.token);
+  const router = useRouter();
+
   const dispatch = useAppDispatch();
 
   const handleSelectedProduct = (index: number) => {
     dispatch(selectProduct(products[index]));
-  };
 
-  useEffect(() => {
-    if (userName && token) {
-      setTabId(3);
+    if (userName) {
+      router.push(ROUTERS.CHECKOUT);
     } else {
-      setTabId(1);
+      router.push(ROUTERS.CREATE_ACCOUNT);
     }
-  }, [token, userName]);
+  };
 
   return (
     <Root>
@@ -40,7 +39,6 @@ const Home: FC<HomeProps> = ({ products }) => {
             sitesCount={product.sitesCount}
             prices={product.prices}
             isSecondType={index === 1}
-            tabId={tabId}
             onClick={() => handleSelectedProduct(index)}
           />
         ))}

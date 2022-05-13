@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { COLORS } from "assets/constant/colors";
+import { COLORS, ROUTERS } from "assets/constant";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
@@ -23,7 +23,7 @@ export const LoginForm: FC = () => {
     formState: { errors },
   } = useForm<SignInRequestType>();
 
-  const handleLogInSubmit: SubmitHandler<SignInRequestType> = async (data) => {
+  const handleLogInSubmit: SubmitHandler<SignInRequestType> = (data) => {
     setIsLoading(true);
 
     signIn(data)
@@ -31,7 +31,7 @@ export const LoginForm: FC = () => {
         dispatch(addUserName(res.data.user.username));
         dispatch(addUserToken(res.data.token));
         toast("Correct password");
-        router.push("/authorization/3");
+        router.push(ROUTERS.CHECKOUT);
       })
       .catch((error) => toast(error.response.data.message))
       .finally(() => setIsLoading(false));

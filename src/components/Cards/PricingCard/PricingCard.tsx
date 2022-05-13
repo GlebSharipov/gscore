@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import Link from "next/link";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
-import { LinkButton } from "UI";
+import { Button } from "UI";
 import { LicenseFeatures } from "./components";
 import { TYPOGRAPHY } from "assets/styles/typography";
 import { PriceType } from "src/types";
@@ -11,7 +11,6 @@ interface PricingCardProps {
   prices: PriceType[];
   sitesCount: number;
   isSecondType?: boolean;
-  tabId?: number;
   onClick?: () => void;
 }
 
@@ -19,7 +18,7 @@ export const PricingCard: FC<PricingCardProps> = ({
   prices,
   sitesCount,
   isSecondType,
-  tabId,
+
   onClick,
 }) => {
   return (
@@ -35,13 +34,12 @@ export const PricingCard: FC<PricingCardProps> = ({
 
       <LicenseFeatures isSecondType={isSecondType} sitesCount={sitesCount} />
 
-      <Link href={`/authorization/${tabId}`} passHref>
-        <LinkButton
-          isSecondType={isSecondType}
-          text="Get Gscore"
-          onClick={onClick}
-        />
-      </Link>
+      <StyledButton
+        $isSecondType={isSecondType}
+        variant="secondary"
+        text="Get Gscore"
+        onClick={onClick}
+      />
     </Root>
   );
 };
@@ -82,6 +80,20 @@ const Price = styled.h2`
   font-size: 54px;
   color: ${COLORS.Color_100};
   ${TYPOGRAPHY.price}
+`;
+
+const StyledButton = styled(Button)<{ $isSecondType?: boolean }>`
+  max-width: 308px;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  margin-top: 16px;
+  font-size: 18px;
+  padding: 26px;
+  color: ${({ $isSecondType }) => !$isSecondType && COLORS.Color_800};
+  @media (max-width: 576px) {
+    max-width: 360px;
+  }
 `;
 
 const LicenseTerm = styled.div`

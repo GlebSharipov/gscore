@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductType } from "src/types";
 
 type InitialProductStateType = {
-  selectedProduct: ProductType | undefined;
+  selectedProduct: ProductType | null;
 };
 
 const initialState: InitialProductStateType = {
-  selectedProduct: undefined,
+  selectedProduct: null,
 };
 
 export const productsSlice = createSlice({

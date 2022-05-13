@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import Link from "next/link";
 import Collapsible from "react-collapsible";
-import { COLORS } from "assets/constant/colors";
+import { COLORS, ROUTERS } from "assets/constant";
 import styled from "styled-components";
 import { SettingsIcon, LogoutIcon } from "../icons";
 import { TYPOGRAPHY } from "assets/styles/typography";
-import { addUserName, addUserToken } from "src/store/ducks/user";
+import { resetUserData } from "src/store/ducks/user";
 import { useAppDispatch } from "src/store/store";
 
 interface AccordionProps {
@@ -26,8 +26,7 @@ export const Accordion: FC<AccordionProps> = ({
   const dispatch = useAppDispatch();
 
   const hadleLogout = () => {
-    dispatch(addUserName(""));
-    dispatch(addUserToken(""));
+    dispatch(resetUserData());
     onOpen(false);
   };
 
@@ -36,7 +35,7 @@ export const Accordion: FC<AccordionProps> = ({
       <Collapsible trigger={trigger} transitionTime={200} open={isOpen}>
         <Menu>
           <Container>
-            <Link href="/settings-profile" passHref>
+            <Link href={ROUTERS.SETTINGS_PROFILE} passHref>
               <Settings onClick={() => onOpen(false)}>
                 <SettingsIcon />
                 <Text>Settings</Text>

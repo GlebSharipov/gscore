@@ -10,6 +10,7 @@ import { SubscribesResponseType, CodeType } from "src/types";
 import { getSubscriptions, codeActivate } from "src/services/requests";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/ClipLoader";
+import { toast } from "react-toastify";
 
 const Subscriptions: NextPage = () => {
   const [subscribes, setSubscribes] = useState<SubscribesResponseType[]>([]);
@@ -29,10 +30,16 @@ const Subscriptions: NextPage = () => {
     setCodes(subscribes[index].codes);
   };
 
-  const handleCodeActivate = async (code: string) => {
-    const { data } = await codeActivate(code);
-    const newCodes = codes.map((code) => (code.id === data.id ? data : code));
-    setCodes(newCodes);
+  const handleCodeActivate = (code: string) => {
+    codeActivate(code)
+      .then((res) => {
+        const newCodes = codes.map((code) =>
+          code.id === res.data.id ? res.data : code
+        );
+        setCodes(newCodes);
+        toast("Code activated successfully");
+      })
+      .catch((error) => toast(error.response.data.message));
   };
 
   return (

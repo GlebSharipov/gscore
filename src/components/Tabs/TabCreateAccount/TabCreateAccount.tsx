@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import Link from "next/link";
 
-import { COLORS } from "assets/constant/colors";
+import { COLORS, ROUTERS } from "assets/constant";
 import styled from "styled-components";
 import { Button } from "UI";
 import { ShoppingBasketIcon } from "icons";
@@ -11,14 +11,10 @@ import { useAppSelector, RootState } from "src/store/store";
 import { toast } from "react-toastify";
 
 interface TabCreateAccountProps {
-  isDisabled?: boolean;
   tabId: number;
 }
 
-export const TabCreateAccount: FC<TabCreateAccountProps> = ({
-  isDisabled,
-  tabId,
-}) => {
+export const TabCreateAccount: FC<TabCreateAccountProps> = ({ tabId }) => {
   const product = useAppSelector(
     (state: RootState) => state.products.selectedProduct
   );
@@ -27,15 +23,17 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isPurchase, setIsParchase] = useState(false);
 
-  const handlePurchaseSubscribe = async () => {
+  const handlePurchaseSubscribe = () => {
     setIsLoading(true);
 
-    await buySubscribe(product?.id).finally(() => {
-      setIsLoading(false);
-      toast("You have purchased a new subscription");
-    });
-
-    setIsParchase(true);
+    if (product) {
+      buySubscribe(product.id)
+        .then(() => setIsParchase(true))
+        .finally(() => {
+          setIsLoading(false);
+          toast("You have purchased a new subscription");
+        });
+    }
   };
 
   return (
@@ -68,16 +66,16 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({
       ) : (
         <StyledTabs>
           <StyledTabList>
-            <Link href="/authorization/1" passHref>
+            <Link href={ROUTERS.CREATE_ACCOUNT} passHref>
               <StyledTab $isActive={tabId === 1}>Create account</StyledTab>
             </Link>
 
-            <Link href="/authorization/2" passHref>
+            <Link href={ROUTERS.LOG_IN} passHref>
               <StyledTab $isActive={tabId === 2}>Log in</StyledTab>
             </Link>
 
             {userName && (
-              <Link href="/authorization/3" passHref>
+              <Link href={ROUTERS.CHECKOUT} passHref>
                 <StyledTab $isActive={tabId === 3}>Checkout</StyledTab>
               </Link>
             )}
