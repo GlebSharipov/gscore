@@ -27,11 +27,10 @@ export const UpdateUserForm = () => {
       .then((res) => {
         dispatch(addUserName(res.data.username));
         toast("Updating your data");
+        reset();
       })
       .catch((error) => toast(error.response.data.message))
       .finally(() => setIsLoading(false));
-
-    reset();
   };
 
   return (

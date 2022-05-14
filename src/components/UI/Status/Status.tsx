@@ -1,11 +1,9 @@
 import React, { FC } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { COLORS } from "assets/constant/colors";
 
 interface StatusProps {
-  isActive?: boolean;
-  isHold?: boolean;
-  isInactive?: boolean;
+  status: string;
 }
 
 enum StatusText {
@@ -14,27 +12,37 @@ enum StatusText {
   INACTIVE = "Inactive",
 }
 
-export const Status: FC<StatusProps> = ({ isActive, isHold, isInactive }) => {
-  return (
-    <Root $isActive={isActive} $isHold={isHold} $isInactive={isInactive}>
-      {isActive && StatusText.ACTIVE}
-      {isHold && StatusText.HOLD}
-      {isInactive && StatusText.INACTIVE}
-    </Root>
-  );
+const capitalizeFirstLetter = (value: string) => {
+  const word = value.toLowerCase();
+
+  return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
-const Root = styled.h2<{
-  $isActive?: boolean;
-  $isHold?: boolean;
-  $isInactive?: boolean;
-}>`
+export const Status: FC<StatusProps> = ({ status }) => {
+  const statusText = capitalizeFirstLetter(status);
+
+  return <Root $status={statusText}>{statusText}</Root>;
+};
+
+const rootColor = css<{ $status: string }>`
+  color: ${({ $status }) => {
+    switch ($status) {
+      case StatusText.ACTIVE:
+        return COLORS.Green_300;
+
+      case StatusText.INACTIVE:
+        return COLORS.Red_300;
+
+      case StatusText.HOLD:
+        return COLORS.Orange_300;
+    }
+  }};
+`;
+
+const Root = styled.h2`
   display: flex;
   align-items: center;
   min-height: 58px;
   font-size: 22px;
-  color: ${({ $isActive, $isHold, $isInactive }) =>
-    ($isActive && COLORS.Green_300) ||
-    ($isHold && COLORS.Orange_300) ||
-    ($isInactive && COLORS.Red_300)};
+  ${rootColor}
 `;

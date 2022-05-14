@@ -61,7 +61,7 @@ export const saveCode = async ({
   codesIds,
   subscribeId,
 }: CodeManageRequestType) => {
-  return put(Endpoints.CODE_MANAGE, { codesIds, subscribeId });
+  return put<CodeType[]>(Endpoints.CODE_MANAGE, { codesIds, subscribeId });
 };
 
 export const getSubscriptions = async () => {

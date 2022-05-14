@@ -113,6 +113,6 @@ export type SubscribesResponseType = {
 };
 
 export type ChangeSubscribeRequestType = {
-  productId: number;
-  subscribeId: number;
+  productId: number | undefined;
+  subscribeId: number | undefined;
 };

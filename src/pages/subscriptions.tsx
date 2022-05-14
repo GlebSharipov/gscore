@@ -4,10 +4,17 @@ import Link from "next/link";
 import styled from "styled-components";
 import { COLORS } from "assets/constant/colors";
 import { CardLicense, Card, SliderCard } from "../components";
-import { Button } from "../components/UI";
+import { upgradeProduct } from "src/store/ducks/product";
+import { useAppDispatch } from "src/store/store";
+
+import { Button } from "UI";
 import { CloseIcon } from "icons";
 import { SubscribesResponseType, CodeType } from "src/types";
-import { getSubscriptions, codeActivate } from "src/services/requests";
+import {
+  getSubscriptions,
+  codeActivate,
+  saveCode,
+} from "src/services/requests";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
@@ -15,19 +22,28 @@ import { toast } from "react-toastify";
 const Subscriptions: NextPage = () => {
   const [subscribes, setSubscribes] = useState<SubscribesResponseType[]>([]);
   const [codes, setCodes] = useState<CodeType[]>([]);
-
+  const [productId, setProductId] = useState(0);
+  const [subscribeId, setSubscribeId] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [codesIds, setCodesIds] = useState<number[]>([]);
+
   const numberOfСards = subscribes?.length;
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setIsLoading(true);
     getSubscriptions()
       .then((res) => setSubscribes(res.data))
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [codes]);
 
-  const handleGetCodes = async (index: number) => {
-    setCodes(subscribes[index].codes);
+  const handleUpgrade = () => {
+    dispatch(upgradeProduct({ productId, subscribeId }));
+  };
+
+  const handleGetCodes = (index: number) => {
+    const codes = subscribes[index].codes;
+    setCodes(codes);
   };
 
   const handleCodeActivate = (code: string) => {
@@ -42,20 +58,48 @@ const Subscriptions: NextPage = () => {
       .catch((error) => toast(error.response.data.message));
   };
 
+  const handleChecked = (codeId: number) => {
+    if (codesIds.includes(codeId)) {
+      const newArray = codesIds.filter((id) => id !== codeId);
+      setCodesIds(newArray);
+    } else {
+      setCodesIds([...codesIds, codeId]);
+    }
+  };
+
+  const handleSaveCodes = () => {
+    if (codesIds.length) {
+      saveCode({ codesIds, subscribeId })
+        .then((res) => setCodes(res.data))
+        .catch((error) => toast(error.response.data.message));
+    }
+  };
+
   return (
     <Root>
       {numberOfСards ? (
         <>
           <TitleContainer>
             <Title>My subscriptions</Title>
-            <StyledButton text="Upgrade" variant="primary" />
+            <Link href="/" passHref>
+              <StyledButton
+                onClick={handleUpgrade}
+                text="Upgrade"
+                variant="primary"
+              />
+            </Link>
           </TitleContainer>
 
           {subscribes.length === 1 ? (
             <CardContainer>
               <Card
                 key={subscribes[0].id}
-                onClick={() => handleGetCodes(0)}
+                onClick={() => {
+                  handleGetCodes(0);
+                  setProductId(subscribes[0].productId);
+                  setSubscribeId(subscribes[0].codes[0].subscribeId);
+                }}
+                status={subscribes[0].status}
                 price={subscribes[0].product.prices[0].price}
                 cardName={subscribes[0].product.name}
               />
@@ -65,7 +109,12 @@ const Subscriptions: NextPage = () => {
               {subscribes?.map((subscribe, index) => (
                 <Card
                   key={subscribe.id}
-                  onClick={() => handleGetCodes(index)}
+                  onClick={() => {
+                    handleGetCodes(index);
+                    setProductId(subscribes[index].productId);
+                    setSubscribeId(subscribes[index].codes[0].subscribeId);
+                  }}
+                  status={subscribe.status}
                   price={subscribe.product.prices[0].price}
                   cardName={subscribe.product.name}
                 />
@@ -79,10 +128,23 @@ const Subscriptions: NextPage = () => {
                 key={codeInfo.id}
                 code={codeInfo.code}
                 domain={codeInfo.origin}
+                status={codeInfo.status}
                 onClick={() => handleCodeActivate(codeInfo.code)}
+                onClickCheckbox={() => handleChecked(codeInfo.id)}
               />
             ))}
           </LicenseContainer>
+
+          {codesIds.length && (
+            <SelectDomains>
+              <Text>Select the domains you want to keep</Text>
+              <StyledButton
+                onClick={handleSaveCodes}
+                text="Сonfirm"
+                variant="primary"
+              />
+            </SelectDomains>
+          )}
         </>
       ) : (
         <>
@@ -121,6 +183,19 @@ const Root = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+`;
+
+const SelectDomains = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+`;
+
+const Text = styled.div`
+  font-size: 20px;
+  color: ${COLORS.Color_100};
 `;
 
 const override = css`

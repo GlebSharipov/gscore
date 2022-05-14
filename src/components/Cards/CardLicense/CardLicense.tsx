@@ -9,19 +9,25 @@ interface CardLicenseProps {
   className?: string;
   code: string;
   domain: string;
+  status: string;
+  checked?: boolean;
   onClick: () => void;
+  onClickCheckbox: () => void;
 }
 
 export const CardLicense: FC<CardLicenseProps> = ({
   className,
   code,
   domain,
+  status,
   onClick,
+  onClickCheckbox,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleChecked = () => {
     setIsChecked((prevState) => !prevState);
+    onClickCheckbox();
   };
 
   return (
@@ -51,7 +57,7 @@ export const CardLicense: FC<CardLicenseProps> = ({
         )}
         <TitleContainer>
           <TitleStatus>Status</TitleStatus>
-          {domain ? <Status isActive /> : <Status isInactive />}
+          <Status status={status} />
         </TitleContainer>
       </StatusContainer>
     </Root>

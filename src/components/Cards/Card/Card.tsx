@@ -10,6 +10,7 @@ interface CardProps {
   price: string;
   className?: string;
   cardName: string;
+  status: string;
   onClick: () => void;
 }
 
@@ -18,6 +19,7 @@ export const Card: FC<CardProps> = ({
   price,
   className,
   cardName,
+  status,
   onClick,
 }) => {
   const day = dayjs().format("DD.MM.YYYY");
@@ -26,7 +28,7 @@ export const Card: FC<CardProps> = ({
     <Root className={className} $isDisabled={isDisabled}>
       <StatusContainer>
         <Title>Gscore</Title>
-        <Status isActive />
+        <Status status={status} />
       </StatusContainer>
 
       <LicenseContainer>

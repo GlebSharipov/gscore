@@ -1,12 +1,14 @@
 import React, { FC, useState } from "react";
 import Link from "next/link";
+import { resetUpgrade } from "src/store/ducks/product";
+import { useAppDispatch } from "src/store/store";
 
 import { COLORS, ROUTES } from "assets/constant";
 import styled from "styled-components";
 import { Button } from "UI";
 import { ShoppingBasketIcon } from "icons";
 import { CreateAccountForm, LoginForm } from "src/components/Forms";
-import { buySubscribe } from "src/services/requests";
+import { buySubscribe, subscribeChangeProduct } from "src/services/requests";
 import { useAppSelector, RootState } from "src/store/store";
 import { toast } from "react-toastify";
 
@@ -18,6 +20,11 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({ stepName }) => {
   const product = useAppSelector(
     (state: RootState) => state.products.selectedProduct
   );
+  const { subscribeId, productId } = useAppSelector(
+    (state: RootState) => state.products
+  );
+  const dispatch = useAppDispatch();
+
   const userName = useAppSelector((state: RootState) => state.user.userName);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +40,17 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({ stepName }) => {
           setIsLoading(false);
           toast("You have purchased a new subscription");
         });
+    }
+  };
+
+  const handleUpgradeSubscribe = () => {
+    const selectedProductId = product?.id;
+    if (productId !== selectedProductId) {
+      subscribeChangeProduct({ productId: selectedProductId, subscribeId });
+      setIsParchase(true);
+      dispatch(resetUpgrade());
+    } else {
+      toast("You already have this subscription");
     }
   };
 
@@ -132,12 +150,21 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({ stepName }) => {
                 Total:<Price>${product?.prices[0].price}</Price>
               </TotalPrice>
 
-              <StyledButton
-                isLoading={isLoading}
-                onClick={handlePurchaseSubscribe}
-                type="submit"
-                text="Purchase"
-              />
+              {subscribeId ? (
+                <StyledButton
+                  isLoading={isLoading}
+                  onClick={handleUpgradeSubscribe}
+                  type="submit"
+                  text="Upgrade"
+                />
+              ) : (
+                <StyledButton
+                  isLoading={isLoading}
+                  onClick={handlePurchaseSubscribe}
+                  type="submit"
+                  text="Purchase"
+                />
+              )}
             </StyledTabPanel>
           )}
         </StyledTabs>

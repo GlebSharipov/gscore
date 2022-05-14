@@ -23,7 +23,10 @@ export const UpdatePasswordForm = () => {
     setIsLoading(true);
 
     updatePassword(data)
-      .then(() => toast("Password updated"))
+      .then(() => {
+        toast("Password updated");
+        reset();
+      })
       .catch((error) => toast(error.response.data.message))
       .finally(() => setIsLoading(false));
   };
