@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import Link from "next/link";
 
-import { COLORS, ROUTERS } from "assets/constant";
+import { COLORS, ROUTES } from "assets/constant";
 import styled from "styled-components";
 import { Button } from "UI";
 import { ShoppingBasketIcon } from "icons";
@@ -11,10 +11,10 @@ import { useAppSelector, RootState } from "src/store/store";
 import { toast } from "react-toastify";
 
 interface TabCreateAccountProps {
-  tabId: number;
+  stepName: string;
 }
 
-export const TabCreateAccount: FC<TabCreateAccountProps> = ({ tabId }) => {
+export const TabCreateAccount: FC<TabCreateAccountProps> = ({ stepName }) => {
   const product = useAppSelector(
     (state: RootState) => state.products.selectedProduct
   );
@@ -66,22 +66,26 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({ tabId }) => {
       ) : (
         <StyledTabs>
           <StyledTabList>
-            <Link href={ROUTERS.CREATE_ACCOUNT} passHref>
-              <StyledTab $isActive={tabId === 1}>Create account</StyledTab>
+            <Link href={ROUTES.CREATE_ACCOUNT} passHref>
+              <StyledTab $isActive={stepName === "create-account"}>
+                Create account
+              </StyledTab>
             </Link>
 
-            <Link href={ROUTERS.LOG_IN} passHref>
-              <StyledTab $isActive={tabId === 2}>Log in</StyledTab>
+            <Link href={ROUTES.LOG_IN} passHref>
+              <StyledTab $isActive={stepName === "login"}>Log in</StyledTab>
             </Link>
 
             {userName && (
-              <Link href={ROUTERS.CHECKOUT} passHref>
-                <StyledTab $isActive={tabId === 3}>Checkout</StyledTab>
+              <Link href={ROUTES.CHECKOUT} passHref>
+                <StyledTab $isActive={stepName === "checkout"}>
+                  Checkout
+                </StyledTab>
               </Link>
             )}
           </StyledTabList>
 
-          {tabId === 1 && (
+          {stepName === "create-account" && (
             <StyledTabPanel>
               <Title>Create account</Title>
               <Text>
@@ -98,14 +102,14 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({ tabId }) => {
             </StyledTabPanel>
           )}
 
-          {tabId === 2 && (
+          {stepName === "login" && (
             <StyledTabPanel>
               <Title>Log in</Title>
               <LoginForm />
             </StyledTabPanel>
           )}
 
-          {tabId === 3 && (
+          {stepName === "checkout" && (
             <StyledTabPanel>
               <Title>Checkout</Title>
 

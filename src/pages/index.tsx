@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { COLORS, ROUTERS } from "assets/constant";
+import { COLORS, ROUTES } from "assets/constant";
 import { PricingCard } from "../components";
 import { getProducts } from "src/services/requests";
 import { ProductType } from "src/types";
@@ -22,9 +22,9 @@ const Home: FC<HomeProps> = ({ products }) => {
     dispatch(selectProduct(products[index]));
 
     if (userName) {
-      router.push(ROUTERS.CHECKOUT);
+      router.push(ROUTES.CHECKOUT);
     } else {
-      router.push(ROUTERS.CREATE_ACCOUNT);
+      router.push(ROUTES.CREATE_ACCOUNT);
     }
   };
 

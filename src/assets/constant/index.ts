@@ -1,2 +1,2 @@
 export { COLORS } from "./colors";
-export { ROUTERS } from "./routers";
+export { ROUTES } from "./routes";

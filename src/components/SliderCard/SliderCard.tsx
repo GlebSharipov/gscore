@@ -97,14 +97,6 @@ const Counter = styled.div`
   }
 `;
 
-const ContainerArrow = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const CardNumber = styled.div`
   color: ${COLORS.Color_100};
 `;

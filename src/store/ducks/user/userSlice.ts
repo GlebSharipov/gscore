@@ -17,9 +17,8 @@ export const userSlice = createSlice({
       state.token = action.payload;
     },
 
-    resetUserData: (state) => {
-      state.userName = "";
-      state.token = "";
+    resetUserData: () => {
+      return initialState;
     },
   },
 });

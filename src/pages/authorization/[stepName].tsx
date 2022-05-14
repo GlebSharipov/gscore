@@ -7,12 +7,12 @@ import { TabCreateAccount } from "../../components";
 
 const Authorization: NextPage = () => {
   const router = useRouter();
-  const { tabId } = router.query;
-  const tubIdNumber = Number(tabId);
+  const { stepName } = router.query;
+  const tubIdString = String(stepName);
 
   return (
     <Root>
-      <TabCreateAccount tabId={tubIdNumber} />
+      <TabCreateAccount stepName={tubIdString} />
     </Root>
   );
 };

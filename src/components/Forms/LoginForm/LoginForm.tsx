@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { COLORS, ROUTERS } from "assets/constant";
+import { COLORS, ROUTES } from "assets/constant";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
@@ -31,7 +31,7 @@ export const LoginForm: FC = () => {
         dispatch(addUserName(res.data.user.username));
         dispatch(addUserToken(res.data.token));
         toast("Correct password");
-        router.push(ROUTERS.CHECKOUT);
+        router.push(ROUTES.CHECKOUT);
       })
       .catch((error) => toast(error.response.data.message))
       .finally(() => setIsLoading(false));

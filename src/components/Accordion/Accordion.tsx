@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import Link from "next/link";
 import Collapsible from "react-collapsible";
-import { COLORS, ROUTERS } from "assets/constant";
+import { COLORS, ROUTES } from "assets/constant";
 import styled from "styled-components";
 import { SettingsIcon, LogoutIcon } from "../icons";
 import { TYPOGRAPHY } from "assets/styles/typography";
@@ -35,7 +35,7 @@ export const Accordion: FC<AccordionProps> = ({
       <Collapsible trigger={trigger} transitionTime={200} open={isOpen}>
         <Menu>
           <Container>
-            <Link href={ROUTERS.SETTINGS_PROFILE} passHref>
+            <Link href={ROUTES.SETTINGS_PROFILE} passHref>
               <Settings onClick={() => onOpen(false)}>
                 <SettingsIcon />
                 <Text>Settings</Text>
