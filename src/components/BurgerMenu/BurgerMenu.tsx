@@ -38,7 +38,7 @@ export const BurgerMenu: FC<BurgerMenuProps> = ({ userName }) => {
             </Link>
 
             <StyledAccordion
-              onOpen={setIsOpen}
+              setMenuClose={() => setIsOpen(false)}
               isOpen={isOpen}
               trigger={
                 <ButtonUser onClick={() => setIsOpen(true)}>

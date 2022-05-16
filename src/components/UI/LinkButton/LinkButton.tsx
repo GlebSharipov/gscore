@@ -21,7 +21,7 @@ export const LinkButton: FC<LinkButtonProps> = ({
   link,
 }) => {
   return (
-    <Root href={`${link}`} passHref>
+    <Root href={link} passHref>
       <Link $variant={themes[variant]} className={className}>
         {isCross ? <CloseIcon /> : text}
       </Link>

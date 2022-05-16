@@ -12,7 +12,7 @@ import { useAppDispatch } from "src/store/store";
 interface AccordionProps {
   className?: string;
   isOpen?: boolean;
-  onOpen: (isOpen: boolean) => void;
+  setMenuClose: (isOpen: boolean) => void;
   trigger:
     | string
     | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
@@ -22,7 +22,7 @@ export const Accordion: FC<AccordionProps> = ({
   className,
   trigger,
   isOpen,
-  onOpen,
+  setMenuClose,
 }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -30,11 +30,11 @@ export const Accordion: FC<AccordionProps> = ({
   const hadleLogout = () => {
     dispatch(resetUserData());
     router.push(ROUTES.HOME);
-    onOpen(false);
+    setMenuClose(false);
   };
 
   const handleToSettings = () => {
-    onOpen(false);
+    setMenuClose(false);
     router.push(ROUTES.SETTINGS_PROFILE);
   };
 
@@ -43,10 +43,10 @@ export const Accordion: FC<AccordionProps> = ({
       <Collapsible trigger={trigger} transitionTime={200} open={isOpen}>
         <Menu>
           <Container>
-            <Settings onClick={handleToSettings}>
+            <SettingsButton onClick={handleToSettings}>
               <SettingsIcon />
               <Text>Settings</Text>
-            </Settings>
+            </SettingsButton>
           </Container>
 
           <Container>
@@ -98,7 +98,7 @@ const Text = styled.div`
   font-family: ${TYPOGRAPHY.text_single};
 `;
 
-const Settings = styled.button`
+const SettingsButton = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import styled, { css } from "styled-components";
 import { COLORS } from "src/constant";
-import { capitalizeFirstLetter } from "src/helpers";
+import { capitalize } from "src/helpers";
 
 interface StatusProps {
   status: string;
@@ -14,7 +14,7 @@ enum StatusText {
 }
 
 export const Status: FC<StatusProps> = ({ status }) => {
-  const statusText = capitalizeFirstLetter(status);
+  const statusText = capitalize(status);
 
   return <Root $status={statusText}>{statusText}</Root>;
 };
