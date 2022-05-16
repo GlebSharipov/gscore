@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 
 import styled from "styled-components";
 import { TabProfile } from "../components";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant";
 
 const SettingsProfile: NextPage = () => {
   return (

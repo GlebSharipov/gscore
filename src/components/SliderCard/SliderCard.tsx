@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant";
 import Slider from "react-slick";
 import styled from "styled-components";
 import { SliderButton } from "../../components/UI";

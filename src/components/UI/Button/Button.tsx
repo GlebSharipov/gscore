@@ -1,5 +1,5 @@
-import React, { FC, ButtonHTMLAttributes, useState } from "react";
-import { COLORS } from "assets/constant/colors";
+import React, { ButtonHTMLAttributes } from "react";
+import { COLORS } from "src/constant";
 import styled from "styled-components";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/ClipLoader";

@@ -3,9 +3,9 @@ import Link from "next/link";
 import { resetUpgrade } from "src/store/ducks/product";
 import { useAppDispatch } from "src/store/store";
 
-import { COLORS, ROUTES } from "assets/constant";
+import { COLORS, ROUTES } from "src/constant";
 import styled from "styled-components";
-import { Button } from "UI";
+import { Button, LinkButton } from "UI";
 import { ShoppingBasketIcon } from "icons";
 import { CreateAccountForm, LoginForm } from "src/components/Forms";
 import { buySubscribe, subscribeChangeProduct } from "src/services/requests";
@@ -46,7 +46,10 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({ stepName }) => {
   const handleUpgradeSubscribe = () => {
     const selectedProductId = product?.id;
     if (productId !== selectedProductId) {
-      subscribeChangeProduct({ productId: selectedProductId, subscribeId });
+      subscribeChangeProduct({
+        productId: selectedProductId || null,
+        subscribeId,
+      });
       setIsParchase(true);
       dispatch(resetUpgrade());
     } else {
@@ -77,9 +80,13 @@ export const TabCreateAccount: FC<TabCreateAccountProps> = ({ stepName }) => {
             </СardСontent>
           </CardContainer>
 
-          <Link href="/subscriptions" passHref>
-            <PurchaseButton text="Go to my subscriptions" />
-          </Link>
+          <ButtonContainer>
+            <PurchaseButton
+              variant="primary"
+              link={ROUTES.SUBSCRIPTIONS}
+              text="Go to my subscriptions"
+            />
+          </ButtonContainer>
         </PurchaseContainer>
       ) : (
         <StyledTabs>
@@ -188,10 +195,16 @@ const PurchaseContainer = styled.div`
   margin: 0 auto;
 `;
 
-const PurchaseButton = styled(Button)`
+const ButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 30px;
+`;
+
+const PurchaseButton = styled(LinkButton)`
   max-width: 620px;
   width: 100%;
-  margin-top: 24px;
+  font-size: 18px;
 `;
 
 const StyledTab = styled.a<{ $isActive: boolean }>`

@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import styled, { css } from "styled-components";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant";
+import { capitalizeFirstLetter } from "src/helpers";
 
 interface StatusProps {
   status: string;
@@ -11,12 +12,6 @@ enum StatusText {
   HOLD = "Hold",
   INACTIVE = "Inactive",
 }
-
-const capitalizeFirstLetter = (value: string) => {
-  const word = value.toLowerCase();
-
-  return word.charAt(0).toUpperCase() + word.slice(1);
-};
 
 export const Status: FC<StatusProps> = ({ status }) => {
   const statusText = capitalizeFirstLetter(status);

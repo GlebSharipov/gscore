@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { COLORS, ROUTES } from "assets/constant";
+import { COLORS, ROUTES } from "src/constant";
 import { PricingCard } from "../components";
 import { getProducts } from "src/services/requests";
 import { ProductType } from "src/types";

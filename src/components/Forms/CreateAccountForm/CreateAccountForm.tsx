@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { COLORS, ROUTES } from "assets/constant";
+import { COLORS, ROUTES } from "src/constant";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";

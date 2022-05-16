@@ -1,14 +1,12 @@
 import type { NextPage } from "next";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import styled from "styled-components";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant";
 import { CardLicense, Card, SliderCard } from "../components";
 import { upgradeProduct } from "src/store/ducks/product";
 import { useAppDispatch } from "src/store/store";
-
-import { Button } from "UI";
-import { CloseIcon } from "icons";
+import { useRouter } from "next/router";
+import { Button, LinkButton } from "UI";
 import { SubscribesResponseType, CodeType } from "src/types";
 import {
   getSubscriptions,
@@ -18,6 +16,7 @@ import {
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
+import { ROUTES } from "src/constant";
 
 const Subscriptions: NextPage = () => {
   const [subscribes, setSubscribes] = useState<SubscribesResponseType[]>([]);
@@ -25,10 +24,11 @@ const Subscriptions: NextPage = () => {
   const [productId, setProductId] = useState(0);
   const [subscribeId, setSubscribeId] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [codesIds, setCodesIds] = useState<number[]>([]);
+  const [codesIdsToSave, setCodesIdsToSave] = useState<number[]>([]);
 
   const numberOfСards = subscribes?.length;
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     setIsLoading(true);
@@ -39,6 +39,7 @@ const Subscriptions: NextPage = () => {
 
   const handleUpgrade = () => {
     dispatch(upgradeProduct({ productId, subscribeId }));
+    router.push(ROUTES.HOME);
   };
 
   const handleGetCodes = (index: number) => {
@@ -49,8 +50,8 @@ const Subscriptions: NextPage = () => {
   const handleCodeActivate = (code: string) => {
     codeActivate(code)
       .then((res) => {
-        const newCodes = codes.map((code) =>
-          code.id === res.data.id ? res.data : code
+        const newCodes = codes.map((codeInfo) =>
+          codeInfo.id === res.data.id ? res.data : codeInfo
         );
         setCodes(newCodes);
         toast("Code activated successfully");
@@ -59,20 +60,26 @@ const Subscriptions: NextPage = () => {
   };
 
   const handleChecked = (codeId: number) => {
-    if (codesIds.includes(codeId)) {
-      const newArray = codesIds.filter((id) => id !== codeId);
-      setCodesIds(newArray);
+    if (codesIdsToSave.includes(codeId)) {
+      const newArray = codesIdsToSave.filter((id) => id !== codeId);
+      setCodesIdsToSave(newArray);
     } else {
-      setCodesIds([...codesIds, codeId]);
+      setCodesIdsToSave([...codesIdsToSave, codeId]);
     }
   };
 
   const handleSaveCodes = () => {
-    if (codesIds.length) {
-      saveCode({ codesIds, subscribeId })
+    if (codesIdsToSave.length) {
+      saveCode({ codesIds: codesIdsToSave, subscribeId })
         .then((res) => setCodes(res.data))
         .catch((error) => toast(error.response.data.message));
     }
+  };
+
+  const handleGetProductInformation = (index: number = 0) => {
+    handleGetCodes(index);
+    setProductId(subscribes[index].productId);
+    setSubscribeId(subscribes[index].codes[0].subscribeId);
   };
 
   return (
@@ -81,24 +88,18 @@ const Subscriptions: NextPage = () => {
         <>
           <TitleContainer>
             <Title>My subscriptions</Title>
-            <Link href="/" passHref>
-              <StyledButton
-                onClick={handleUpgrade}
-                text="Upgrade"
-                variant="primary"
-              />
-            </Link>
+            <StyledButton
+              onClick={handleUpgrade}
+              text="Upgrade"
+              variant="primary"
+            />
           </TitleContainer>
 
           {subscribes.length === 1 ? (
             <CardContainer>
               <Card
                 key={subscribes[0].id}
-                onClick={() => {
-                  handleGetCodes(0);
-                  setProductId(subscribes[0].productId);
-                  setSubscribeId(subscribes[0].codes[0].subscribeId);
-                }}
+                onClick={() => handleGetProductInformation()}
                 status={subscribes[0].status}
                 price={subscribes[0].product.prices[0].price}
                 cardName={subscribes[0].product.name}
@@ -109,11 +110,7 @@ const Subscriptions: NextPage = () => {
               {subscribes?.map((subscribe, index) => (
                 <Card
                   key={subscribe.id}
-                  onClick={() => {
-                    handleGetCodes(index);
-                    setProductId(subscribes[index].productId);
-                    setSubscribeId(subscribes[index].codes[0].subscribeId);
-                  }}
+                  onClick={() => handleGetProductInformation(index)}
                   status={subscribe.status}
                   price={subscribe.product.prices[0].price}
                   cardName={subscribe.product.name}
@@ -129,13 +126,13 @@ const Subscriptions: NextPage = () => {
                 code={codeInfo.code}
                 domain={codeInfo.origin}
                 status={codeInfo.status}
-                onClick={() => handleCodeActivate(codeInfo.code)}
+                onCodeActivate={() => handleCodeActivate(codeInfo.code)}
                 onClickCheckbox={() => handleChecked(codeInfo.id)}
               />
             ))}
           </LicenseContainer>
 
-          {codesIds.length && (
+          {codesIdsToSave.length && (
             <SelectDomains>
               <Text>Select the domains you want to keep</Text>
               <StyledButton
@@ -154,11 +151,7 @@ const Subscriptions: NextPage = () => {
             <>
               <Title>My subscriptions</Title>
               <Container>
-                <Link href="/" passHref>
-                  <ButtonCross>
-                    <CloseIcon />
-                  </ButtonCross>
-                </Link>
+                <LinkButton link={ROUTES.HOME} variant="cross" isCross />
 
                 <Subtitle>No active subscriptions</Subtitle>
 
@@ -167,9 +160,11 @@ const Subscriptions: NextPage = () => {
                   below
                 </Description>
 
-                <Link href="/" passHref>
-                  <StyledButton text="Get Gscores" />
-                </Link>
+                <LinkButton
+                  link={ROUTES.HOME}
+                  variant="primary"
+                  text="Get Gscores"
+                />
               </Container>
             </>
           )}

@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import Link from "next/link";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant";
 import styled from "styled-components";
 import { BurgerIcon, ChevronDownIcon, CloseIcon, LogoIcon } from "icons";
 import { TYPOGRAPHY } from "assets/styles/typography";

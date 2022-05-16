@@ -3,14 +3,14 @@ import { ProductType } from "src/types";
 
 type InitialProductStateType = {
   selectedProduct: ProductType | null;
-  productId?: number;
-  subscribeId?: number;
+  productId: number | null;
+  subscribeId: number | null;
 };
 
 const initialState: InitialProductStateType = {
   selectedProduct: null,
-  productId: undefined,
-  subscribeId: undefined,
+  productId: null,
+  subscribeId: null,
 };
 
 export const productsSlice = createSlice({
@@ -30,8 +30,8 @@ export const productsSlice = createSlice({
     },
 
     resetUpgrade(state) {
-      state.productId = undefined;
-      state.subscribeId = undefined;
+      state.productId = null;
+      state.subscribeId = null;
     },
   },
 });

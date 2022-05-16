@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import Link from "next/link";
 import { useAppSelector, RootState } from "src/store/store";
 import { Accordion } from "../Accordion";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant";
 import styled from "styled-components";
 import { LogoIcon } from "icons";
 import { ChevronDownIcon } from "icons";
