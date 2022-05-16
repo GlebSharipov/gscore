@@ -12,7 +12,7 @@ import { useAppDispatch } from "src/store/store";
 interface AccordionProps {
   className?: string;
   isOpen?: boolean;
-  setMenuClose: (isOpen: boolean) => void;
+  setMenuClose: () => void;
   trigger:
     | string
     | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
@@ -30,11 +30,11 @@ export const Accordion: FC<AccordionProps> = ({
   const hadleLogout = () => {
     dispatch(resetUserData());
     router.push(ROUTES.HOME);
-    setMenuClose(false);
+    setMenuClose();
   };
 
   const handleToSettings = () => {
-    setMenuClose(false);
+    setMenuClose();
     router.push(ROUTES.SETTINGS_PROFILE);
   };
 

@@ -32,7 +32,7 @@ export const Header: FC = () => {
           </Link>
 
           <Accordion
-            setMenuClose={setIsOpen}
+            setMenuClose={() => setIsOpen(false)}
             isOpen={isOpen}
             trigger={
               <UserButton onClick={() => setIsOpen(true)}>
