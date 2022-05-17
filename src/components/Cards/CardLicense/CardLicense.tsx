@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant";
 import { TYPOGRAPHY } from "assets/styles/typography";
 import styled from "styled-components";
 import { Button, Status, Checkbox } from "UI";
@@ -9,19 +9,25 @@ interface CardLicenseProps {
   className?: string;
   code: string;
   domain: string;
-  onClick: () => void;
+  status: string;
+  checked?: boolean;
+  onCodeActivate: () => void;
+  onClickCheckbox: () => void;
 }
 
 export const CardLicense: FC<CardLicenseProps> = ({
   className,
   code,
   domain,
-  onClick,
+  status,
+  onCodeActivate,
+  onClickCheckbox,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleChecked = () => {
     setIsChecked((prevState) => !prevState);
+    onClickCheckbox();
   };
 
   return (
@@ -47,11 +53,15 @@ export const CardLicense: FC<CardLicenseProps> = ({
 
       <StatusContainer>
         {!domain && (
-          <StyledButton onClick={onClick} variant="secondary" text="Activate" />
+          <StyledButton
+            onClick={onCodeActivate}
+            variant="secondary"
+            text="Activate"
+          />
         )}
         <TitleContainer>
           <TitleStatus>Status</TitleStatus>
-          {domain ? <Status isActive /> : <Status isInactive />}
+          <Status status={status} />
         </TitleContainer>
       </StatusContainer>
     </Root>

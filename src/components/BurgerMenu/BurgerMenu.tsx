@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import Link from "next/link";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant";
 import styled from "styled-components";
 import { BurgerIcon, ChevronDownIcon, CloseIcon, LogoIcon } from "icons";
 import { TYPOGRAPHY } from "assets/styles/typography";
@@ -38,7 +38,7 @@ export const BurgerMenu: FC<BurgerMenuProps> = ({ userName }) => {
             </Link>
 
             <StyledAccordion
-              onOpen={setIsOpen}
+              setMenuClose={() => setIsOpen(false)}
               isOpen={isOpen}
               trigger={
                 <ButtonUser onClick={() => setIsOpen(true)}>

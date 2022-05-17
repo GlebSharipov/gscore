@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant";
 import styled from "styled-components";
 import { TwitterIcon, LinkedInIcon, FacebookIcon, LogoIcon } from "icons";
 import { TYPOGRAPHY } from "assets/styles/typography";

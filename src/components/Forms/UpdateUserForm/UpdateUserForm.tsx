@@ -1,5 +1,5 @@
-import React, { FC, useState } from "react";
-import { COLORS } from "assets/constant/colors";
+import React, { useState } from "react";
+import { COLORS } from "src/constant";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
@@ -27,11 +27,10 @@ export const UpdateUserForm = () => {
       .then((res) => {
         dispatch(addUserName(res.data.username));
         toast("Updating your data");
+        reset();
       })
       .catch((error) => toast(error.response.data.message))
       .finally(() => setIsLoading(false));
-
-    reset();
   };
 
   return (

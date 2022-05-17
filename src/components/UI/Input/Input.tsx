@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { COLORS } from "assets/constant/colors";
+import React from "react";
+import { COLORS } from "src/constant";
 import styled from "styled-components";
 import { CheckIcon, CloseIcon } from "icons";
 import { TYPOGRAPHY } from "assets/styles/typography";

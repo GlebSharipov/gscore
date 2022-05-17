@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant";
 import styled from "styled-components";
 import { UpdateUserForm, UpdatePasswordForm } from "src/components/Forms";
 

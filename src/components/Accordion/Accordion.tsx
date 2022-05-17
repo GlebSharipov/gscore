@@ -1,7 +1,8 @@
 import React, { FC } from "react";
-import Link from "next/link";
+import { useRouter } from "next/router";
+
 import Collapsible from "react-collapsible";
-import { COLORS, ROUTES } from "assets/constant";
+import { COLORS, ROUTES } from "src/constant";
 import styled from "styled-components";
 import { SettingsIcon, LogoutIcon } from "../icons";
 import { TYPOGRAPHY } from "assets/styles/typography";
@@ -11,7 +12,7 @@ import { useAppDispatch } from "src/store/store";
 interface AccordionProps {
   className?: string;
   isOpen?: boolean;
-  onOpen: (isOpen: boolean) => void;
+  setMenuClose: () => void;
   trigger:
     | string
     | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
@@ -21,13 +22,20 @@ export const Accordion: FC<AccordionProps> = ({
   className,
   trigger,
   isOpen,
-  onOpen,
+  setMenuClose,
 }) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const hadleLogout = () => {
     dispatch(resetUserData());
-    onOpen(false);
+    router.push(ROUTES.HOME);
+    setMenuClose();
+  };
+
+  const handleToSettings = () => {
+    setMenuClose();
+    router.push(ROUTES.SETTINGS_PROFILE);
   };
 
   return (
@@ -35,21 +43,17 @@ export const Accordion: FC<AccordionProps> = ({
       <Collapsible trigger={trigger} transitionTime={200} open={isOpen}>
         <Menu>
           <Container>
-            <Link href={ROUTES.SETTINGS_PROFILE} passHref>
-              <Settings onClick={() => onOpen(false)}>
-                <SettingsIcon />
-                <Text>Settings</Text>
-              </Settings>
-            </Link>
+            <SettingsButton onClick={handleToSettings}>
+              <SettingsIcon />
+              <Text>Settings</Text>
+            </SettingsButton>
           </Container>
 
           <Container>
-            <Link href="/" passHref>
-              <LogoutButton onClick={hadleLogout}>
-                <LogoutIcon />
-                <Text>Logout</Text>
-              </LogoutButton>
-            </Link>
+            <LogoutButton onClick={hadleLogout}>
+              <LogoutIcon />
+              <Text>Logout</Text>
+            </LogoutButton>
           </Container>
         </Menu>
       </Collapsible>
@@ -94,7 +98,7 @@ const Text = styled.div`
   font-family: ${TYPOGRAPHY.text_single};
 `;
 
-const Settings = styled.a`
+const SettingsButton = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;

@@ -1,5 +1,5 @@
-import React, { FC, useState } from "react";
-import { COLORS } from "assets/constant/colors";
+import React, { useState } from "react";
+import { COLORS } from "src/constant";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import { Button, Input } from "UI";
@@ -23,7 +23,10 @@ export const UpdatePasswordForm = () => {
     setIsLoading(true);
 
     updatePassword(data)
-      .then(() => toast("Password updated"))
+      .then(() => {
+        toast("Password updated");
+        reset();
+      })
       .catch((error) => toast(error.response.data.message))
       .finally(() => setIsLoading(false));
   };

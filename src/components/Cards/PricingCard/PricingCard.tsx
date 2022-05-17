@@ -1,6 +1,5 @@
 import React, { FC } from "react";
-import Link from "next/link";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant";
 import styled from "styled-components";
 import { Button } from "UI";
 import { LicenseFeatures } from "./components";
@@ -18,7 +17,6 @@ export const PricingCard: FC<PricingCardProps> = ({
   prices,
   sitesCount,
   isSecondType,
-
   onClick,
 }) => {
   return (

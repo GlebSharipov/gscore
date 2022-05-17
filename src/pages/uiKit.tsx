@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { NextPage } from "next";
 import styled from "styled-components";
-import { COLORS } from "assets/constant/colors";
+import { COLORS } from "src/constant/colors";
 import {
   Card,
   CardLicense,
@@ -64,8 +64,14 @@ const UiKit: NextPage = () => {
       <Checkbox checked isDisabled onClick={handleChecked} />
       <Checkbox isDisabled onClick={handleChecked} />
 
-      <Card onClick={() => {}} cardName="Three cites" price={prices[0]} />
       <Card
+        status="Active"
+        onClick={() => {}}
+        cardName="Three cites"
+        price={prices[0]}
+      />
+      <Card
+        status="Active"
         onClick={() => {}}
         cardName="Three cites"
         price={prices[1]}
@@ -74,14 +80,16 @@ const UiKit: NextPage = () => {
 
       {cardsLicenseData.map((card) => (
         <CardLicense
-          onClick={() => {}}
+          status="Active"
+          onCodeActivate={() => {}}
+          onClickCheckbox={() => {}}
           key={card.code}
           domain={card.domain}
           code={card.code}
         />
       ))}
 
-      <TabCreateAccount tabId={1} />
+      <TabCreateAccount stepName="" />
 
       <TabProfile />
     </Root>
