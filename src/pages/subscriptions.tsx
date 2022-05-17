@@ -1,56 +1,116 @@
 import type { NextPage } from "next";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import styled from "styled-components";
 import { COLORS } from "assets/constant/colors";
 import { CardLicense, Card, SliderCard } from "../components";
 import { Button } from "../components/UI";
-import { pricingCardsData, cardsLicenseData } from "src/components/utils/mock";
 import { CloseIcon } from "icons";
+import { SubscribesResponseType, CodeType } from "src/types";
+import { getSubscriptions, codeActivate } from "src/services/requests";
+import { css } from "@emotion/react";
+import ClipLoader from "react-spinners/ClipLoader";
+import { toast } from "react-toastify";
 
 const Subscriptions: NextPage = () => {
-  const prices = pricingCardsData.map((card) => card.price);
-  const numberOfСards = prices.length;
+  const [subscribes, setSubscribes] = useState<SubscribesResponseType[]>([]);
+  const [codes, setCodes] = useState<CodeType[]>([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const numberOfСards = subscribes?.length;
+
+  useEffect(() => {
+    setIsLoading(true);
+    getSubscriptions()
+      .then((res) => setSubscribes(res.data))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  const handleGetCodes = async (index: number) => {
+    setCodes(subscribes[index].codes);
+  };
+
+  const handleCodeActivate = (code: string) => {
+    codeActivate(code)
+      .then((res) => {
+        const newCodes = codes.map((code) =>
+          code.id === res.data.id ? res.data : code
+        );
+        setCodes(newCodes);
+        toast("Code activated successfully");
+      })
+      .catch((error) => toast(error.response.data.message));
+  };
 
   return (
     <Root>
-      {prices ? (
+      {numberOfСards ? (
         <>
           <TitleContainer>
             <Title>My subscriptions</Title>
             <StyledButton text="Upgrade" variant="primary" />
           </TitleContainer>
 
-          <SliderCard numberOfСards={numberOfСards}>
-            {prices.map((price) => (
-              <Card key={price} price={price} />
-            ))}
-          </SliderCard>
+          {subscribes.length === 1 ? (
+            <CardContainer>
+              <Card
+                key={subscribes[0].id}
+                onClick={() => handleGetCodes(0)}
+                price={subscribes[0].product.prices[0].price}
+                cardName={subscribes[0].product.name}
+              />
+            </CardContainer>
+          ) : (
+            <SliderCard numberOfСards={numberOfСards}>
+              {subscribes?.map((subscribe, index) => (
+                <Card
+                  key={subscribe.id}
+                  onClick={() => handleGetCodes(index)}
+                  price={subscribe.product.prices[0].price}
+                  cardName={subscribe.product.name}
+                />
+              ))}
+            </SliderCard>
+          )}
 
           <LicenseContainer>
-            {cardsLicenseData.map((card) => (
+            {codes.map((codeInfo) => (
               <StyledCardLicense
-                key={card.code}
-                domain={card.domain}
-                code={card.code}
+                key={codeInfo.id}
+                code={codeInfo.code}
+                domain={codeInfo.origin}
+                onClick={() => handleCodeActivate(codeInfo.code)}
               />
             ))}
           </LicenseContainer>
         </>
       ) : (
         <>
-          <Title>My subscriptions</Title>
-          <Container>
-            <ButtonCross>
-              <CloseIcon />
-            </ButtonCross>
+          {isLoading ? (
+            <ClipLoader loading={isLoading} css={override} size={150} />
+          ) : (
+            <>
+              <Title>My subscriptions</Title>
+              <Container>
+                <Link href="/" passHref>
+                  <ButtonCross>
+                    <CloseIcon />
+                  </ButtonCross>
+                </Link>
 
-            <Subtitle>No active subscriptions</Subtitle>
+                <Subtitle>No active subscriptions</Subtitle>
 
-            <Description>
-              You can subscribe right now by <br /> clicking on the button below
-            </Description>
+                <Description>
+                  You can subscribe right now by <br /> clicking on the button
+                  below
+                </Description>
 
-            <StyledButton text="Get Gscores" />
-          </Container>
+                <Link href="/" passHref>
+                  <StyledButton text="Get Gscores" />
+                </Link>
+              </Container>
+            </>
+          )}
         </>
       )}
     </Root>
@@ -61,6 +121,18 @@ const Root = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+`;
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  margin-top: 200px;
+  border-color: ${COLORS.Primary_1};
+`;
+
+const CardContainer = styled.div`
+  width: 100%;
+  margin-bottom: 100px;
 `;
 
 const Title = styled.h1`
@@ -116,7 +188,7 @@ const ButtonCross = styled.button`
   margin-bottom: 24px;
 
   &:hover {
-    background-color: ${COLORS.Primari_1};
+    background-color: ${COLORS.Primary_1};
   }
 `;
 

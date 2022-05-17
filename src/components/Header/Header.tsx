@@ -1,5 +1,6 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Link from "next/link";
+import { useAppSelector, RootState } from "src/store/store";
 import { Accordion } from "../Accordion";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
@@ -8,11 +9,11 @@ import { ChevronDownIcon } from "icons";
 import { TYPOGRAPHY } from "assets/styles/typography";
 import { BurgerMenu } from "../BurgerMenu";
 
-interface HeaderProps {
-  userName?: string;
-}
+export const Header: FC = () => {
+  const userName = useAppSelector((state: RootState) => state.user.userName);
 
-export const Header: FC<HeaderProps> = ({ userName }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <Root>
       <Link href="/" passHref>
@@ -31,8 +32,10 @@ export const Header: FC<HeaderProps> = ({ userName }) => {
           </Link>
 
           <Accordion
+            onOpen={setIsOpen}
+            isOpen={isOpen}
             trigger={
-              <UserButton>
+              <UserButton onClick={() => setIsOpen(true)}>
                 <UserName>{userName}</UserName>
                 <ChevronDownIcon />
               </UserButton>

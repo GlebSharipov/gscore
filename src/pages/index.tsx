@@ -1,46 +1,54 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
-import { COLORS } from "assets/constant/colors";
-import { PricingCard, TabCreateAccount } from "../components";
+import { COLORS, ROUTES } from "assets/constant";
+import { PricingCard } from "../components";
 import { getProducts } from "src/services/requests";
 import { ProductType } from "src/types";
+import { useAppDispatch, useAppSelector, RootState } from "src/store/store";
+import { selectProduct } from "src/store/ducks/product";
+import { useRouter } from "next/router";
 
 interface HomeProps {
   products: ProductType[];
 }
 
 const Home: FC<HomeProps> = ({ products }) => {
-  const [authorization, setAuthorization] = useState(false);
+  const userName = useAppSelector((state: RootState) => state.user.userName);
+  const router = useRouter();
+
+  const dispatch = useAppDispatch();
+
+  const handleSelectedProduct = (index: number) => {
+    dispatch(selectProduct(products[index]));
+
+    if (userName) {
+      router.push(ROUTES.CHECKOUT);
+    } else {
+      router.push(ROUTES.CREATE_ACCOUNT);
+    }
+  };
 
   return (
-    <>
-      {authorization ? (
-        <Container>
-          <TabCreateAccount />
-        </Container>
-      ) : (
-        <Root>
-          <Title>Get started with Gscore today!</Title>
+    <Root>
+      <Title>Get started with Gscore today!</Title>
 
-          <CardContainer>
-            {products.map((product: ProductType, index) => (
-              <PricingCard
-                key={product.id}
-                sitesCount={product.sitesCount}
-                prices={product.prices}
-                isSecondType={index == 1}
-                onClick={() => setAuthorization(true)}
-              />
-            ))}
-          </CardContainer>
+      <CardContainer>
+        {products.map((product: ProductType, index) => (
+          <PricingCard
+            key={product.id}
+            sitesCount={product.sitesCount}
+            prices={product.prices}
+            isSecondType={index === 1}
+            onClick={() => handleSelectedProduct(index)}
+          />
+        ))}
+      </CardContainer>
 
-          <ContactUsContainer>
-            <Text>Have more than 10 sites?</Text>
-            <Link>Contact us</Link>
-          </ContactUsContainer>
-        </Root>
-      )}
-    </>
+      <ContactUsContainer>
+        <Text>Have more than 10 sites?</Text>
+        <Link>Contact us</Link>
+      </ContactUsContainer>
+    </Root>
   );
 };
 
@@ -82,9 +90,9 @@ const Text = styled.div`
 
 const Link = styled.a`
   cursor: pointer;
-  color: ${COLORS.Primari_1};
+  color: ${COLORS.Primary_1};
   font-size: 18px;
-  border-bottom: 1px solid ${COLORS.Primari_1};
+  border-bottom: 1px solid ${COLORS.Primary_1};
 
   &:hover {
     color: ${COLORS.Color_100};
@@ -99,13 +107,6 @@ const ContactUsContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 42px;
-`;
-
-const Container = styled.div`
-  max-width: 620px;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
 `;
 
 export async function getStaticProps() {

@@ -60,7 +60,7 @@ const HiddenCheckbox = styled.input.attrs<{ defaultChecked?: boolean }>({
   &:disabled {
     + div:hover {
       background-color: ${({ defaultChecked }) =>
-        defaultChecked ? COLORS.Primari_1 : COLORS.Color_200};
+        defaultChecked ? COLORS.Primary_1 : COLORS.Color_200};
     }
   }
 `;
@@ -68,7 +68,7 @@ const HiddenCheckbox = styled.input.attrs<{ defaultChecked?: boolean }>({
 const StyledCheckbox = styled.div<{ $defaultChecked?: boolean }>`
   padding: 2px 4px;
   background-color: ${({ $defaultChecked }) =>
-    $defaultChecked ? COLORS.Primari_1 : COLORS.Color_100};
+    $defaultChecked ? COLORS.Primary_1 : COLORS.Color_100};
   border-radius: 7px;
   transition: all 150ms;
 

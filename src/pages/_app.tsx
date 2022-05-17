@@ -1,16 +1,22 @@
 import "assets/styles/main.scss";
 import type { AppProps } from "next/app";
-import React, { useState } from "react";
+import React from "react";
 import { Layout } from "../components";
-import { userData } from "src/components/utils/mock";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "src/store/store";
+import { ToastContainer } from "react-toastify";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [userName, setUserName] = useState(userData);
-
   return (
-    <Layout userName={userName.user}>
-      <Component {...pageProps} />
-    </Layout>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Layout>
+          <ToastContainer />
+          <Component {...pageProps} />
+        </Layout>
+      </PersistGate>
+    </Provider>
   );
 }
 

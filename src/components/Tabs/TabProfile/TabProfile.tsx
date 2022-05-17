@@ -3,7 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
-import { Button, Input } from "UI";
+import { UpdateUserForm, UpdatePasswordForm } from "src/components/Forms";
 
 export const TabProfile: FC = () => {
   return (
@@ -16,22 +16,12 @@ export const TabProfile: FC = () => {
 
       <StyledTabPanel>
         <Label>Personal Info</Label>
-        <Form>
-          <Input variant="initial" placeholder="Username" />
-          <Input variant="initial" placeholder="Email" />
-
-          <StyledButton type="submit" text="Save" />
-        </Form>
+        <UpdateUserForm />
       </StyledTabPanel>
 
       <StyledTabPanel>
         <Label>Change password</Label>
-        <Form>
-          <Input variant="initial" placeholder="Current Password" />
-          <Input variant="initial" placeholder="New Password" />
-
-          <StyledButton type="submit" text="Save" />
-        </Form>
+        <UpdatePasswordForm />
       </StyledTabPanel>
     </StyledTabs>
   );
@@ -64,8 +54,8 @@ const StyledTab = styled(Tab)`
   padding-bottom: 20px;
 
   &:focus {
-    color: ${COLORS.Primari_1};
-    border-color: ${COLORS.Primari_1};
+    color: ${COLORS.Primary_1};
+    border-color: ${COLORS.Primary_1};
   }
 
   @media (max-width: 410px) {
@@ -98,16 +88,4 @@ const Label = styled.h2`
   font-size: 28px;
   color: ${COLORS.Color_100};
   margin-bottom: 24px;
-`;
-
-const Form = styled.form`
-  width: 100%;
-  @media (max-width: 410px) {
-    margin-bottom: 12px;
-  }
-`;
-
-const StyledButton = styled(Button)`
-  max-width: 160px;
-  margin-top: 24px;
 `;

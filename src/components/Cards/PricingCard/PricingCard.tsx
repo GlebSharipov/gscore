@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import Link from "next/link";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
 import { Button } from "UI";
@@ -17,6 +18,7 @@ export const PricingCard: FC<PricingCardProps> = ({
   prices,
   sitesCount,
   isSecondType,
+
   onClick,
 }) => {
   return (
@@ -48,7 +50,7 @@ const Root = styled.div<{ $isSecondType?: boolean }>`
   padding: 42px 48px;
   transform: ${({ $isSecondType }) => $isSecondType && "translateY(-50px)"};
   background-color: ${({ $isSecondType }) =>
-    $isSecondType ? COLORS.Primari_1 : COLORS.Color_700};
+    $isSecondType ? COLORS.Primary_1 : COLORS.Color_700};
 
   @media (max-width: 1200px) {
     transform: translateY(0);
@@ -80,6 +82,20 @@ const Price = styled.h2`
   ${TYPOGRAPHY.price}
 `;
 
+const StyledButton = styled(Button)<{ $isSecondType?: boolean }>`
+  max-width: 308px;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  margin-top: 16px;
+  font-size: 18px;
+  padding: 26px;
+  color: ${({ $isSecondType }) => !$isSecondType && COLORS.Color_800};
+  @media (max-width: 576px) {
+    max-width: 360px;
+  }
+`;
+
 const LicenseTerm = styled.div`
   font-size: 24px;
   text-align: center;
@@ -95,19 +111,4 @@ const Text = styled.p<{ $isSecondType?: boolean }>`
   ${TYPOGRAPHY.paragraph}
   color: ${({ $isSecondType }) =>
     $isSecondType ? COLORS.Color_100 : COLORS.Color_400};
-`;
-
-const StyledButton = styled(Button)<{ $isSecondType?: boolean }>`
-  max-width: 308px;
-  width: 100%;
-  text-align: center;
-  white-space: nowrap;
-  margin-top: 16px;
-  font-size: 18px;
-  padding: 26px;
-  color: ${({ $isSecondType }) => $isSecondType && COLORS.Color_800};
-
-  @media (max-width: 576px) {
-    max-width: 360px;
-  }
 `;

@@ -1,26 +1,42 @@
 import React, { FC } from "react";
 import Link from "next/link";
 import Collapsible from "react-collapsible";
-import { COLORS } from "assets/constant/colors";
+import { COLORS, ROUTES } from "assets/constant";
 import styled from "styled-components";
 import { SettingsIcon, LogoutIcon } from "../icons";
 import { TYPOGRAPHY } from "assets/styles/typography";
+import { resetUserData } from "src/store/ducks/user";
+import { useAppDispatch } from "src/store/store";
 
 interface AccordionProps {
   className?: string;
+  isOpen?: boolean;
+  onOpen: (isOpen: boolean) => void;
   trigger:
     | string
     | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
 }
 
-export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
+export const Accordion: FC<AccordionProps> = ({
+  className,
+  trigger,
+  isOpen,
+  onOpen,
+}) => {
+  const dispatch = useAppDispatch();
+
+  const hadleLogout = () => {
+    dispatch(resetUserData());
+    onOpen(false);
+  };
+
   return (
     <Root className={className}>
-      <Collapsible trigger={trigger} transitionTime={200}>
+      <Collapsible trigger={trigger} transitionTime={200} open={isOpen}>
         <Menu>
           <Container>
-            <Link href="/settings-profile" passHref>
-              <Settings>
+            <Link href={ROUTES.SETTINGS_PROFILE} passHref>
+              <Settings onClick={() => onOpen(false)}>
                 <SettingsIcon />
                 <Text>Settings</Text>
               </Settings>
@@ -28,10 +44,12 @@ export const Accordion: FC<AccordionProps> = ({ className, trigger }) => {
           </Container>
 
           <Container>
-            <LogoutButton>
-              <LogoutIcon />
-              <Text>Logout</Text>
-            </LogoutButton>
+            <Link href="/" passHref>
+              <LogoutButton onClick={hadleLogout}>
+                <LogoutIcon />
+                <Text>Logout</Text>
+              </LogoutButton>
+            </Link>
           </Container>
         </Menu>
       </Collapsible>

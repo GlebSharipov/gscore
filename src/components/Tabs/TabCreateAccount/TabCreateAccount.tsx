@@ -1,83 +1,152 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Link from "next/link";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
-import { COLORS } from "assets/constant/colors";
+
+import { COLORS, ROUTES } from "assets/constant";
 import styled from "styled-components";
-import { Button, Input } from "UI";
+import { Button } from "UI";
 import { ShoppingBasketIcon } from "icons";
+import { CreateAccountForm, LoginForm } from "src/components/Forms";
+import { buySubscribe } from "src/services/requests";
+import { useAppSelector, RootState } from "src/store/store";
+import { toast } from "react-toastify";
 
-export const TabCreateAccount: FC = () => {
+interface TabCreateAccountProps {
+  stepName: string;
+}
+
+export const TabCreateAccount: FC<TabCreateAccountProps> = ({ stepName }) => {
+  const product = useAppSelector(
+    (state: RootState) => state.products.selectedProduct
+  );
+  const userName = useAppSelector((state: RootState) => state.user.userName);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPurchase, setIsParchase] = useState(false);
+
+  const handlePurchaseSubscribe = () => {
+    setIsLoading(true);
+
+    if (product) {
+      buySubscribe(product.id)
+        .then(() => setIsParchase(true))
+        .finally(() => {
+          setIsLoading(false);
+          toast("You have purchased a new subscription");
+        });
+    }
+  };
+
   return (
-    <StyledTabs defaultFocus>
-      <StyledTabList>
-        <StyledTab>Create account</StyledTab>
-        <StyledTab>Log in</StyledTab>
-        <StyledTab>Checkout</StyledTab>
-      </StyledTabList>
+    <>
+      {isPurchase ? (
+        <PurchaseContainer>
+          <Title>Start your subscription</Title>
+          <Text>
+            We have sent you a payment receipt by e-mail and a link to download
+            the plugin with a license key.
+          </Text>
 
-      <StyledTabPanel>
-        <Title>Create account</Title>
-        <Text>
-          You need to enter your name and email. We will send you a temporary
-          password by email
-        </Text>
+          <CardContainer>
+            <TitleContainer>
+              <div>Package name</div> <div>Price</div>
+            </TitleContainer>
 
-        <Form>
-          <StyledInput variant="initial" placeholder="Username" />
-          <StyledInput variant="initial" placeholder="Email" />
-          <StyledInput variant="initial" placeholder="Password" />
+            <Line />
 
-          <StyledButton type="submit" text="Send password" />
-        </Form>
+            <СardСontent>
+              <NumberOfSites>{product?.name} license</NumberOfSites>
+              <PricePurchase>${product?.prices[0].price}</PricePurchase>
+            </СardСontent>
+          </CardContainer>
 
-        <Container>
-          Have an account?
-          <NextStep>Go to the next step</NextStep>
-        </Container>
-      </StyledTabPanel>
+          <Link href="/subscriptions" passHref>
+            <PurchaseButton text="Go to my subscriptions" />
+          </Link>
+        </PurchaseContainer>
+      ) : (
+        <StyledTabs>
+          <StyledTabList>
+            <Link href={ROUTES.CREATE_ACCOUNT} passHref>
+              <StyledTab $isActive={stepName === "create-account"}>
+                Create account
+              </StyledTab>
+            </Link>
 
-      <StyledTabPanel>
-        <Title>Log in</Title>
-        <Form>
-          <StyledInput variant="initial" placeholder="Email" />
-          <StyledInput variant="initial" placeholder="Password" />
+            <Link href={ROUTES.LOG_IN} passHref>
+              <StyledTab $isActive={stepName === "login"}>Log in</StyledTab>
+            </Link>
 
-          <StyledButton type="submit" text="Log in" />
-        </Form>
-      </StyledTabPanel>
+            {userName && (
+              <Link href={ROUTES.CHECKOUT} passHref>
+                <StyledTab $isActive={stepName === "checkout"}>
+                  Checkout
+                </StyledTab>
+              </Link>
+            )}
+          </StyledTabList>
 
-      <StyledTabPanel>
-        <Title>Checkout</Title>
+          {stepName === "create-account" && (
+            <StyledTabPanel>
+              <Title>Create account</Title>
+              <Text>
+                You need to enter your name and email. We will send you a
+                temporary password by email
+              </Text>
 
-        <CardContainer>
-          <TitleContainer>
-            <div>Package name</div> <div>Price</div>
-          </TitleContainer>
+              <CreateAccountForm />
 
-          <Line />
+              <Container>
+                Have an account?
+                <NextStep>Go to the next step</NextStep>
+              </Container>
+            </StyledTabPanel>
+          )}
 
-          <СardСontent>
-            <NumberOfSites>Single site license</NumberOfSites>
-            <PriceContainer>
-              $77 <StyledShoppingBasketIcon />
-            </PriceContainer>
-          </СardСontent>
-        </CardContainer>
+          {stepName === "login" && (
+            <StyledTabPanel>
+              <Title>Log in</Title>
+              <LoginForm />
+            </StyledTabPanel>
+          )}
 
-        <TotalPrice>
-          Total:<Price>$77</Price>
-        </TotalPrice>
+          {stepName === "checkout" && (
+            <StyledTabPanel>
+              <Title>Checkout</Title>
 
-        <Link href="/purchase-page" passHref>
-          <StyledButton type="submit" text="Purchase" />
-        </Link>
-      </StyledTabPanel>
-    </StyledTabs>
+              <CardContainer>
+                <TitleContainer>
+                  <div>Package name</div> <div>Price</div>
+                </TitleContainer>
+
+                <Line />
+
+                <СardСontent>
+                  <NumberOfSites>{product?.name} license</NumberOfSites>
+                  <PriceContainer>
+                    ${product?.prices[0].price} <StyledShoppingBasketIcon />
+                  </PriceContainer>
+                </СardСontent>
+              </CardContainer>
+
+              <TotalPrice>
+                Total:<Price>${product?.prices[0].price}</Price>
+              </TotalPrice>
+
+              <StyledButton
+                isLoading={isLoading}
+                onClick={handlePurchaseSubscribe}
+                type="submit"
+                text="Purchase"
+              />
+            </StyledTabPanel>
+          )}
+        </StyledTabs>
+      )}
+    </>
   );
 };
 
-const StyledTabs = styled(Tabs)`
+const StyledTabs = styled.div`
   font-size: 20px;
   width: 100%;
   margin-bottom: 20px;
@@ -87,38 +156,44 @@ const StyledTabs = styled(Tabs)`
   }
 `;
 
-const StyledTab = styled(Tab)`
+const PurchaseContainer = styled.div`
+  max-width: 620px;
+  margin: 0 auto;
+`;
+
+const PurchaseButton = styled(Button)`
+  max-width: 620px;
+  width: 100%;
+  margin-top: 24px;
+`;
+
+const StyledTab = styled.a<{ $isActive: boolean }>`
   cursor: pointer;
   max-width: 195px;
   width: 100%;
   margin-right: 20px;
   white-space: nowrap;
-  color: ${COLORS.Color_100};
+  color: ${({ $isActive }) =>
+    $isActive ? COLORS.Primary_1 : COLORS.Color_100};
   background-color: ${COLORS.Color_800};
-  border-bottom: 8px solid ${COLORS.Color_600};
+  border-bottom: 8px solid
+    ${({ $isActive }) => ($isActive ? COLORS.Primary_1 : COLORS.Color_600)};
   padding-bottom: 20px;
 
-  &:focus {
-    color: ${COLORS.Primari_1};
-    border-color: ${COLORS.Primari_1};
-  }
-  &:active {
-    color: ${COLORS.Primari_1};
-    border-color: ${COLORS.Primari_1};
-  }
   @media (max-width: 375px) {
-    border-bottom: 2px solid ${COLORS.Color_600};
+    border-bottom: 2px solid
+      ${({ $isActive }) => ($isActive ? COLORS.Primary_1 : COLORS.Color_600)};
     padding-bottom: 5px;
   }
 `;
 
-const StyledTabList = styled(TabList)`
+const StyledTabList = styled.div`
   padding: 4px;
   display: flex;
   margin-bottom: 64px;
 `;
 
-const StyledTabPanel = styled(TabPanel)`
+const StyledTabPanel = styled.div`
   max-width: 620px;
 `;
 
@@ -128,18 +203,10 @@ const Title = styled.h2`
   margin-bottom: 16px;
 `;
 
-const StyledInput = styled(Input)`
-  max-width: 620px;
-`;
-
 const Text = styled.div`
   font-size: 14px;
   color: ${COLORS.Color_100};
   margin-bottom: 32px;
-`;
-
-const Form = styled.form`
-  width: 100%;
 `;
 
 const StyledButton = styled(Button)`
@@ -155,7 +222,7 @@ const Container = styled.div`
 
 const NextStep = styled.a`
   cursor: pointer;
-  color: ${COLORS.Primari_1};
+  color: ${COLORS.Primary_1};
   font-size: 16px;
   margin-left: 6px;
 `;
@@ -219,4 +286,9 @@ const TotalPrice = styled.div`
 
 const Price = styled.div`
   font-size: 28px;
+`;
+
+const PricePurchase = styled.div`
+  font-size: 28px;
+  margin-right: 26px;
 `;

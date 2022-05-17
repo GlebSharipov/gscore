@@ -1,17 +1,23 @@
-import React, { FC, ButtonHTMLAttributes } from "react";
+import React, { FC, ButtonHTMLAttributes, useState } from "react";
 import { COLORS } from "assets/constant/colors";
 import styled from "styled-components";
+import { css } from "@emotion/react";
+import ClipLoader from "react-spinners/ClipLoader";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   text: string;
+  isLoading?: boolean;
   isDisabled?: boolean;
   variant?: "primary" | "secondary" | "text";
   onClick?: () => void;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ text, isDisabled, className, variant = "primary", onClick }, ref) => {
+  (
+    { text, isDisabled, className, variant = "primary", isLoading, onClick },
+    ref
+  ) => {
     return (
       <Root
         ref={ref}
@@ -21,13 +27,22 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isDisabled}
         onClick={onClick}
       >
-        {text}
+        {isLoading ? (
+          <ClipLoader loading={isLoading} css={override} size={20} />
+        ) : (
+          <>{text}</>
+        )}
       </Root>
     );
   }
 );
 
 Button.displayName = "Button";
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+`;
 
 const Root = styled.button<{
   $variant: () => string;
@@ -44,7 +59,7 @@ const Root = styled.button<{
 
 const themes = {
   primary: () => `
-  background-color: ${COLORS.Primari_1};
+  background-color: ${COLORS.Primary_1};
   color: ${COLORS.Color_100};
   &:not([disabled]):hover {
     background-color:  ${COLORS.Red_400};
@@ -56,8 +71,8 @@ const themes = {
   `,
 
   secondary: () => `
-  background-color: ${COLORS.Color_100}};
-  color: ${COLORS.Primari_1};
+  background-color: ${COLORS.Color_100};
+  color: ${COLORS.Primary_1};
   &:not([disabled]):hover {
    color: ${COLORS.Red_400};
   }
@@ -68,7 +83,7 @@ const themes = {
   `,
 
   text: () => `
-  color: ${COLORS.Primari_1};
+  color: ${COLORS.Primary_1};
   &:not([disabled]):hover{
     color: ${COLORS.Red_400};
   }

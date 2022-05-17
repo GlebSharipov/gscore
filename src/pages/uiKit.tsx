@@ -5,16 +5,11 @@ import { COLORS } from "assets/constant/colors";
 import {
   Card,
   CardLicense,
-  PricingCard,
   TabCreateAccount,
   TabProfile,
   Header,
 } from "../components";
-import {
-  cardsLicenseData,
-  pricingCardsData,
-  userData,
-} from "src/components/utils/mock";
+import { cardsLicenseData, pricingCardsData } from "src/components/utils/mock";
 import { Button, Input, Checkbox } from "UI";
 
 const UiKit: NextPage = () => {
@@ -22,7 +17,6 @@ const UiKit: NextPage = () => {
   const [value, setValue] = useState("");
 
   const prices = pricingCardsData.map((card) => card.price);
-  const userName = userData["user"];
 
   const handleChecked = () => {
     setIsChecked((prevState) => !prevState);
@@ -34,7 +28,7 @@ const UiKit: NextPage = () => {
 
   return (
     <Root>
-      <Header userName={userName} />
+      <Header />
       <Button variant="text" text="Default" />
       <Button variant="primary" text="Default" />
       <Button variant="secondary" text="Default" />
@@ -70,14 +64,24 @@ const UiKit: NextPage = () => {
       <Checkbox checked isDisabled onClick={handleChecked} />
       <Checkbox isDisabled onClick={handleChecked} />
 
-      <Card price={prices[0]} />
-      <Card price={prices[1]} isDisabled />
+      <Card onClick={() => {}} cardName="Three cites" price={prices[0]} />
+      <Card
+        onClick={() => {}}
+        cardName="Three cites"
+        price={prices[1]}
+        isDisabled
+      />
 
       {cardsLicenseData.map((card) => (
-        <CardLicense key={card.code} domain={card.domain} code={card.code} />
+        <CardLicense
+          onClick={() => {}}
+          key={card.code}
+          domain={card.domain}
+          code={card.code}
+        />
       ))}
 
-      <TabCreateAccount />
+      <TabCreateAccount tabId={1} />
 
       <TabProfile />
     </Root>

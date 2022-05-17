@@ -7,7 +7,7 @@ import { ArrowRightIcon, ArrowLeftIcon } from "icons";
 
 interface SliderCardProps {
   children?: React.ReactNode;
-  numberOfСards: number;
+  numberOfСards?: number;
 }
 
 export const SliderCard: FC<SliderCardProps> = ({
@@ -95,14 +95,6 @@ const Counter = styled.div`
   @media (max-width: 480px) {
     margin-left: 45%;
   }
-`;
-
-const ContainerArrow = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const CardNumber = styled.div`

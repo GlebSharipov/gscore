@@ -46,6 +46,7 @@ export const LicenseFeatures: FC<LicenseFeaturesProps> = ({
 const Root = styled.ul`
   width: 100%;
   margin-top: 30px;
+  margin-bottom: 25px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -72,7 +73,7 @@ const StyledCheckIcon = styled(CheckIcon)<{ $isSecodType?: boolean }>`
   height: 26px;
   path {
     stroke: ${({ $isSecodType }) =>
-      $isSecodType ? COLORS.Primari_1 : COLORS.Color_700};
+      $isSecodType ? COLORS.Primary_1 : COLORS.Color_700};
   }
 `;
 

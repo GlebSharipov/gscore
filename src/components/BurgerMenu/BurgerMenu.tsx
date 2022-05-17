@@ -7,12 +7,12 @@ import { TYPOGRAPHY } from "assets/styles/typography";
 import { Accordion } from "../Accordion";
 
 interface BurgerMenuProps {
-  isVisible?: boolean;
-  userName?: string;
+  userName: string | null;
 }
 
-export const BurgerMenu: FC<BurgerMenuProps> = ({ isVisible, userName }) => {
+export const BurgerMenu: FC<BurgerMenuProps> = ({ userName }) => {
   const [visibleMenu, setVisibleMenu] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleVisibleMenu = () => {
     setVisibleMenu((prevState) => !prevState);
@@ -38,8 +38,10 @@ export const BurgerMenu: FC<BurgerMenuProps> = ({ isVisible, userName }) => {
             </Link>
 
             <StyledAccordion
+              onOpen={setIsOpen}
+              isOpen={isOpen}
               trigger={
-                <ButtonUser>
+                <ButtonUser onClick={() => setIsOpen(true)}>
                   <UserName>{userName}</UserName>
                   <ChevronDownIcon />
                 </ButtonUser>
