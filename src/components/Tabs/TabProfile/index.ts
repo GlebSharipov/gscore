@@ -1,0 +1,1 @@
+export { TabProfile } from "./TabProfile";
